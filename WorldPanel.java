@@ -180,8 +180,6 @@ class WorldPanel extends JPanel
          {
             
             ch.setDX(ch.getDX() - 2);
-          
-            ch.faceLeft();
             left = true;  
          }
          
@@ -189,8 +187,6 @@ class WorldPanel extends JPanel
          {
             
             ch.setDX(ch.getDX() + 2);
-            
-            ch.faceRight();
             right = true;
          }
          

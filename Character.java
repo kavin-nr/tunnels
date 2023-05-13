@@ -134,10 +134,20 @@ public class Character implements Animatable
       {
          y += dY;
       }
+      
+      if (dX > 0)
+      {
+         faceRight();
+      }
+      else if (dX < 0)
+      {
+         faceLeft();
+      }
    }
    
    public void drawMe(Graphics g)
    {
+      
       if (changeFrame % 100 > 50)
       {
          bufG.drawImage( frame1.getImage() , 0 , 0 , width , height , null );
