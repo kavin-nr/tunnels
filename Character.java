@@ -32,10 +32,10 @@ public class Character implements Animatable
    // constructors
    public Character()
    {
-      x = 20;
-      y = 200;
-      width = 32;
-      height = 32;
+      x = 275;
+      y = 275;
+      width = 50;
+      height = 50;
       dX = 0;
       dY = 0;
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
@@ -126,11 +126,11 @@ public class Character implements Animatable
    //instance methods
    public void step()  //Implement Animatable's required step()
    {
-      if (4 < x && x < 550 - width - 4)
+      if (!((x < 4 && dX < 0) || (550 - width - 5 < x && dX > 1)))
       {
          x += dX;
       }
-      if (4 < y && y < 450 - height - 4)
+      if (!((y < 4 && dY < 0) || (450 - height - 5 < y && dY > 1)))
       {
          y += dY;
       }

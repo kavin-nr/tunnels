@@ -14,6 +14,20 @@ public class HoverImage
    private BufferedImage img;
    private Graphics gr;
    
+   public HoverImage()
+   {
+      x = 200;
+      y = 200;
+      regular = new ImageIcon("img/sprites/Skeleton1.png");
+      hover = new ImageIcon("ïmg/sprites/Skeleton2.png");
+      width = regular.getIconWidth();
+      height = regular.getIconHeight();
+      
+      img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+      gr = img.getGraphics();
+      gr.drawImage(regular.getImage(), x, y, width, height, null);
+   }
+   
    public HoverImage(int xV, int yV, String regularFilename, String hoverFilename)
    {
       x = xV;

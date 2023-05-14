@@ -30,4 +30,14 @@ public class TunnelsPanel extends JPanel
       owner.pack();
       world.requestFocusInWindow();
    }
+   
+   public void goSettings()
+   {
+      remove(title);
+      //add(settings);
+      repaint();
+      revalidate();
+      owner.pack();
+      //settings.requestFocusInWindow();
+   }
 }

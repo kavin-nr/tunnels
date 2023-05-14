@@ -28,12 +28,11 @@ class WorldPanel extends JPanel
    private boolean upCollide;
    private boolean downCollide;
    
-   private Character ch;
+   public Character ch;
    
-   private ImageIcon map1 = new ImageIcon("map1.png");
-   private BufferedImage myMap;
-   private Graphics mapBuffer;
-   
+   private Map currentMap;
+   private Map map1;
+   private Map map2;
    
    //constructors
    public WorldPanel()
@@ -41,11 +40,16 @@ class WorldPanel extends JPanel
    
       myImage =  new BufferedImage(550, 450, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics(); 
-      myBuffer.drawImage(map1.getImage(), 0, 0, myImage.getWidth(), myImage.getHeight(), null);
+      map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 275, 250, 200, 150, this);
+      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 200, 300, 470, 100, this);
+      map1.setNext(map2);
+      map2.setPrev(map1);
+      map1.setPrev(map2);
+      map2.setNext(map1);
       
-      myMap = new BufferedImage(550, 450, BufferedImage.TYPE_INT_RGB);
-      mapBuffer = myMap.getGraphics();
-      mapBuffer.drawImage(map1.getImage(), 0, 0, myImage.getWidth(), myImage.getHeight(), null);
+      currentMap = map1;
+      
+      
       
       setPreferredSize(new Dimension(550, 450));
       
@@ -74,91 +78,41 @@ class WorldPanel extends JPanel
    
    
    //instance methods
-   public static Color[][] getArray(BufferedImage img)
-   {
-      Color[][] arr;
-   	//
-      int numcols = img.getWidth();
-      int numrows = img.getHeight();
-   	//
-      arr = new Color[numrows][numcols];
-   	//
-      for(int j = 0; j < arr.length; j++)
-      {
-         for(int k = 0; k < arr[0].length; k++)
-         {
-            int rgb = img.getRGB(k,j);
-         	//
-            arr[j][k] = new Color(rgb);
-         }
-      }
-   	//
-      return arr;
-   }
+   
    
    public void animate()
    {      
-      
-      myBuffer.drawImage(map1.getImage(), 0, 0, myImage.getWidth(), myImage.getHeight(), null);
-      
+      myImage =  new BufferedImage(550, 450, BufferedImage.TYPE_INT_RGB); 
+      myBuffer = myImage.getGraphics();
+      currentMap.drawMe(myBuffer);
       
       for(Animatable animationObject : animationObjects)
       {
          animationObject.step();  
          animationObject.drawMe(myBuffer);  
-         collisions();          
+         boolean nul = currentMap.collisions();          
       }
-      
+      System.out.println(ch.getX());
       
       repaint();
    }
    
-   private static int colorDistance(Color one, Color two)
+   
+   public void goNext()
    {
-      return (int) (Math.sqrt((Math.pow(two.getRed() - one.getRed(), 2))+(Math.pow(two.getGreen() - one.getGreen(), 2))+(Math.pow(two.getBlue() - one.getBlue(), 2))));
+      ch.setX(currentMap.getNext().getPrevX());
+      ch.setY(currentMap.getNext().getPrevY());
+      currentMap = currentMap.getNext();
    }
    
-   public void collisions()
+   public void goPrev()
    {
-      int w = ch.getWidth();
-      int h = ch.getHeight();
-      Color[][] map = getArray(myMap);
-      
-      //left collisions
-      if (colorDistance(map[ch.getY() + h][ch.getX() - 2], Color.BLACK) < 20)
-      {
-         ch.setX(ch.getX() + 2);
-      }
-      
-      //right collisions    
-      if (colorDistance(map[ch.getY() + h][ch.getX() + w + 2], Color.BLACK) < 20)
-      {
-         ch.setX(ch.getX() - 2);
-      }
-      
-      //top collisions 
-      for (int i = ch.getX() -2; i < ch.getX() + w + 2; i ++)
-      {
-         
-         if (colorDistance(map[ch.getY() - 2][i], Color.BLACK) < 20)
-         {
-            ch.setY(ch.getY() + 2);
-         
-         }
-         
-      }
-      
-      //bottom collisions
-      for (int i = ch.getX() - 2; i < ch.getX() + w + 2; i ++)
-      {
-         if (colorDistance(map[ch.getY() + h + 2][i], Color.BLACK) < 20)
-         {
-            ch.setY(ch.getY() - 2);;
-         }
-         
-      }
+      ch.setX(currentMap.getPrev().getNextX());
+      ch.setY(currentMap.getPrev().getNextY());
+      currentMap = currentMap.getPrev();
       
    }
+   
      
    //private classes
    
