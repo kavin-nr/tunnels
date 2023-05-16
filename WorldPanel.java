@@ -15,7 +15,8 @@ class WorldPanel extends JPanel
    private Graphics myBuffer;
    
    
-   
+   private final int width = 1100;
+   private final int height = 900;
    
    
    private ArrayList<Animatable> animationObjects;
@@ -40,11 +41,12 @@ class WorldPanel extends JPanel
    //constructors
    public WorldPanel()
    {
-   
-      myImage =  new BufferedImage(550, 450, BufferedImage.TYPE_INT_RGB); 
+      setPreferredSize(new Dimension(width, height));
+
+      myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics(); 
       map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 245, 350, 245, 150, this);
-      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 200, 300, 370, 100, this);
+      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 200, 300, 500, 585, this);
       map1.setNext(map2);
       map2.setPrev(map1);
       map1.setPrev(map2);
@@ -52,10 +54,9 @@ class WorldPanel extends JPanel
       
       currentMap = map1;
       
-      setPreferredSize(new Dimension(550, 450));
       animationObjects = new ArrayList<Animatable>();  
       
-      ch = new Character(); 
+      ch = new Character(this); 
       animationObjects.add(ch); 
       
       t = new Timer(5, new AnimationListener());
@@ -74,6 +75,16 @@ class WorldPanel extends JPanel
       g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);  
    }
    
+   public int getWidth()
+   {
+      return width;
+   }
+   
+   public int getHeight()
+   {
+      return height;
+   }
+   
    
    
    //instance methods
@@ -81,7 +92,7 @@ class WorldPanel extends JPanel
    
    public void animate()
    {      
-      myImage =  new BufferedImage(550, 450, BufferedImage.TYPE_INT_RGB); 
+      myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics();
       currentMap.drawMe(myBuffer);
       
@@ -130,21 +141,21 @@ class WorldPanel extends JPanel
          if(e.getKeyCode() == KeyEvent.VK_LEFT && !left)
          {
             
-            ch.setDX(ch.getDX() - 2);
+            ch.setDX(ch.getDX() - 5);
             left = true;  
          }
          
          if (e.getKeyCode() == KeyEvent.VK_RIGHT && !right)
          {
             
-            ch.setDX(ch.getDX() + 2);
+            ch.setDX(ch.getDX() + 5);
             right = true;
          }
          
          if (e.getKeyCode() == KeyEvent.VK_UP && !up)
          {
             
-            ch.setDY(ch.getDY() - 2);
+            ch.setDY(ch.getDY() - 5);
             
             up = true;
          }
@@ -152,7 +163,7 @@ class WorldPanel extends JPanel
          if (e.getKeyCode() == KeyEvent.VK_DOWN && !down)
          {
             
-            ch.setDY(ch.getDY() + 2);
+            ch.setDY(ch.getDY() + 5);
             
             down = true;
          }
@@ -168,25 +179,25 @@ class WorldPanel extends JPanel
       {
          if(e.getKeyCode() == KeyEvent.VK_LEFT) // If the user lets go of the left arrow
          {
-            ch.setDX(ch.getDX() + 2);  //Again: add 2, don't set to 0 precisely.  Explanation in the assignment.
+            ch.setDX(ch.getDX() + 5);  //Again: add 2, don't set to 0 precisely.  Explanation in the assignment.
             left = false;  //User is no longer holding the left key, so set this back to false.
          }
          
          if (e.getKeyCode() == KeyEvent.VK_RIGHT)
          {
-            ch.setDX(ch.getDX() -2);
+            ch.setDX(ch.getDX() -5);
             right = false;
          }
          
          if (e.getKeyCode() == KeyEvent.VK_UP)
          {
-            ch.setDY(ch.getDY() + 2);
+            ch.setDY(ch.getDY() + 5);
             up = false;
          }
       
          if (e.getKeyCode() == KeyEvent.VK_DOWN)
          {
-            ch.setDY(ch.getDY() - 2);
+            ch.setDY(ch.getDY() - 5);
             down = false;
          }
          

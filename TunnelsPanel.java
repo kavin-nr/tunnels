@@ -26,7 +26,7 @@ public class TunnelsPanel extends JPanel
    public void goWorld() {
     // Create the black overlay panel with 0% alpha
       blackOverlay = new JPanel();
-      blackOverlay.setBounds(0, 0, 550, 450);
+      blackOverlay.setBounds(0, 0, world.getWidth(), world.getHeight());
       remove(title);
       add(blackOverlay);
    
