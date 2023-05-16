@@ -32,8 +32,8 @@ public class Character implements Animatable
    // constructors
    public Character()
    {
-      x = 275;
-      y = 275;
+      x = 245;
+      y = 300;
       width = 50;
       height = 50;
       dX = 0;
@@ -130,7 +130,7 @@ public class Character implements Animatable
       {
          x += dX;
       }
-      if (!((y < 4 && dY < 0) || (450 - height - 5 < y && dY > 1)))
+      if (!((y < 4 && dY < 0) || (450 - height - 10 < y && dY > 1)))
       {
          y += dY;
       }

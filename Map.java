@@ -111,7 +111,7 @@ public class Map
       return (int) (Math.sqrt((Math.pow(two.getRed() - one.getRed(), 2))+(Math.pow(two.getGreen() - one.getGreen(), 2))+(Math.pow(two.getBlue() - one.getBlue(), 2))));
    }
    
-   public boolean collisions()
+   public void collisions()
    {
       int w = owner.ch.getWidth();
       int h = owner.ch.getHeight();
@@ -126,31 +126,27 @@ public class Map
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 2], Color.GREEN) < 20)
       {
          owner.goNext();
-         return false;
       }
       
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 2], Color.RED) < 20)
       {
          owner.goPrev();
-         return false;
       }
       
       //right collisions    
-      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 2], Color.BLACK) < 20)
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 1], Color.BLACK) < 20)
       {
          owner.ch.setX(owner.ch.getX() - 2);
       }
       
-      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 2], Color.GREEN) < 20)
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 1], Color.GREEN) < 20)
       {
          owner.goNext();
-         return false;
       }
       
-      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 2], Color.RED) < 20)
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 1], Color.RED) < 20)
       {
          owner.goPrev();
-         return false;
       }
 
       
@@ -164,16 +160,14 @@ public class Map
          
          }
          
-         if (colorDistance(map[owner.ch.getY() + h - 2][i], Color.GREEN) < 20)
+         if (colorDistance(map[owner.ch.getY()-2][i], Color.GREEN) < 20)
          {
             owner.goNext();
-            return false;         
          }
          
-         if (colorDistance(map[owner.ch.getY() + h - 2][i], Color.RED) < 20)
+         if (colorDistance(map[owner.ch.getY()-2][i], Color.RED) < 20)
          {
             owner.goPrev();
-            return false;         
          }
          
       }
@@ -186,20 +180,17 @@ public class Map
             owner.ch.setY(owner.ch.getY() - 2);;
          }
          
-         if (colorDistance(map[owner.ch.getY() + h + 2][i], Color.GREEN) < 20)
+         if (colorDistance(map[owner.ch.getY() + h + 4][i], Color.GREEN) < 20)
          {
             owner.goNext();
-            return false;
          }
          
-         if (colorDistance(map[owner.ch.getY() + h + 2][i], Color.RED) < 20)
+         if (colorDistance(map[owner.ch.getY() + h + 4][i], Color.RED) < 20)
          {
             owner.goPrev();
-            return false;
          }
          
       }
-     return true; 
    } 
    // add enemy
    //collision

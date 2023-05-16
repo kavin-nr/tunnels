@@ -14,9 +14,12 @@ class WorldPanel extends JPanel
    private BufferedImage myImage;  
    private Graphics myBuffer;
    
-   private Timer t;
-
+   
+   
+   
+   
    private ArrayList<Animatable> animationObjects;
+   private Timer t;
    
    private boolean left;
    private boolean right;
@@ -40,8 +43,8 @@ class WorldPanel extends JPanel
    
       myImage =  new BufferedImage(550, 450, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics(); 
-      map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 275, 250, 200, 150, this);
-      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 200, 300, 470, 100, this);
+      map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 245, 350, 245, 150, this);
+      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 200, 300, 370, 100, this);
       map1.setNext(map2);
       map2.setPrev(map1);
       map1.setPrev(map2);
@@ -49,10 +52,7 @@ class WorldPanel extends JPanel
       
       currentMap = map1;
       
-      
-      
       setPreferredSize(new Dimension(550, 450));
-      
       animationObjects = new ArrayList<Animatable>();  
       
       ch = new Character(); 
@@ -60,8 +60,7 @@ class WorldPanel extends JPanel
       
       t = new Timer(5, new AnimationListener());
       t.start();  
-      
-      
+            
       addKeyListener(new Key());  
       setFocusable(true);  
       
@@ -90,19 +89,17 @@ class WorldPanel extends JPanel
       {
          animationObject.step();  
          animationObject.drawMe(myBuffer);  
-         boolean nul = currentMap.collisions();          
-      }
-      System.out.println(ch.getX());
-      
+         currentMap.collisions();          
+      }      
       repaint();
    }
-   
    
    public void goNext()
    {
       ch.setX(currentMap.getNext().getPrevX());
       ch.setY(currentMap.getNext().getPrevY());
-      currentMap = currentMap.getNext();
+      currentMap = currentMap.getNext();      
+      System.out.println("next");
    }
    
    public void goPrev()
@@ -110,7 +107,7 @@ class WorldPanel extends JPanel
       ch.setX(currentMap.getPrev().getNextX());
       ch.setY(currentMap.getPrev().getNextY());
       currentMap = currentMap.getPrev();
-      
+      System.out.println("prev");
    }
    
      
@@ -123,7 +120,7 @@ class WorldPanel extends JPanel
          animate();
       }
    }
-   
+ 
    
    
    private class Key extends KeyAdapter 
@@ -158,6 +155,12 @@ class WorldPanel extends JPanel
             ch.setDY(ch.getDY() + 2);
             
             down = true;
+         }
+         
+         if (e.getKeyCode() == KeyEvent.VK_SPACE)
+         {
+            
+            System.out.println(ch.getX() + " " + ch.getY());
          }
       }
       
