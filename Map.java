@@ -25,18 +25,19 @@ public class Map
   
    public Map(String imageFilename, String hitboxFilename, int prevXV, int prevYV, int nextXV, int nextYV, WorldPanel o)
    {
+      owner = o;
       imageSrc = new ImageIcon(imageFilename);
       hitboxSrc = new ImageIcon(hitboxFilename);
       
-      image = new BufferedImage(550, 450, BufferedImage.TYPE_INT_RGB);
+      image = new BufferedImage(owner.getWidth(), owner.getHeight(), BufferedImage.TYPE_INT_RGB);
       imageGr = image.getGraphics();
-      imageGr.drawImage(imageSrc.getImage(), 0, 0, 550, 450, null);
+      imageGr.drawImage(imageSrc.getImage(), 0, 0, owner.getWidth(), owner.getHeight(), null);
       
-      hitbox = new BufferedImage(550, 450, BufferedImage.TYPE_INT_RGB);
+      hitbox = new BufferedImage(owner.getWidth(), owner.getHeight(), BufferedImage.TYPE_INT_RGB);
       hitboxGr = hitbox.getGraphics();
-      hitboxGr.drawImage(hitboxSrc.getImage(), 0, 0, 550, 450, null);
+      hitboxGr.drawImage(hitboxSrc.getImage(), 0, 0, owner.getWidth(), owner.getHeight(), null);
       
-      owner = o;
+   
       prevX = prevXV;
       prevY = prevYV;
       nextX = nextXV;
@@ -118,17 +119,17 @@ public class Map
       Color[][] map = getArray(hitbox);
       
       //left collisions
-      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 2], Color.BLACK) < 20)
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 1], Color.BLACK) < 20)
       {
-         owner.ch.setX(owner.ch.getX() + 2);
+         owner.ch.setX(owner.ch.getX() + 5);
       }
       
-      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 2], Color.GREEN) < 20)
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 1], Color.GREEN) < 20)
       {
          owner.goNext();
       }
       
-      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 2], Color.RED) < 20)
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 1], Color.RED) < 20)
       {
          owner.goPrev();
       }
@@ -136,7 +137,7 @@ public class Map
       //right collisions    
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 1], Color.BLACK) < 20)
       {
-         owner.ch.setX(owner.ch.getX() - 2);
+         owner.ch.setX(owner.ch.getX() - 5);
       }
       
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 1], Color.GREEN) < 20)
@@ -148,24 +149,24 @@ public class Map
       {
          owner.goPrev();
       }
-
+   
       
       //top collisions 
-      for (int i = owner.ch.getX() -2; i < owner.ch.getX() + w + 2; i ++)
+      for (int i = owner.ch.getX() -5; i < owner.ch.getX() + w + 5; i ++)
       {
          
-         if (colorDistance(map[owner.ch.getY() + h - 2][i], Color.BLACK) < 20)
+         if (colorDistance(map[owner.ch.getY() + h - 5][i], Color.BLACK) < 20)
          {
-            owner.ch.setY(owner.ch.getY() + 2);
+            owner.ch.setY(owner.ch.getY() + 5);
          
          }
          
-         if (colorDistance(map[owner.ch.getY()-2][i], Color.GREEN) < 20)
+         if (colorDistance(map[owner.ch.getY() - 5][i], Color.GREEN) < 20)
          {
             owner.goNext();
          }
          
-         if (colorDistance(map[owner.ch.getY()-2][i], Color.RED) < 20)
+         if (colorDistance(map[owner.ch.getY() - 5][i], Color.RED) < 20)
          {
             owner.goPrev();
          }
@@ -173,19 +174,19 @@ public class Map
       }
       
       //bottom collisions
-      for (int i = owner.ch.getX() - 2; i < owner.ch.getX() + w + 2; i ++)
+      for (int i = owner.ch.getX() - 5; i < owner.ch.getX() + w + 5; i ++)
       {
-         if (colorDistance(map[owner.ch.getY() + h + 2][i], Color.BLACK) < 20)
+         if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.BLACK) < 20)
          {
-            owner.ch.setY(owner.ch.getY() - 2);;
+            owner.ch.setY(owner.ch.getY() - 5);;
          }
          
-         if (colorDistance(map[owner.ch.getY() + h + 4][i], Color.GREEN) < 20)
+         if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.GREEN) < 20)
          {
             owner.goNext();
          }
          
-         if (colorDistance(map[owner.ch.getY() + h + 4][i], Color.RED) < 20)
+         if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.RED) < 20)
          {
             owner.goPrev();
          }
@@ -198,6 +199,6 @@ public class Map
    //go next
    public void drawMe(Graphics g)
    {
-      g.drawImage(image, 0, 0, 550, 450, null);
+      g.drawImage(image, 0, 0, owner.getWidth(), owner.getHeight(), null);
    }
 }

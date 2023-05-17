@@ -29,13 +29,16 @@ public class Character implements Animatable
    private BufferedImage img; 
    private Graphics bufG;
    
+   private WorldPanel owner;
+   
    // constructors
-   public Character()
+   public Character(WorldPanel o)
    {
+      owner = o;
       x = 245;
       y = 300;
-      width = 50;
-      height = 50;
+      width = 100;
+      height = 100;
       dX = 0;
       dY = 0;
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
@@ -126,11 +129,11 @@ public class Character implements Animatable
    //instance methods
    public void step()  //Implement Animatable's required step()
    {
-      if (!((x < 4 && dX < 0) || (550 - width - 5 < x && dX > 1)))
+      if (!((x < 10 && dX < 0) || (owner.getWidth() - this.width - 10 < x && dX > 1)))
       {
          x += dX;
       }
-      if (!((y < 4 && dY < 0) || (450 - height - 10 < y && dY > 1)))
+      if (!((y < 10 && dY < 0) || (owner.getHeight() - this.height - 10 < y && dY > 1)))
       {
          y += dY;
       }

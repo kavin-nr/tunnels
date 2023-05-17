@@ -10,10 +10,12 @@ public class Title implements Animatable
    private int dY;
    private ImageIcon src;
    private int c = 0;
+   private TitlePanel owner;
 
    
-   public Title()
+   public Title(TitlePanel o)
    {
+      owner = o;
       y = 0;
       dY = 1;
       src = new ImageIcon("img/title/Title.png");
@@ -34,6 +36,6 @@ public class Title implements Animatable
    
    public void drawMe(Graphics g)
    {
-      g.drawImage(src.getImage(), 0, y, 550, 450, null);
+      g.drawImage(src.getImage(), 0, y, owner.getWidth(), owner.getHeight(), null);
    }
 }
