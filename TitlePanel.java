@@ -14,8 +14,8 @@ public class TitlePanel extends JPanel
    private Title title;
    private ImageIcon bg;
 
-   private final int width = 1100;
-   private final int height = 900;
+   private final int width = 990;
+   private final int height = 810;
    
    private Timer t;
    private ArrayList<Animatable> animationObjects;
@@ -39,19 +39,19 @@ public class TitlePanel extends JPanel
       
       hovers = new ArrayList<HoverImage>();
       
-      newgame = new HoverImage((int)(0.182 * width), (int)(0.555 * width), 500, (int) (0.1 * height), "img/title/NewGame.png", "img/title/NewGameHover.png");
+      newgame = new HoverImage(200, 400, 200, 45, "img/title/NewGame.png", "img/title/NewGameHover.png");
       newgame.drawMe(gr);
       hovers.add(newgame);      
       
-      load = new HoverImage((int)(0.545 * width), (int)(0.555 * width), (int) (0.25 * width), (int) (0.1 * height), "img/title/Load.png", "img/title/LoadHover.png");
+      load = new HoverImage(600, 400, 200, 40, "img/title/Load.png", "img/title/LoadHover.png");
       load.drawMe(gr);
       hovers.add(load);
       
-      settings = new HoverImage((int)(0.182 * width), (int)(0.778 * width), (int) (0.25 * width), (int) (0.1 * height), "img/title/Settings.png", "img/title/SettingsHover.png");
+      settings = new HoverImage(200, 600, 200, 40, "img/title/Settings.png", "img/title/SettingsHover.png");
       settings.drawMe(gr);
       hovers.add(settings);      
       
-      credits = new HoverImage((int)(0.545 * width), (int)(0.778 * width), (int) (0.25 * width), (int) (0.1 * height), "img/title/Credits.png", "img/title/CreditsHover.png");
+      credits = new HoverImage(600, 600, 200, 40, "img/title/Credits.png", "img/title/CreditsHover.png");
       credits.drawMe(gr);
       hovers.add(credits);
       

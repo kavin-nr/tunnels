@@ -15,8 +15,8 @@ class WorldPanel extends JPanel
    private Graphics myBuffer;
    
    
-   private final int width = 1100;
-   private final int height = 900;
+   private final int width = 990;
+   private final int height = 810;
    
    
    private ArrayList<Animatable> animationObjects;
@@ -45,8 +45,8 @@ class WorldPanel extends JPanel
 
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics(); 
-      map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 245, 350, 245, 150, this);
-      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 200, 300, 500, 585, this);
+      map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 465, 350, 450, 250, this);
+      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 315, 500, 565, 100, this);
       map1.setNext(map2);
       map2.setPrev(map1);
       map1.setPrev(map2);

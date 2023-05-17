@@ -23,8 +23,6 @@ public class HoverImage
       
       regular = new ImageIcon(regularFilename);
       hover = new ImageIcon(hoverFilename);
-      width = regular.getIconWidth();
-      height = regular.getIconHeight();
       
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
       gr = img.getGraphics();

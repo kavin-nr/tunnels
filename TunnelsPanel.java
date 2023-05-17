@@ -1,6 +1,8 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.lang.Math;
+
 
 public class TunnelsPanel extends JPanel
 {
@@ -10,6 +12,7 @@ public class TunnelsPanel extends JPanel
    private WorldPanel world;
    private JPanel blackOverlay;
    private Timer timer;
+   private int fadeCount;
    
    public TunnelsPanel(JFrame o)
    {
@@ -27,12 +30,13 @@ public class TunnelsPanel extends JPanel
     // Create the black overlay panel with 0% alpha
       blackOverlay = new JPanel();
       blackOverlay.setBounds(0, 0, world.getWidth(), world.getHeight());
-      remove(title);
       add(blackOverlay);
-   
+      remove(title);
     // Use a Timer to gradually increase the alpha value of the black overlay panel
       timer = new Timer(50, new FadeListener()); 
       timer.start();
+
+      
    }
    
    public void goSettings()
@@ -47,12 +51,14 @@ public class TunnelsPanel extends JPanel
    
    private class FadeListener implements ActionListener
    {
-      private int alpha = 0;
+      private int alpha = 225;
    
       public void actionPerformed(ActionEvent e) 
       {
-         alpha += 5;
-         if (alpha >= 200) 
+         alpha -= (int) (Math.pow(fadeCount, 2) / 10);
+         fadeCount--;
+         
+         if (alpha <= 0) 
          {
          // When the alpha value reaches 255, remove the black overlay panel and add the WorldPanel
             remove(blackOverlay);
@@ -68,7 +74,6 @@ public class TunnelsPanel extends JPanel
          // Otherwise, set the alpha value of the black overlay panel and repaint the panel
             blackOverlay.setBackground(new Color(0, 0, 0, alpha));
             System.out.println(alpha);
-            add(blackOverlay);
             repaint();
          }
       }
