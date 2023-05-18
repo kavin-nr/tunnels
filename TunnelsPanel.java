@@ -51,14 +51,14 @@ public class TunnelsPanel extends JPanel
    
    private class FadeListener implements ActionListener
    {
-      private int alpha = 225;
+      private int alpha = 0;
    
       public void actionPerformed(ActionEvent e) 
       {
-         alpha -= (int) (Math.pow(fadeCount, 2) / 10);
-         fadeCount--;
+         alpha += (int) (Math.pow(fadeCount, 2) / 10);
+         fadeCount++;
          
-         if (alpha <= 0) 
+         if (alpha >= 255) 
          {
          // When the alpha value reaches 255, remove the black overlay panel and add the WorldPanel
             remove(blackOverlay);

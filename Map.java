@@ -152,7 +152,7 @@ public class Map
    
       
       //top collisions 
-      for (int i = owner.ch.getX() -5; i < owner.ch.getX() + w + 5; i ++)
+      for (int i = owner.ch.getX() -1; i < owner.ch.getX() + w + 1; i ++)
       {
          
          if (colorDistance(map[owner.ch.getY() + h - 5][i], Color.BLACK) < 20)
@@ -174,7 +174,7 @@ public class Map
       }
       
       //bottom collisions
-      for (int i = owner.ch.getX() - 5; i < owner.ch.getX() + w + 5; i ++)
+      for (int i = owner.ch.getX() - 1; i < owner.ch.getX() + w + 1; i ++)
       {
          if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.BLACK) < 20)
          {
