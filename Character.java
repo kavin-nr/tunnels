@@ -146,10 +146,6 @@ public class Character implements Animatable
       {
          faceLeft();
       }
-   }
-   
-   public void drawMe(Graphics g)
-   {
       
       if (changeFrame % 100 > 50)
       {
@@ -160,6 +156,10 @@ public class Character implements Animatable
          bufG.drawImage( frame2.getImage() , 0 , 0 , width , height , null );
       }
       changeFrame ++;
+   }
+   
+   public void drawMe(Graphics g)
+   {
       g.drawImage(img, x, y, width, height, null);
    }
 }

@@ -52,6 +52,10 @@ class WorldPanel extends JPanel
       map1.setPrev(map2);
       map2.setNext(map1);
       
+      Enemy Skeleton = new Enemy(450, 300, 100, 100, 15, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", null);
+      map1.setEnemyOne(Skeleton);
+      
+      
       currentMap = map1;
       
       animationObjects = new ArrayList<Animatable>();  
