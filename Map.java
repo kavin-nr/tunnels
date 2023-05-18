@@ -2,6 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.util.ArrayList;
 
 public class Map
 {
@@ -13,15 +14,16 @@ public class Map
    private Graphics imageGr, hitboxGr;
    
    
-   private Map prev=null, next=null;
+   private Map prev, next;
    
    private int prevX, prevY, nextX, nextY;
    
    private WorldPanel owner;
    
-   // enemy field 1
-   // enemy fields 2
-   
+   private Enemy enemyOne = null;
+   private Enemy enemyTwo = null;
+   private ArrayList<Enemy> enemies;
+
   
    public Map(String imageFilename, String hitboxFilename, int prevXV, int prevYV, int nextXV, int nextYV, WorldPanel o)
    {
@@ -37,7 +39,9 @@ public class Map
       hitboxGr = hitbox.getGraphics();
       hitboxGr.drawImage(hitboxSrc.getImage(), 0, 0, owner.getWidth(), owner.getHeight(), null);
       
-   
+      enemies = new ArrayList<Enemy>();
+      
+      
       prevX = prevXV;
       prevY = prevYV;
       nextX = nextXV;
@@ -75,6 +79,16 @@ public class Map
       return nextY;
    }
    
+   public Enemy getEnemyOne()
+   {
+      return enemyOne;
+   }
+   
+   public Enemy getEnemyTwo()
+   {
+      return enemyTwo;
+   }
+   
    public void setPrev(Map prevv)
    {
       prev = prevv;
@@ -83,6 +97,18 @@ public class Map
    public void setNext(Map nextv)
    {
       next = nextv;
+   }
+   
+   public void setEnemyOne(Enemy oneVal)
+   {
+      enemyOne = oneVal;
+      enemies.add(enemyOne);
+   }
+   
+   public void setEnemyTwo(Enemy twoVal)
+   {
+      enemyTwo = twoVal;
+      enemies.add(enemyTwo);
    }
    
    public static Color[][] getArray(BufferedImage img)
@@ -193,12 +219,46 @@ public class Map
          
       }
    } 
-   // add enemy
-   //collision
-   //go back
-   //go next
+   
+   public boolean enemyCollisions(Enemy e)
+   {
+      int vis = e.getVisibility();
+      boolean xOverlap = false;
+      boolean yOverlap = false;
+      if ((e.getX() - vis < owner.ch.getX() && owner.ch.getX() < e.getX() + e.getWidth() + vis) || (e.getX() - vis < owner.ch.getX() + owner.ch.getWidth() && owner.ch.getX() + owner.ch.getWidth() < e.getX() + e.getWidth() + vis))
+      {
+         xOverlap = true;
+      }
+      if ((e.getY() - vis < owner.ch.getY() && owner.ch.getY() < e.getY() + e.getHeight() + vis) || (e.getY() - vis < owner.ch.getY() + owner.ch.getHeight() && owner.ch.getY() + owner.ch.getHeight()< e.getY() + e.getHeight() + vis))
+      {
+         yOverlap = true;
+      }
+      if (xOverlap && yOverlap)
+      {
+         return true;
+      }
+      return false;
+   }
+      
    public void drawMe(Graphics g)
    {
       g.drawImage(image, 0, 0, owner.getWidth(), owner.getHeight(), null);
+      for (Enemy enemy : enemies)
+      {
+         enemy.step();
+         boolean there = enemyCollisions(enemy);
+         if (there)
+         {
+         // essentially get rid of the enemy
+            enemy.setX(-100);
+            System.out.println("straight to hell");
+         }
+         else
+         {
+            enemy.drawMe(g);
+         }
+         
+         
+      }
    }
 }
