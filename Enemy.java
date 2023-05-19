@@ -2,6 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.lang.Math;
 
 public class Enemy implements Animatable
 {
@@ -12,7 +13,7 @@ public class Enemy implements Animatable
    private Graphics gr;
    private Projectile projectile;
    
-   private int changeFrame;
+   private int changeFrame = (int) (Math.random() * 50);
    
    public Enemy(int xValue, int yValue, int widthValue, int heightValue, int visibilityValue, String frameOnePath, String frameTwoPath, Projectile projectileValue)
    {
@@ -97,7 +98,7 @@ public class Enemy implements Animatable
    
    public void step()
    {
-      if (changeFrame % 50 > 33)
+      if (changeFrame % 50 > 30)
       {
          gr.drawImage(frameOne.getImage(), 0, 0, width, height, null);
       }

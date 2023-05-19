@@ -38,9 +38,13 @@ class WorldPanel extends JPanel
    private Map map1;
    private Map map2;
    
+   private TunnelsPanel owner;
+   
    //constructors
-   public WorldPanel()
+   public WorldPanel(TunnelsPanel o)
    {
+      owner = o;
+      
       setPreferredSize(new Dimension(width, height));
 
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
@@ -53,8 +57,9 @@ class WorldPanel extends JPanel
       map2.setNext(map1);
       
       Enemy Skeleton = new Enemy(450, 300, 100, 100, 15, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", null);
-      map1.setEnemyOne(Skeleton);
-      
+      Enemy Skeleton2 = new Enemy(500, 400, 180, 200, 15, "img/sprites/Destroyer1.png", "img/sprites/Destroyer2.png", null);
+      map1.addEnemy(Skeleton);
+      map1.addEnemy(Skeleton2);
       
       currentMap = map1;
       
@@ -99,7 +104,6 @@ class WorldPanel extends JPanel
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics();
       currentMap.drawMe(myBuffer);
-      
       for(Animatable animationObject : animationObjects)
       {
          animationObject.step();  
@@ -125,7 +129,18 @@ class WorldPanel extends JPanel
       System.out.println("prev");
    }
    
-     
+   public void goCombat(Enemy e)
+   
+   {
+      left = false;
+      right = false;
+      up = false;
+      down = false;
+      ch.setDX(0);
+      ch.setDY(0);
+      owner.goCombat(e);
+   }
+   
    //private classes
    
    private class AnimationListener implements ActionListener
@@ -189,7 +204,7 @@ class WorldPanel extends JPanel
          
          if (e.getKeyCode() == KeyEvent.VK_RIGHT)
          {
-            ch.setDX(ch.getDX() -5);
+            ch.setDX(ch.getDX() - 5);
             right = false;
          }
          

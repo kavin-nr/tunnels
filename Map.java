@@ -20,8 +20,6 @@ public class Map
    
    private WorldPanel owner;
    
-   private Enemy enemyOne = null;
-   private Enemy enemyTwo = null;
    private ArrayList<Enemy> enemies;
 
   
@@ -79,15 +77,11 @@ public class Map
       return nextY;
    }
    
-   public Enemy getEnemyOne()
+   public Enemy getEnemy(int loc)
    {
-      return enemyOne;
+      return enemies.get(loc);
    }
    
-   public Enemy getEnemyTwo()
-   {
-      return enemyTwo;
-   }
    
    public void setPrev(Map prevv)
    {
@@ -99,16 +93,9 @@ public class Map
       next = nextv;
    }
    
-   public void setEnemyOne(Enemy oneVal)
+   public void addEnemy(Enemy e)
    {
-      enemyOne = oneVal;
-      enemies.add(enemyOne);
-   }
-   
-   public void setEnemyTwo(Enemy twoVal)
-   {
-      enemyTwo = twoVal;
-      enemies.add(enemyTwo);
+      enemies.add(e);
    }
    
    public static Color[][] getArray(BufferedImage img)
@@ -220,7 +207,7 @@ public class Map
       }
    } 
    
-   public boolean enemyCollisions(Enemy e)
+   public void enemyCollisions(Enemy e)
    {
       int vis = e.getVisibility();
       boolean xOverlap = false;
@@ -235,9 +222,10 @@ public class Map
       }
       if (xOverlap && yOverlap)
       {
-         return true;
+         owner.goCombat(e);
+         e.setX(-1000);
+         System.out.println("straight down");
       }
-      return false;
    }
       
    public void drawMe(Graphics g)
@@ -246,19 +234,8 @@ public class Map
       for (Enemy enemy : enemies)
       {
          enemy.step();
-         boolean there = enemyCollisions(enemy);
-         if (there)
-         {
-         // essentially get rid of the enemy
-            enemy.setX(-100);
-            System.out.println("straight to hell");
-         }
-         else
-         {
-            enemy.drawMe(g);
-         }
-         
-         
+         enemyCollisions(enemy);
+         enemy.drawMe(g);         
       }
    }
 }

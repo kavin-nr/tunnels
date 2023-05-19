@@ -14,6 +14,7 @@ public class TunnelsPanel extends JPanel
    private Timer timer;
    private int fadeCount;
    
+   private JPanel ready;
    public TunnelsPanel(JFrame o)
    {
       owner = o;
@@ -23,7 +24,7 @@ public class TunnelsPanel extends JPanel
       
       dialogue = new DialoguePanel();
       
-      world = new WorldPanel();
+      world = new WorldPanel(this);
    }
    
    public void goWorld() {
@@ -32,6 +33,7 @@ public class TunnelsPanel extends JPanel
       blackOverlay.setBounds(0, 0, world.getWidth(), world.getHeight());
       add(blackOverlay);
       remove(title);
+      ready = world;
     // Use a Timer to gradually increase the alpha value of the black overlay panel
       timer = new Timer(50, new FadeListener()); 
       timer.start();
@@ -39,6 +41,18 @@ public class TunnelsPanel extends JPanel
       
    }
    
+   public void goCombat(Enemy e) 
+   {
+   // Create the black overlay panel with 0% alpha
+      blackOverlay = new JPanel();
+      blackOverlay.setBounds(0, 0, title.getWidth(), title.getHeight());
+      add(blackOverlay);
+      remove(world);
+      ready = title;
+    // Use a Timer to gradually increase the alpha value of the black overlay panel
+      timer = new Timer(50, new FadeListener()); 
+      timer.start();
+   }
    public void goSettings()
    {
       remove(title);
@@ -62,11 +76,11 @@ public class TunnelsPanel extends JPanel
          {
          // When the alpha value reaches 255, remove the black overlay panel and add the WorldPanel
             remove(blackOverlay);
-            add(world);
+            add(ready);
             repaint();
             revalidate();
             owner.pack();
-            world.requestFocusInWindow();
+            ready.requestFocusInWindow();
             timer.stop();
          } 
          else 
