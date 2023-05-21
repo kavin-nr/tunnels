@@ -131,82 +131,106 @@ public class Map
       int h = owner.ch.getHeight();
       Color[][] map = getArray(hitbox);
       
-      //left collisions
-      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 1], Color.BLACK) < 20)
-      {
-         owner.ch.setX(owner.ch.getX() + 5);
-      }
+      boolean green = false;
+      boolean red = false;
       
+      //left change map
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 1], Color.GREEN) < 20)
       {
-         owner.goNext();
+         green = true;
       }
       
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 1], Color.RED) < 20)
       {
-         owner.goPrev();
+         red = true;
       }
       
-      //right collisions    
-      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 1], Color.BLACK) < 20)
-      {
-         owner.ch.setX(owner.ch.getX() - 5);
-      }
       
+      //right change map
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 1], Color.GREEN) < 20)
       {
-         owner.goNext();
+         green = true;
       }
       
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 1], Color.RED) < 20)
       {
-         owner.goPrev();
+         red = true;
       }
    
-      
-      //top collisions 
+      //top change map
       for (int i = owner.ch.getX(); i < owner.ch.getX() + w; i ++)
       {
-         
-         if (colorDistance(map[owner.ch.getY() + h - 1][i], Color.BLACK) < 20)
-         {
-            owner.ch.setY(owner.ch.getY() + 5);
-            System.out.println(owner.ch.getY());
-         
-         }
-         
          if (colorDistance(map[owner.ch.getY() - 5][i], Color.GREEN) < 20)
          {
-            owner.goNext();
+            green = true;
          }
          
-         if (colorDistance(map[owner.ch.getY() + h - 1][i], Color.RED) < 20)
+         if (colorDistance(map[owner.ch.getY() + h - 5][i], Color.RED) < 20)
          {
-            owner.goPrev();
+            red = true;
          }
          
       }
       
-      //bottom collisions
+      //bottom change map
       for (int i = owner.ch.getX(); i < owner.ch.getX() + w; i ++)
       {
-         if (colorDistance(map[owner.ch.getY() + h + 1][i], Color.BLACK) < 20)
+         if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.GREEN) < 20)
          {
-            owner.ch.setY(owner.ch.getY() - 5);
+            green = true;
          }
          
-         if (colorDistance(map[owner.ch.getY() + h + 1][i], Color.GREEN) < 20)
+         if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.RED) < 20)
          {
-            owner.goNext();
-         }
-         
-         if (colorDistance(map[owner.ch.getY() + h + 1][i], Color.RED) < 20)
-         {
-            owner.goPrev();
+            red = true;
          }
          
       }
-   } 
+      
+      if (green)
+      {
+         owner.goNext();
+      }
+      
+      if (red)
+      {
+         owner.goPrev();
+      }
+      
+      //left collisions
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 2], Color.BLACK) < 20)
+      {
+         owner.ch.setX(owner.ch.getX() + 5);
+      }
+      
+      //right collisions    
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 2], Color.BLACK) < 20)
+      {
+         owner.ch.setX(owner.ch.getX() - 5);
+      }
+      
+      //top collisions 
+      for (int i = owner.ch.getX() -2; i < owner.ch.getX() + w + 2; i ++)
+      {
+      
+         if (colorDistance(map[owner.ch.getY() + h - 2][i], Color.BLACK) < 20)
+         {
+            owner.ch.setY(owner.ch.getY() + 5);
+            break;
+         }
+      
+      }
+   
+      //bottom collisions
+      for (int i = owner.ch.getX() - 2; i < owner.ch.getX() + w + 2; i ++)
+      {
+         if (colorDistance(map[owner.ch.getY() + h + 2][i], Color.BLACK) < 20)
+         {
+            owner.ch.setY(owner.ch.getY() - 5);
+            break;
+         }      
+      }
+    } 
    
    public void enemyCollisions(Enemy e)
    {
@@ -231,7 +255,7 @@ public class Map
       
    public void drawMe(Graphics g)
    {
-      g.drawImage(hitbox, 0, 0, owner.getWidth(), owner.getHeight(), null);
+      g.drawImage(image, 0, 0, owner.getWidth(), owner.getHeight(), null);
       for (Enemy enemy : enemies)
       {
          enemy.step();

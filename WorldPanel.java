@@ -56,10 +56,8 @@ class WorldPanel extends JPanel
       map1.setPrev(map2);
       map2.setNext(map1);
       
-      Enemy Skeleton = new Enemy(450, 300, 100, 100, 15, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", null);
-      Enemy Skeleton2 = new Enemy(500, 400, 180, 200, 15, "img/sprites/Destroyer1.png", "img/sprites/Destroyer2.png", null);
-      map1.addEnemy(Skeleton);
-      map1.addEnemy(Skeleton2);
+      Enemy Destroyer = new Enemy(500, 400, 180, 200, 15, "img/sprites/Destroyer1.png", "img/sprites/Destroyer2.png", null);
+      map1.addEnemy(Destroyer);
       
       currentMap = map1;
       
