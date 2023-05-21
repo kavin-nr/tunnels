@@ -4,11 +4,6 @@ import java.io.File;
 import javax.swing.*;
 import javax.imageio.*;
 
-//InflatingCircle extends YOUR Circle class and implements Animatable
-
-//Animatable requires a step() method, which is in this file, and a
-//drawMe(Graphics g) method, which you should already have in Circle
-
 public class Character implements Animatable
 {
    private int x;
@@ -20,11 +15,19 @@ public class Character implements Animatable
    
    private int changeFrame = 0;
       
-   private ImageIcon frame1 = new ImageIcon("img/sprites/Knight1.png");
-   private ImageIcon frame2 = new ImageIcon("img/sprites/Knight2.png");
+   private ImageIcon frame1, frame2;
    
-   private ImageIcon frame1r = new ImageIcon("img/sprites/Knight1.png");
-   private ImageIcon frame2r = new ImageIcon("img/sprites/Knight2.png");
+   private ImageIcon frame1l = new ImageIcon("img/sprites/Knight1L.png");
+   private ImageIcon frame2l = new ImageIcon("img/sprites/Knight2L.png");
+   
+   private ImageIcon frame1r = new ImageIcon("img/sprites/Knight1R.png");
+   private ImageIcon frame2r = new ImageIcon("img/sprites/Knight2R.png");
+   
+   private ImageIcon frame1u = new ImageIcon("img/sprites/Knight1U.png");
+   private ImageIcon frame2u = new ImageIcon("img/sprites/Knight2U.png");
+   
+   private ImageIcon frame1d = new ImageIcon("img/sprites/Knight1D.png");
+   private ImageIcon frame2d = new ImageIcon("img/sprites/Knight2D.png");
    
    private BufferedImage img; 
    private Graphics bufG;
@@ -43,6 +46,8 @@ public class Character implements Animatable
       dY = 0;
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
       bufG = img.getGraphics();
+      frame1 = frame1l;
+      frame2 = frame2l;
    }
       
    //accessors
@@ -111,8 +116,8 @@ public class Character implements Animatable
    {
       img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
       bufG = img.getGraphics();
-      frame1 = new ImageIcon("img/sprites/Knight1.png");
-      frame2 = new ImageIcon("img/sprites/Knight2.png");
+      frame1 = frame1l;
+      frame2 = frame2l;
       bufG.drawImage( frame1.getImage() , 0 , 0 , width , height , null );
    }
    
@@ -120,11 +125,28 @@ public class Character implements Animatable
    {
       img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
       bufG = img.getGraphics();
-      frame1 = new ImageIcon("img/sprites/Knight1R.png");
-      frame2 = new ImageIcon("img/sprites/Knight2R.png");
-      bufG.drawImage( frame1.getImage() , 0 , 0 , width , height , null );
-      
+      frame1 = frame1r;
+      frame2 = frame2r;
+      bufG.drawImage( frame1.getImage() , 0 , 0 , width , height , null );     
    } 
+   
+   public void faceAhead()
+   {
+      img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+      bufG = img.getGraphics();
+      frame1 = frame1u;
+      frame2 = frame2u;
+      bufG.drawImage( frame1.getImage() , 0 , 0 , width , height , null );
+   }
+   
+   public void faceBack()
+   {
+      img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+      bufG = img.getGraphics();
+      frame1 = frame1d;
+      frame2 = frame2d;
+      bufG.drawImage( frame1.getImage() , 0 , 0 , width , height , null );     
+   }
      
    //instance methods
    public void step()  //Implement Animatable's required step()
@@ -145,6 +167,15 @@ public class Character implements Animatable
       else if (dX < 0)
       {
          faceLeft();
+      }
+      
+      else if (dY > 0)
+      {
+         faceBack();
+      }
+      else if (dY < 0)
+      {
+         faceAhead();
       }
       
       if (changeFrame % 100 > 50)
