@@ -165,12 +165,13 @@ public class Map
    
       
       //top collisions 
-      for (int i = owner.ch.getX() -1; i < owner.ch.getX() + w + 1; i ++)
+      for (int i = owner.ch.getX(); i < owner.ch.getX() + w; i ++)
       {
          
-         if (colorDistance(map[owner.ch.getY() + h - 5][i], Color.BLACK) < 20)
+         if (colorDistance(map[owner.ch.getY() + h - 1][i], Color.BLACK) < 20)
          {
             owner.ch.setY(owner.ch.getY() + 5);
+            System.out.println(owner.ch.getY());
          
          }
          
@@ -179,7 +180,7 @@ public class Map
             owner.goNext();
          }
          
-         if (colorDistance(map[owner.ch.getY() - 5][i], Color.RED) < 20)
+         if (colorDistance(map[owner.ch.getY() + h - 1][i], Color.RED) < 20)
          {
             owner.goPrev();
          }
@@ -187,19 +188,19 @@ public class Map
       }
       
       //bottom collisions
-      for (int i = owner.ch.getX() - 1; i < owner.ch.getX() + w + 1; i ++)
+      for (int i = owner.ch.getX(); i < owner.ch.getX() + w; i ++)
       {
-         if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.BLACK) < 20)
+         if (colorDistance(map[owner.ch.getY() + h + 1][i], Color.BLACK) < 20)
          {
-            owner.ch.setY(owner.ch.getY() - 5);;
+            owner.ch.setY(owner.ch.getY() - 5);
          }
          
-         if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.GREEN) < 20)
+         if (colorDistance(map[owner.ch.getY() + h + 1][i], Color.GREEN) < 20)
          {
             owner.goNext();
          }
          
-         if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.RED) < 20)
+         if (colorDistance(map[owner.ch.getY() + h + 1][i], Color.RED) < 20)
          {
             owner.goPrev();
          }
@@ -230,7 +231,7 @@ public class Map
       
    public void drawMe(Graphics g)
    {
-      g.drawImage(image, 0, 0, owner.getWidth(), owner.getHeight(), null);
+      g.drawImage(hitbox, 0, 0, owner.getWidth(), owner.getHeight(), null);
       for (Enemy enemy : enemies)
       {
          enemy.step();
