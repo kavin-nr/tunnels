@@ -32,7 +32,7 @@ public class Character implements Animatable
    private BufferedImage img; 
    private Graphics bufG;
    
-   private WorldPanel owner;
+   private JPanel owner;
    
    // constructors
    public Character(WorldPanel o)
@@ -49,6 +49,22 @@ public class Character implements Animatable
       frame1 = frame1l;
       frame2 = frame2l;
    }
+   
+   public Character(CombatPanel o)
+   {
+      owner = o;
+      x = 440;
+      y = 360;
+      width = 50;
+      height = 50;
+      dX = 0;
+      dY = 0;
+      img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
+      bufG = img.getGraphics();
+      frame1 = frame1l;
+      frame2 = frame2l;
+   }
+      
       
    //accessors
    public int getX()
