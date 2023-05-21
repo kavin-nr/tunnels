@@ -48,7 +48,7 @@ public class TunnelsPanel extends JPanel
       blackOverlay.setBounds(0, 0, title.getWidth(), title.getHeight());
       add(blackOverlay);
       remove(world);
-      ready = title;
+      ready = new CombatPanel(e, this);
     // Use a Timer to gradually increase the alpha value of the black overlay panel
       timer = new Timer(50, new FadeListener()); 
       timer.start();
