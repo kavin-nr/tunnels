@@ -198,22 +198,22 @@ public class Map
       }
       
       //left collisions
-      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 2], Color.BLACK) < 20)
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 5], Color.BLACK) < 20)
       {
          owner.ch.setX(owner.ch.getX() + 5);
       }
       
       //right collisions    
-      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 2], Color.BLACK) < 20)
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 5], Color.BLACK) < 20)
       {
          owner.ch.setX(owner.ch.getX() - 5);
       }
       
       //top collisions 
-      for (int i = owner.ch.getX() -2; i < owner.ch.getX() + w + 2; i ++)
+      for (int i = owner.ch.getX() - 5; i < owner.ch.getX() + w + 5; i ++)
       {
       
-         if (colorDistance(map[owner.ch.getY() + h - 2][i], Color.BLACK) < 20)
+         if (colorDistance(map[owner.ch.getY() + h - 5][i], Color.BLACK) < 20)
          {
             owner.ch.setY(owner.ch.getY() + 5);
             break;
@@ -222,14 +222,14 @@ public class Map
       }
    
       //bottom collisions
-      for (int i = owner.ch.getX() - 2; i < owner.ch.getX() + w + 2; i ++)
+      for (int i = owner.ch.getX() - 5; i < owner.ch.getX() + w + 5; i ++)
       {
-         if (colorDistance(map[owner.ch.getY() + h + 2][i], Color.BLACK) < 20)
+         if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.BLACK) < 20)
          {
             owner.ch.setY(owner.ch.getY() - 5);
             break;
          }      
-      }
+      }      
     } 
    
    public void enemyCollisions(Enemy e)

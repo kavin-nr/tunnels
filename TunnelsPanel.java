@@ -12,7 +12,6 @@ public class TunnelsPanel extends JPanel
    private WorldPanel world;
    private JPanel blackOverlay;
    private Timer timer;
-   private int fadeCount;
    
    private JPanel ready;
    public TunnelsPanel(JFrame o)
@@ -66,7 +65,7 @@ public class TunnelsPanel extends JPanel
    private class FadeListener implements ActionListener
    {
       private int alpha = 0;
-   
+      private int fadeCount = 0;
       public void actionPerformed(ActionEvent e) 
       {
          alpha += (int) (Math.pow(fadeCount, 2) / 10);
