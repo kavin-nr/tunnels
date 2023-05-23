@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.lang.Math;
 import java.util.Arrays;
 
-class WorldPanel extends JPanel
+public class WorldPanel extends JPanel
 {
    //fields
    
