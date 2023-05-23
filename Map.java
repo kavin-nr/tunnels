@@ -248,7 +248,8 @@ public class Map
       if (xOverlap && yOverlap)
       {
          owner.goCombat(e);
-         e.setX(-1000);
+         
+         //e.setX(-1000);
          System.out.println("straight down");
          return index;
       }

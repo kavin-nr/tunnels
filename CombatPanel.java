@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class CombatPanel extends JPanel
 {
@@ -20,7 +21,9 @@ public class CombatPanel extends JPanel
    
    private ArrayList<Animatable> animationObjects;
    private Timer t;
+   private Timer t2;
    
+   private ArrayList<Projectile> projectiles;
    private boolean left;
    private boolean right;
    private boolean up;
@@ -40,22 +43,24 @@ public class CombatPanel extends JPanel
       
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics();
+      
       animationObjects = new ArrayList<Animatable>();  
-   
+      projectiles = new ArrayList<Projectile>();
+      
       c = new Character(this);
       animationObjects.add(c); 
       
-      e = en;
-      e.setWidth(150);
-      e.setHeight(150);
-      e.setX(140);
-      e.setY(100);
+      e = new Enemy(0, 12, 250, 250, 0, en.getFrameOnePath(), en.getFrameTwoPath(), en.getProjectile());
+      e.setX((width / 2 ) - (e.getWidth() / 2));
       animationObjects.add(e);
       
       p = e.getProjectile();
       
       t = new Timer(5, new AnimationListener());
       t.start();
+      
+      t2 = new Timer(800, new ProjectileSpawner());
+      t2.start();
       
       addKeyListener(new Key());
       setFocusable(true);
@@ -119,8 +124,24 @@ public class CombatPanel extends JPanel
          animationObject.step();  
          animationObject.drawMe(myBuffer);  
       }
-      //System.out.println(e.getX() + " " + e.getY());
-      myBuffer.drawImage((new ImageIcon("img/sprites/Skeleton1.png")).getImage(), 0, 0, 150, 150,  null);
+      
+      int toRemove = -1;
+      int index = 0;
+      for (Projectile projectile : projectiles)
+      {
+         projectile.step();
+         if (projectile.getX() > 770 || projectile.getX() < 60)
+         {
+            toRemove = index;
+         }
+         projectile.drawMe(myBuffer);
+         index++;
+      }
+      if (toRemove != -1)
+      {
+         projectiles.remove(toRemove);
+      }
+         
       collisions(c);      
       repaint();
    }
@@ -132,6 +153,33 @@ public class CombatPanel extends JPanel
       public void actionPerformed(ActionEvent e)  
       {
          animate();
+      }
+   }
+   
+   private class ProjectileSpawner implements ActionListener
+   {
+      int count = 0;
+      int x;
+      int dX;
+      int y;
+      public void actionPerformed(ActionEvent e)  
+      {
+         dX = (int) ((Math.random() * 3) + 4);
+         if (count % 2 == 0)
+         {
+            x = 65;
+         }
+         else
+         {
+            x = 770;
+            dX = -dX;
+         } 
+         count++;
+         
+         y = (int) (285 + (Math.random() * 350));
+         Projectile temp = new Projectile(x, y, p.getWidth(), p.getHeight(), p.getProjectilePath(), p.getDamage());
+         temp.setDX(dX);
+         projectiles.add(temp);
       }
    }
    

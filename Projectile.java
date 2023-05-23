@@ -3,14 +3,16 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.*;
 
-public class Projectile 
+public class Projectile implements Animatable
 {
    private int x, y, width, height, damage, dX;
    private ImageIcon projectileSrc;
    private BufferedImage img;
    private Graphics gr;
    
-   public Projectile(int xValue, int yValue, int widthValue, int heightValue, String projectilePath, int damageValue)
+   private String projectilePath;
+   
+   public Projectile(int xValue, int yValue, int widthValue, int heightValue, String projectilePathValue, int damageValue)
    {
       x = xValue;
       y = yValue;
@@ -18,6 +20,7 @@ public class Projectile
       height = heightValue;
       damage = damageValue;
       
+      projectilePath = projectilePathValue;
       projectileSrc = new ImageIcon(projectilePath);
       
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
@@ -55,6 +58,11 @@ public class Projectile
    public int getDX()
    {
       return dX;
+   }
+   
+   public String getProjectilePath()
+   {
+      return projectilePath;
    }
    
    //modifiers

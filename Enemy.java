@@ -13,9 +13,12 @@ public class Enemy implements Animatable
    private Graphics gr;
    private Projectile projectile;
    
+   private String frameOnePath;
+   private String frameTwoPath;
+   
    private int changeFrame = (int) (Math.random() * 50);
    
-   public Enemy(int xValue, int yValue, int widthValue, int heightValue, int visibilityValue, String frameOnePath, String frameTwoPath, Projectile projectileValue)
+   public Enemy(int xValue, int yValue, int widthValue, int heightValue, int visibilityValue, String frameOnePathValue, String frameTwoPathValue, Projectile projectileValue)
    {
       x = xValue;
       y = yValue;
@@ -23,6 +26,8 @@ public class Enemy implements Animatable
       height = heightValue;
       visibility = visibilityValue;
       
+      frameOnePath = frameOnePathValue;
+      frameTwoPath = frameTwoPathValue;
       frameOne = new ImageIcon(frameOnePath);
       frameTwo = new ImageIcon(frameTwoPath);
       
@@ -60,6 +65,16 @@ public class Enemy implements Animatable
       return visibility;
    }
    
+   public String getFrameOnePath()
+   {
+      return frameOnePath;
+   }
+   
+   public String getFrameTwoPath()
+   {
+      return frameTwoPath;
+   }
+   
    public Projectile getProjectile()
    {
       return projectile;
@@ -89,6 +104,16 @@ public class Enemy implements Animatable
    public void setVisibility(int vv)
    {
       visibility = vv;
+   }
+   
+   public void setFrameOnePath(String path)
+   {
+      frameOnePath = path;
+   }
+   
+   public void setFrameTwoPath(String path)
+   {
+      frameTwoPath = path;
    }
    
    public void setProjectile(Projectile projValue)

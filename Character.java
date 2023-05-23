@@ -40,8 +40,8 @@ public class Character implements Animatable
       owner = o;
       x = 245;
       y = 300;
-      width = 100;
-      height = 100;
+      width = 75;
+      height = 75;
       dX = 0;
       dY = 0;
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
