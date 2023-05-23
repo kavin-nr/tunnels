@@ -10,12 +10,13 @@ public class Projectile
    private BufferedImage img;
    private Graphics gr;
    
-   public Projectile(int xValue, int yValue, int widthValue, int heightValue, String projectilePath, int damage)
+   public Projectile(int xValue, int yValue, int widthValue, int heightValue, String projectilePath, int damageValue)
    {
       x = xValue;
       y = yValue;
       width = widthValue;
       height = heightValue;
+      damage = damageValue;
       
       projectileSrc = new ImageIcon(projectilePath);
       

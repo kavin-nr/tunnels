@@ -120,7 +120,7 @@ public class Map
       return arr;
    }
    
-   private static int colorDistance(Color one, Color two)
+   public static int colorDistance(Color one, Color two)
    {
       return (int) (Math.sqrt((Math.pow(two.getRed() - one.getRed(), 2))+(Math.pow(two.getGreen() - one.getGreen(), 2))+(Math.pow(two.getBlue() - one.getBlue(), 2))));
    }
@@ -232,7 +232,7 @@ public class Map
       }      
     } 
    
-   public void enemyCollisions(Enemy e)
+   public int enemyCollisions(Enemy e, int index)
    {
       int vis = e.getVisibility();
       boolean xOverlap = false;
@@ -250,17 +250,28 @@ public class Map
          owner.goCombat(e);
          e.setX(-1000);
          System.out.println("straight down");
+         return index;
       }
+      return -1;
    }
       
    public void drawMe(Graphics g)
    {
       g.drawImage(image, 0, 0, owner.getWidth(), owner.getHeight(), null);
+      
+      int toRemove = -1;
+      int index = 0;
+      
       for (Enemy enemy : enemies)
       {
          enemy.step();
-         enemyCollisions(enemy);
-         enemy.drawMe(g);         
+         toRemove = enemyCollisions(enemy, index);         
+         enemy.drawMe(g);
+         index++;                  
+      }
+      if (toRemove != -1)
+      {
+         enemies.remove(toRemove);
       }
    }
 }
