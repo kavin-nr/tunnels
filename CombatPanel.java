@@ -59,7 +59,7 @@ public class CombatPanel extends JPanel
       t = new Timer(5, new AnimationListener());
       t.start();
       
-      t2 = new Timer(800, new ProjectileSpawner());
+      t2 = new Timer(p.getSpawnSpeed(), new ProjectileSpawner());
       t2.start();
       
       addKeyListener(new Key());
@@ -107,9 +107,48 @@ public class CombatPanel extends JPanel
       } 
    }
    
+   public void projectileCollisions(Projectile pr, int index)
+   {
+      boolean xOverlap = false;
+      boolean yOverlap = false;
+      if ((c.getX() < pr.getX() && pr.getX() < c.getX() + c.getWidth()) || (c.getX()  < pr.getX() + pr.getWidth() && pr.getX() + pr.getWidth() < c.getX() + c.getWidth()))
+      {
+         xOverlap = true;
+      }
+      if ((c.getY() < pr.getY() && pr.getY() < c.getY() + c.getHeight()) || (c.getY() < pr.getY() + pr.getHeight() && pr.getY() + pr.getHeight() < c.getY() + c.getHeight()))
+      {
+         yOverlap = true;
+      }
+      
+      if (xOverlap && yOverlap)
+      {        
+         // Subtract projectile damage from player health 
+         owner.world.ch.setHealth(owner.world.ch.getHealth() - pr.getDamage());
+         // Essentially delete the projectile since it is sending it outside of bounds, and any projectiles outside of bounds will not be animated
+         pr.setX(1000);
+      }
+   }
+   
    public void paintComponent(Graphics g)  
    {
-      g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);  
+      g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
+      g.setColor(Color.WHITE);
+      g.setFont(new Font("Monospaced", Font.BOLD, 30)); 
+      g.drawString("Your Health", 10, 40);
+      int health = owner.world.ch.getHealth();
+      if (health <= 30)
+      {
+         g.setColor(new Color(214, 19, 11));
+      }
+      else if (health <= 65)
+      {
+         g.setColor(new Color(186, 172, 41));
+      }
+      else 
+      {
+         g.setColor(Color.GREEN);
+      }
+      g.drawString("" + health, 10, 80);
    }
    
    
@@ -125,24 +164,31 @@ public class CombatPanel extends JPanel
          animationObject.drawMe(myBuffer);  
       }
       
-      int toRemove = -1;
+      int toRemoveBound = -1;
+      int toRemoveCollide = -1;
       int index = 0;
       for (Projectile projectile : projectiles)
       {
          projectile.step();
+         projectileCollisions(projectile, index);
+         
+         // Logs the index of projectiles that are outside of box boundaries
          if (projectile.getX() > 770 || projectile.getX() < 60)
          {
-            toRemove = index;
+            toRemoveBound = index;
          }
          projectile.drawMe(myBuffer);
          index++;
       }
-      if (toRemove != -1)
+      
+      // Deletes projectiles that were found to be outside earlier
+      if (toRemoveBound != -1)
       {
-         projectiles.remove(toRemove);
+         projectiles.remove(toRemoveBound);
       }
-         
-      collisions(c);      
+      
+      collisions(c);
+            
       repaint();
    }
    
@@ -164,7 +210,7 @@ public class CombatPanel extends JPanel
       int y;
       public void actionPerformed(ActionEvent e)  
       {
-         dX = (int) ((Math.random() * 3) + 4);
+         dX = (int) ((Math.random() * (p.getMaxSpeed() - p.getMinSpeed())) + p.getMinSpeed());
          if (count % 2 == 0)
          {
             x = 65;
@@ -177,7 +223,7 @@ public class CombatPanel extends JPanel
          count++;
          
          y = (int) (285 + (Math.random() * 350));
-         Projectile temp = new Projectile(x, y, p.getWidth(), p.getHeight(), p.getProjectilePath(), p.getDamage());
+         Projectile temp = new Projectile(x, y, p.getWidth(), p.getHeight(), p.getProjectilePath(), p.getDamage(), p.getSpawnSpeed(), p.getMinSpeed(), p.getMaxSpeed());
          temp.setDX(dX);
          projectiles.add(temp);
       }

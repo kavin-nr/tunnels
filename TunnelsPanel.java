@@ -9,7 +9,7 @@ public class TunnelsPanel extends JPanel
    private TitlePanel title;
    private JFrame owner;
    private DialoguePanel dialogue;
-   private WorldPanel world;
+   public WorldPanel world;
    private JPanel blackOverlay;
    private Timer timer;
    
