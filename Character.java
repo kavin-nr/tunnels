@@ -6,12 +6,7 @@ import javax.imageio.*;
 
 public class Character implements Animatable
 {
-   private int x;
-   private int y;
-   private int width;
-   private int height;
-   private int dX;
-   private int dY;
+   private int x, y, width, height, dX, dY, health;
    
    private int changeFrame = 0;
       
@@ -40,8 +35,9 @@ public class Character implements Animatable
       owner = o;
       x = 245;
       y = 300;
-      width = 100;
-      height = 100;
+      width = 75;
+      height = 75;
+      health = 100;
       dX = 0;
       dY = 0;
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
@@ -97,6 +93,11 @@ public class Character implements Animatable
       return dY;
    }
    
+   public int getHealth()
+   {
+      return health;
+   }
+   
    //modifiers
    public void setX(int xv)
    {
@@ -126,6 +127,11 @@ public class Character implements Animatable
    public void setDY(int dYValue)
    {
       dY = dYValue;
+   }
+   
+   public void setHealth(int hValue)
+   {
+      health = hValue;
    }
    
    public void faceLeft()

@@ -3,21 +3,27 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.*;
 
-public class Projectile 
+public class Projectile implements Animatable
 {
-   private int x, y, width, height, damage, dX;
+   private int x, y, width, height, damage, dX, spawnSpeed, minSpeed, maxSpeed;
    private ImageIcon projectileSrc;
    private BufferedImage img;
    private Graphics gr;
    
-   public Projectile(int xValue, int yValue, int widthValue, int heightValue, String projectilePath, int damageValue)
+   private String projectilePath;
+   
+   public Projectile(int xValue, int yValue, int widthValue, int heightValue, String projectilePathValue, int damageValue, int spawnSpeedValue, int minSpeedValue, int maxSpeedValue)
    {
       x = xValue;
       y = yValue;
       width = widthValue;
       height = heightValue;
       damage = damageValue;
+      spawnSpeed = spawnSpeedValue;
+      minSpeed = minSpeedValue;
+      maxSpeed = maxSpeedValue;      
       
+      projectilePath = projectilePathValue;
       projectileSrc = new ImageIcon(projectilePath);
       
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
@@ -52,9 +58,29 @@ public class Projectile
       return damage;
    }
    
+   public int getSpawnSpeed()
+   {
+      return spawnSpeed;
+   }
+   
+   public int getMinSpeed()
+   {
+      return minSpeed;
+   }
+   
+   public int getMaxSpeed()
+   {
+      return maxSpeed;
+   }
+   
    public int getDX()
    {
       return dX;
+   }
+   
+   public String getProjectilePath()
+   {
+      return projectilePath;
    }
    
    //modifiers
@@ -81,6 +107,21 @@ public class Projectile
    public void setDamage(int damageValue)
    {
       damage = damageValue;
+   }
+   
+   public void setSpawnSpeed(int speedValue)
+   {
+      spawnSpeed = speedValue;
+   }
+   
+   public void setMinSpeed(int speedValue)
+   {
+      minSpeed = speedValue;
+   }
+   
+   public void setMaxSpeed(int speedValue)
+   {
+      maxSpeed = speedValue;
    }
    
    public void setDX(int dXValue)
