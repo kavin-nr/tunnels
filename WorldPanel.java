@@ -32,6 +32,7 @@ public class WorldPanel extends JPanel
    private Map currentMap;
    private Map map1;
    private Map map2;
+   private Map map3;
    
    private TunnelsPanel owner;
    
@@ -46,10 +47,16 @@ public class WorldPanel extends JPanel
       myBuffer = myImage.getGraphics(); 
       map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 465, 350, 450, 250, this);
       map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 315, 400, 565, 100, this);
+      map3 = new Map("maps/display/Display3.png", "maps/hitboxes/Hitbox3.png", 150, 350, 420, 205, this);
+      
       map1.setNext(map2);
       map2.setPrev(map1);
-      map1.setPrev(map2);
-      map2.setNext(map1);
+      
+      map1.setPrev(map3);
+      map2.setNext(map3);
+      
+      map3.setPrev(map2);
+      map3.setNext(map1);
       
       Projectile chart = new Projectile(0, 300, 50, 16, "img/proj/Bone.png", 10, 500, 7, 10);
       Enemy Destroyer = new Enemy(500, 400, 180, 200, 15, "img/sprites/Destroyer1.png", "img/sprites/Destroyer2.png", null);
