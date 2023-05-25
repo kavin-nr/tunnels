@@ -258,19 +258,22 @@ public class Map
    {
       g.drawImage(image, 0, 0, owner.getWidth(), owner.getHeight(), null);
       
-      int toRemove = -1;
+      ArrayList<Integer> toRemove = new ArrayList<Integer>();
       int index = 0;
       
       for (Enemy enemy : enemies)
       {
          enemy.step();
-         toRemove = enemyCollisions(enemy, index);         
+         toRemove.add(enemyCollisions(enemy, index));         
          enemy.drawMe(g);
          index++;                  
       }
-      if (toRemove != -1)
+      for (int i = 0; i < toRemove.size(); i++)
       {
-         enemies.remove(toRemove);
+         if (toRemove.get(i) != -1)
+         {
+            enemies.remove(enemies.get(toRemove.get(i)));
+         }
       }
    }
 }

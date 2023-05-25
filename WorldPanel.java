@@ -47,24 +47,22 @@ public class WorldPanel extends JPanel
       myBuffer = myImage.getGraphics(); 
       map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 465, 350, 450, 250, this);
       map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 315, 400, 565, 100, this);
-      map3 = new Map("maps/display/Display3.png", "maps/hitboxes/Hitbox3.png", 150, 350, 420, 205, this);
+      map3 = new Map("maps/display/Display3.png", "maps/hitboxes/Hitbox3.png", 180, 515, 420, 205, this);
       
       map1.setNext(map2);
       map2.setPrev(map1);
-      
-      map1.setPrev(map3);
       map2.setNext(map3);
-      
       map3.setPrev(map2);
-      map3.setNext(map1);
       
+      Projectile strongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 50, 5000, 4, 6);
       Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", 10, 500, 7, 10);
-      Projectile zomb = new Projectile(32, 32, "img/proj/Bone.png", 5, 200, 3, 4);
-      Projectile easyAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 35, 5000, 4, 6);
-      Enemy Skeleton = new Enemy(540, 185, 100, 100, 50, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, easyAmmo);
-      Enemy Zombie = new Enemy(315, 225, 100, 100, 50, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, easyAmmo);
-      map2.addEnemy(Skeleton);
-      map2.addEnemy(Zombie);
+      Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", 5, 200, 3, 4);
+      Projectile ghoost = new Projectile(25, 25, "img/proj/Ghoost.png", 10, 500, 5, 8);
+            
+      Enemy Ghost1 = new Enemy(250, 225, 100, 100, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", ghoost, strongAmmo);
+      Enemy Ghost2 = new Enemy(550, 185, 100, 100, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", ghoost, strongAmmo);
+      map2.addEnemy(Ghost1);
+      map2.addEnemy(Ghost2);
       
       currentMap = map1;
       
@@ -113,8 +111,8 @@ public class WorldPanel extends JPanel
       {
          animationObject.step();  
          animationObject.drawMe(myBuffer);  
-         currentMap.collisions();          
-      }      
+      }    
+      currentMap.collisions();  
       repaint();
    }
    
