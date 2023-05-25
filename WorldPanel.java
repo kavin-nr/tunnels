@@ -59,9 +59,12 @@ public class WorldPanel extends JPanel
       map3.setNext(map1);
       
       Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", 10, 500, 7, 10);
+      Projectile zomb = new Projectile(32, 32, "img/proj/Bone.png", 5, 200, 3, 4);
       Projectile easyAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 35, 5000, 4, 6);
-      Enemy Skeleton = new Enemy(540, 185, 100, 100, 15, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, easyAmmo);
+      Enemy Skeleton = new Enemy(540, 185, 100, 100, 50, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, easyAmmo);
+      Enemy Zombie = new Enemy(315, 225, 100, 100, 50, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, easyAmmo);
       map2.addEnemy(Skeleton);
+      map2.addEnemy(Zombie);
       
       currentMap = map1;
       
