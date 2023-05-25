@@ -59,12 +59,14 @@ public class WorldPanel extends JPanel
       Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", 5, 200, 3, 4);
       Projectile ghoost = new Projectile(25, 25, "img/proj/Ghoost.png", 10, 500, 5, 8);
             
+      Savepoint three = new Savepoint(400, 280, 65, 65, "img/sprites/Save.png");
       Enemy Ghost1 = new Enemy(250, 225, 100, 100, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", ghoost, strongAmmo);
       Enemy Ghost2 = new Enemy(550, 185, 100, 100, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", ghoost, strongAmmo);
       map2.addEnemy(Ghost1);
       map2.addEnemy(Ghost2);
+      map3.setSavepoint(three);
       
-      currentMap = map1;
+      currentMap = map3;
       
       animationObjects = new ArrayList<Animatable>();  
       

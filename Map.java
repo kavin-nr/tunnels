@@ -21,6 +21,8 @@ public class Map
    private WorldPanel owner;
    
    private ArrayList<Enemy> enemies;
+   
+   private Savepoint svp = null;
 
   
    public Map(String imageFilename, String hitboxFilename, int prevXV, int prevYV, int nextXV, int nextYV, WorldPanel o)
@@ -82,6 +84,10 @@ public class Map
       return enemies.get(loc);
    }
    
+   public Savepoint getSavepoint()
+   {
+      return svp;
+   }
    
    public void setPrev(Map prevv)
    {
@@ -96,6 +102,11 @@ public class Map
    public void addEnemy(Enemy e)
    {
       enemies.add(e);
+   }
+   
+   public void setSavepoint(Savepoint s)
+   {
+      svp = s;
    }
    
    public static Color[][] getArray(BufferedImage img)
@@ -274,6 +285,11 @@ public class Map
          {
             enemies.remove(enemies.get(toRemove.get(i)));
          }
+      }
+      
+      if (svp != null)
+      {
+         svp.drawMe(g);
       }
    }
 }
