@@ -6,25 +6,26 @@ import java.lang.Math;
 
 public class Enemy implements Animatable
 {
-   private int x, y, width, height, visibility;
+   private int x, y, width, height, visibility, health;
    private ImageIcon frameOne;
    private ImageIcon frameTwo;
    private BufferedImage img;
    private Graphics gr;
-   private Projectile projectile;
+   private Projectile projectile, ammo;
    
    private String frameOnePath;
    private String frameTwoPath;
    
    private int changeFrame = (int) (Math.random() * 50);
    
-   public Enemy(int xValue, int yValue, int widthValue, int heightValue, int visibilityValue, String frameOnePathValue, String frameTwoPathValue, Projectile projectileValue)
+   public Enemy(int xValue, int yValue, int widthValue, int heightValue, int visibilityValue, String frameOnePathValue, String frameTwoPathValue, Projectile projectileValue, Projectile ammoValue)
    {
       x = xValue;
       y = yValue;
       width = widthValue;
       height = heightValue;
       visibility = visibilityValue;
+      health = 100;
       
       frameOnePath = frameOnePathValue;
       frameTwoPath = frameTwoPathValue;
@@ -35,7 +36,8 @@ public class Enemy implements Animatable
       gr = img.getGraphics();
       gr.drawImage(frameOne.getImage(), 0, 0, width, height, null);
       
-      projectile = projectileValue;    
+      projectile = projectileValue;
+      ammo = ammoValue;    
    }
    
      
@@ -65,6 +67,11 @@ public class Enemy implements Animatable
       return visibility;
    }
    
+   public int getHealth()
+   {
+      return health;
+   }
+   
    public String getFrameOnePath()
    {
       return frameOnePath;
@@ -78,6 +85,11 @@ public class Enemy implements Animatable
    public Projectile getProjectile()
    {
       return projectile;
+   }
+   
+   public Projectile getAmmo()
+   {
+      return ammo;
    }
 
    //modifiers
@@ -106,6 +118,11 @@ public class Enemy implements Animatable
       visibility = vv;
    }
    
+   public void setHealth(int hValue)
+   {
+      health = hValue;
+   }
+   
    public void setFrameOnePath(String path)
    {
       frameOnePath = path;
@@ -119,6 +136,11 @@ public class Enemy implements Animatable
    public void setProjectile(Projectile projValue)
    {
       projectile = projValue;
+   }
+   
+   public void setAmmo(Projectile am)
+   {
+      ammo = am;
    }
    
    public void step()

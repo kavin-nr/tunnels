@@ -58,10 +58,10 @@ public class WorldPanel extends JPanel
       map3.setPrev(map2);
       map3.setNext(map1);
       
-      Projectile chart = new Projectile(0, 300, 50, 16, "img/proj/Bone.png", 10, 500, 7, 10);
-      Enemy Destroyer = new Enemy(500, 400, 180, 200, 15, "img/sprites/Destroyer1.png", "img/sprites/Destroyer2.png", null);
-      Enemy Skeleton = new Enemy(500, 400, 100, 100, 15, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", chart);
-      map1.addEnemy(Skeleton);
+      Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", 10, 500, 7, 10);
+      Projectile easyAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 35, 5000, 4, 6);
+      Enemy Skeleton = new Enemy(540, 185, 100, 100, 15, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, easyAmmo);
+      map2.addEnemy(Skeleton);
       
       currentMap = map1;
       

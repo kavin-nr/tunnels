@@ -12,10 +12,10 @@ public class Projectile implements Animatable
    
    private String projectilePath;
    
-   public Projectile(int xValue, int yValue, int widthValue, int heightValue, String projectilePathValue, int damageValue, int spawnSpeedValue, int minSpeedValue, int maxSpeedValue)
+   public Projectile(int widthValue, int heightValue, String projectilePathValue, int damageValue, int spawnSpeedValue, int minSpeedValue, int maxSpeedValue)
    {
-      x = xValue;
-      y = yValue;
+      x = 0;
+      y = 0;
       width = widthValue;
       height = heightValue;
       damage = damageValue;

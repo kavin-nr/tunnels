@@ -52,14 +52,27 @@ public class TunnelsPanel extends JPanel
       timer = new Timer(50, new FadeListener()); 
       timer.start();
    }
-   public void goSettings()
+   
+   public void endCombat(boolean result)
    {
-      remove(title);
-      //add(settings);
-      repaint();
-      revalidate();
-      owner.pack();
-      //settings.requestFocusInWindow();
+      if (result)
+      {
+         // Create the black overlay panel with 0% alpha
+         blackOverlay = new JPanel();
+         blackOverlay.setBounds(0, 0, title.getWidth(), title.getHeight());
+         add(blackOverlay);
+         // Removes the already existing ready panel which should be the existing CombatPanel and adds the existing WorldPanel
+         remove(ready);
+         ready = world;
+         // Use a Timer to gradually increase the alpha value of the black overlay panel
+         timer = new Timer(50, new FadeListener()); 
+         timer.start();
+         
+      }
+      else
+      {
+         // display game over
+      }
    }
    
    private class FadeListener implements ActionListener

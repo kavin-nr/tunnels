@@ -12,7 +12,10 @@ public class CombatPanel extends JPanel
    private Graphics myBuffer;
    
    private Enemy e;
+   // projectiles that hurt player
    private Projectile p;
+   // projectiles that hurt enemy
+   private Projectile a;
    private Character c;
    private TunnelsPanel owner;
    
@@ -21,9 +24,11 @@ public class CombatPanel extends JPanel
    
    private ArrayList<Animatable> animationObjects;
    private Timer t;
-   private Timer t2;
+   private Timer projectileTimer;
+   private Timer ammoTimer;
    
-   private ArrayList<Projectile> projectiles;
+   private ArrayList<Projectile> projectiles, ammos;
+   
    private boolean left;
    private boolean right;
    private boolean up;
@@ -46,21 +51,26 @@ public class CombatPanel extends JPanel
       
       animationObjects = new ArrayList<Animatable>();  
       projectiles = new ArrayList<Projectile>();
+      ammos = new ArrayList<Projectile>();
       
       c = new Character(this);
       animationObjects.add(c); 
       
-      e = new Enemy(0, 12, 250, 250, 0, en.getFrameOnePath(), en.getFrameTwoPath(), en.getProjectile());
+      e = new Enemy(0, 12, 250, 250, 0, en.getFrameOnePath(), en.getFrameTwoPath(), en.getProjectile(), en.getAmmo());
       e.setX((width / 2 ) - (e.getWidth() / 2));
       animationObjects.add(e);
       
       p = e.getProjectile();
+      a = e.getAmmo();
       
       t = new Timer(5, new AnimationListener());
       t.start();
       
-      t2 = new Timer(p.getSpawnSpeed(), new ProjectileSpawner());
-      t2.start();
+      projectileTimer = new Timer(p.getSpawnSpeed(), new ProjectileSpawner());
+      projectileTimer.start();
+      
+      ammoTimer = new Timer(a.getSpawnSpeed(), new AmmoSpawner());
+      ammoTimer.start();
       
       addKeyListener(new Key());
       setFocusable(true);
@@ -107,7 +117,7 @@ public class CombatPanel extends JPanel
       } 
    }
    
-   public void projectileCollisions(Projectile pr, int index)
+   public boolean projectileCollisions(Projectile pr)
    {
       boolean xOverlap = false;
       boolean yOverlap = false;
@@ -122,11 +132,12 @@ public class CombatPanel extends JPanel
       
       if (xOverlap && yOverlap)
       {        
-         // Subtract projectile damage from player health 
-         owner.world.ch.setHealth(owner.world.ch.getHealth() - pr.getDamage());
          // Essentially delete the projectile since it is sending it outside of bounds, and any projectiles outside of bounds will not be animated
          pr.setX(1000);
+         // Tell whoever called the function that a projectile has collided
+         return true;
       }
+      return false;
    }
    
    public void paintComponent(Graphics g)  
@@ -135,7 +146,10 @@ public class CombatPanel extends JPanel
       g.setColor(Color.WHITE);
       g.setFont(new Font("Monospaced", Font.BOLD, 30)); 
       g.drawString("Your Health", 10, 40);
+      g.drawString("Enemy Health", 600, 40);
       int health = owner.world.ch.getHealth();
+      int enemyHealth = e.getHealth();
+      
       if (health <= 30)
       {
          g.setColor(new Color(214, 19, 11));
@@ -149,6 +163,20 @@ public class CombatPanel extends JPanel
          g.setColor(Color.GREEN);
       }
       g.drawString("" + health, 10, 80);
+      
+      if (enemyHealth <= 30)
+      {
+         g.setColor(new Color(214, 19, 11));
+      }
+      else if (enemyHealth <= 65)
+      {
+         g.setColor(new Color(186, 172, 41));
+      }
+      else 
+      {
+         g.setColor(Color.GREEN);
+      }
+      g.drawString("" + enemyHealth, 600, 80);
    }
    
    
@@ -164,27 +192,85 @@ public class CombatPanel extends JPanel
          animationObject.drawMe(myBuffer);  
       }
       
-      int toRemoveBound = -1;
-      int toRemoveCollide = -1;
+      if (e.getHealth() == 0)
+      {
+         t.stop();
+         ammoTimer.stop();
+         projectileTimer.stop();
+         
+         // Pause for 2 seconds
+         try
+         {
+            
+            Thread.sleep(2000);
+         }
+         catch (InterruptedException ex) {}
+                    
+         owner.endCombat(true);
+      }
+      
+      int toRemove = -1;
       int index = 0;
       for (Projectile projectile : projectiles)
       {
          projectile.step();
-         projectileCollisions(projectile, index);
-         
+         // If a projectile has collided with player, subtract projectile damage from player health
+         if (projectileCollisions(projectile))
+         {
+            if (projectile.getDamage() < owner.world.ch.getHealth())
+            {
+               owner.world.ch.setHealth(owner.world.ch.getHealth() - projectile.getDamage());
+            }
+            else
+            { 
+               owner.world.ch.setHealth(0);
+            }
+         }
          // Logs the index of projectiles that are outside of box boundaries
          if (projectile.getX() > 770 || projectile.getX() < 60)
          {
-            toRemoveBound = index;
+            toRemove = index;
          }
          projectile.drawMe(myBuffer);
          index++;
       }
       
       // Deletes projectiles that were found to be outside earlier
-      if (toRemoveBound != -1)
+      if (toRemove != -1)
       {
-         projectiles.remove(toRemoveBound);
+         projectiles.remove(toRemove);
+      }
+      
+      toRemove = -1;
+      index = 0;
+      for (Projectile ammo : ammos)
+      {
+         ammo.step();
+         // If a projectile has collided with player, subtract projectile damage from player health
+         if (projectileCollisions(ammo))
+         {
+            if (ammo.getDamage() < e.getHealth())
+            {
+               e.setHealth(e.getHealth() - ammo.getDamage());
+            }
+            else
+            {
+               e.setHealth(0);
+            }
+         }
+         // Logs the index of ammos that are outside of box boundaries
+         if (ammo.getX() > 770 || ammo.getX() < 60)
+         {
+            toRemove = index;
+         }
+         ammo.drawMe(myBuffer);
+         index++;
+      }
+      
+      // Deletes ammos that were found to be outside earlier
+      if (toRemove != -1)
+      {
+         ammos.remove(toRemove);
       }
       
       collisions(c);
@@ -223,9 +309,40 @@ public class CombatPanel extends JPanel
          count++;
          
          y = (int) (285 + (Math.random() * 350));
-         Projectile temp = new Projectile(x, y, p.getWidth(), p.getHeight(), p.getProjectilePath(), p.getDamage(), p.getSpawnSpeed(), p.getMinSpeed(), p.getMaxSpeed());
+         Projectile temp = new Projectile(p.getWidth(), p.getHeight(), p.getProjectilePath(), p.getDamage(), p.getSpawnSpeed(), p.getMinSpeed(), p.getMaxSpeed());
+         temp.setX(x);
+         temp.setY(y);
          temp.setDX(dX);
          projectiles.add(temp);
+      }
+   }
+   
+   private class AmmoSpawner implements ActionListener
+   {
+      int count = 0;
+      int x;
+      int dX;
+      int y;
+      public void actionPerformed(ActionEvent e)  
+      {
+         dX = (int) ((Math.random() * (a.getMaxSpeed() - a.getMinSpeed())) + a.getMinSpeed());
+         if (count % 2 == 0)
+         {
+            x = 65;
+         }
+         else
+         {
+            x = 770;
+            dX = -dX;
+         } 
+         count++;
+         
+         y = (int) (285 + (Math.random() * 350));
+         Projectile temp = new Projectile(a.getWidth(), a.getHeight(), a.getProjectilePath(), a.getDamage(), a.getSpawnSpeed(), a.getMinSpeed(), a.getMaxSpeed());
+         temp.setX(x);
+         temp.setY(y);
+         temp.setDX(dX);
+         ammos.add(temp);
       }
    }
    
