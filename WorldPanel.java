@@ -64,14 +64,14 @@ public class WorldPanel extends JPanel
       
       Projectile strongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 50, 5000, 4, 6);
       Projectile lessStrongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 35, 5000, 4, 6);
-      Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", 10, 500, 7, 10);
-      Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", 5, 200, 10, 12);
+      Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", 15, 500, 7, 10);
+      Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", 10, 500, 10, 12);
       Projectile ghoost = new Projectile(25, 25, "img/proj/Ghoost.png", 10, 600, 4, 3);
             
       Enemy Ghost1 = new Enemy(250, 225, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", ghoost, strongAmmo);
       Enemy Ghost2 = new Enemy(550, 185, 75, 75, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", ghoost, strongAmmo);
-      Enemy Skeleton = new Enemy(230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, lessStrongAmmo);
-      Enemy Zombie = new Enemy(570, 175, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, lessStrongAmmo);
+      Enemy Skeleton = new Enemy(230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
+      Enemy Zombie = new Enemy(570, 175, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, strongAmmo);
       
 
       map1.addEnemy(Ghost1);
@@ -178,21 +178,18 @@ public class WorldPanel extends JPanel
       {
          if(e.getKeyCode() == KeyEvent.VK_LEFT && !left)
          {
-            
             ch.setDX(ch.getDX() - 5);
             left = true;  
          }
          
          if (e.getKeyCode() == KeyEvent.VK_RIGHT && !right)
          {
-            
             ch.setDX(ch.getDX() + 5);
             right = true;
          }
          
          if (e.getKeyCode() == KeyEvent.VK_UP && !up)
          {
-            
             ch.setDY(ch.getDY() - 5);
             
             up = true;
@@ -200,7 +197,6 @@ public class WorldPanel extends JPanel
       
          if (e.getKeyCode() == KeyEvent.VK_DOWN && !down)
          {
-            
             ch.setDY(ch.getDY() + 5);
             
             down = true;
@@ -210,35 +206,40 @@ public class WorldPanel extends JPanel
          {
             
             System.out.println(ch.getX() + " " + ch.getY());
+            owner.addDialogue();
          }
       }
       
       public void keyReleased(KeyEvent e) //Also overridden; ONE method that will be called any time a key is released
       {
-         if(e.getKeyCode() == KeyEvent.VK_LEFT) // If the user lets go of the left arrow
+         if(e.getKeyCode() == KeyEvent.VK_LEFT && left) // If the user lets go of the left arrow
          {
             ch.setDX(ch.getDX() + 5);  //Again: add 2, don't set to 0 precisely.  Explanation in the assignment.
             left = false;  //User is no longer holding the left key, so set this back to false.
          }
          
-         if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+         if (e.getKeyCode() == KeyEvent.VK_RIGHT && right)
          {
             ch.setDX(ch.getDX() - 5);
             right = false;
          }
          
-         if (e.getKeyCode() == KeyEvent.VK_UP)
+         if (e.getKeyCode() == KeyEvent.VK_UP && up)
          {
             ch.setDY(ch.getDY() + 5);
             up = false;
          }
       
-         if (e.getKeyCode() == KeyEvent.VK_DOWN)
+         if (e.getKeyCode() == KeyEvent.VK_DOWN && down)
          {
             ch.setDY(ch.getDY() - 5);
             down = false;
          }
          
+         if (e.getKeyCode() == KeyEvent.VK_SPACE)
+         {
+            owner.removeDialogue();
+         }
       }
    }
    
