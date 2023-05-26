@@ -49,7 +49,7 @@ public class WorldPanel extends JPanel
       myBuffer = myImage.getGraphics(); 
       map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
       map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 315, 400, 565, 100, this);
-      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 180, 515, 420, 205, this);
+      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 180, 515, 730, 275, this);
       map3 = new Map("maps/display/Display3.png", "maps/hitboxes/Hitbox3.png", 60, 370, 700, 215, this);
       map4 = new Map("maps/display/Display4.png", "maps/hitboxes/Hitbox4.png", 55, 285, 605, 570, this);
       
@@ -63,14 +63,22 @@ public class WorldPanel extends JPanel
       map4.setPrev(map3);
       
       Projectile strongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 50, 5000, 4, 6);
+      Projectile lessStrongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 35, 5000, 4, 6);
       Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", 10, 500, 7, 10);
-      Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", 5, 200, 3, 4);
-      Projectile ghoost = new Projectile(25, 25, "img/proj/Ghoost.png", 10, 500, 5, 8);
+      Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", 5, 200, 10, 12);
+      Projectile ghoost = new Projectile(25, 25, "img/proj/Ghoost.png", 10, 600, 4, 3);
             
-      Enemy Ghost1 = new Enemy(250, 225, 100, 100, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", ghoost, strongAmmo);
-      Enemy Ghost2 = new Enemy(550, 185, 100, 100, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", ghoost, strongAmmo);
+      Enemy Ghost1 = new Enemy(250, 225, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", ghoost, strongAmmo);
+      Enemy Ghost2 = new Enemy(550, 185, 75, 75, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", ghoost, strongAmmo);
+      Enemy Skeleton = new Enemy(230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, lessStrongAmmo);
+      Enemy Zombie = new Enemy(570, 175, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, lessStrongAmmo);
+      
+
       map1.addEnemy(Ghost1);
       map1.addEnemy(Ghost2);
+      
+      map3.addEnemy(Skeleton);
+      map3.addEnemy(Zombie);
       
       currentMap = map0;
       
