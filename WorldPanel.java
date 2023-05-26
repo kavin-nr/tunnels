@@ -30,9 +30,11 @@ public class WorldPanel extends JPanel
    public Character ch;
    
    private Map currentMap;
+   private Map map0;
    private Map map1;
    private Map map2;
    private Map map3;
+   private Map map4;
    
    private TunnelsPanel owner;
    
@@ -45,28 +47,32 @@ public class WorldPanel extends JPanel
 
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics(); 
-      map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 465, 350, 450, 250, this);
-      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 315, 400, 565, 100, this);
-      map3 = new Map("maps/display/Display3.png", "maps/hitboxes/Hitbox3.png", 180, 515, 420, 205, this);
+      map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
+      map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 315, 400, 565, 100, this);
+      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 180, 515, 420, 205, this);
+      map3 = new Map("maps/display/Display3.png", "maps/hitboxes/Hitbox3.png", 60, 370, 700, 215, this);
+      map4 = new Map("maps/display/Display4.png", "maps/hitboxes/Hitbox4.png", 55, 285, 605, 570, this);
       
+      map0.setNext(map1);
+      map1.setPrev(map0);
       map1.setNext(map2);
       map2.setPrev(map1);
       map2.setNext(map3);
       map3.setPrev(map2);
+      map3.setNext(map4);
+      map4.setPrev(map3);
       
       Projectile strongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 50, 5000, 4, 6);
       Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", 10, 500, 7, 10);
       Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", 5, 200, 3, 4);
       Projectile ghoost = new Projectile(25, 25, "img/proj/Ghoost.png", 10, 500, 5, 8);
             
-      Savepoint three = new Savepoint(400, 280, 65, 65, "img/sprites/Save.png");
       Enemy Ghost1 = new Enemy(250, 225, 100, 100, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", ghoost, strongAmmo);
       Enemy Ghost2 = new Enemy(550, 185, 100, 100, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", ghoost, strongAmmo);
-      map2.addEnemy(Ghost1);
-      map2.addEnemy(Ghost2);
-      map3.setSavepoint(three);
+      map1.addEnemy(Ghost1);
+      map1.addEnemy(Ghost2);
       
-      currentMap = map3;
+      currentMap = map0;
       
       animationObjects = new ArrayList<Animatable>();  
       
