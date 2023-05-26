@@ -33,8 +33,8 @@ public class Character implements Animatable
    public Character(WorldPanel o)
    {
       owner = o;
-      x = 245;
-      y = 300;
+      x = 390;
+      y = 555;
       width = 75;
       height = 75;
       health = 100;
@@ -42,8 +42,8 @@ public class Character implements Animatable
       dY = 0;
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
       bufG = img.getGraphics();
-      frame1 = frame1l;
-      frame2 = frame2l;
+      frame1 = frame1u;
+      frame2 = frame2u;
    }
    
    public Character(CombatPanel o)
