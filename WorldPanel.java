@@ -206,7 +206,6 @@ public class WorldPanel extends JPanel
          {
             
             System.out.println(ch.getX() + " " + ch.getY());
-            owner.addDialogue();
          }
       }
       
@@ -236,10 +235,6 @@ public class WorldPanel extends JPanel
             down = false;
          }
          
-         if (e.getKeyCode() == KeyEvent.VK_SPACE)
-         {
-            owner.removeDialogue();
-         }
       }
    }
    
