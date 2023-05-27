@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.util.ArrayList;
 import java.lang.Math;
+import java.util.concurrent.TimeUnit;
 
 public class CombatPanel extends JPanel
 {
@@ -23,6 +24,7 @@ public class CombatPanel extends JPanel
    private final int height = 720;
    
    private ArrayList<Animatable> animationObjects;
+   private Timer transitionWait;
    private Timer t;
    private Timer projectileTimer;
    private Timer ammoTimer;
@@ -65,16 +67,29 @@ public class CombatPanel extends JPanel
       
       t = new Timer(5, new AnimationListener());
       t.start();
-      
-      projectileTimer = new Timer(p.getSpawnSpeed(), new ProjectileSpawner());
-      projectileTimer.start();
-      
-      ammoTimer = new Timer(a.getSpawnSpeed(), new AmmoSpawner());
-      ammoTimer.start();
-      
+   
+      // Since the panel is initialized before the transition, sometimes the player might not be ready for a sudden attack
+      // Wait for two seconds before actually shooting projectiles
+      transitionWait = new Timer(2000, 
+         new ActionListener()
+         {
+            public void actionPerformed(ActionEvent e)
+            {
+               projectileTimer = new Timer(p.getSpawnSpeed(), new ProjectileSpawner());
+               projectileTimer.start();
+            
+               ammoTimer = new Timer(a.getSpawnSpeed(), new AmmoSpawner());
+               ammoTimer.start();
+            
+            
+               transitionWait.stop();
+            }
+         });
+      transitionWait.start();
       addKeyListener(new Key());
       setFocusable(true);
    }
+   
    
    public void collisions(Character c)
    {
@@ -179,6 +194,21 @@ public class CombatPanel extends JPanel
       g.drawString("" + enemyHealth, 600, 80);
    }
    
+   public void end(boolean result)
+   {
+      t.stop();
+      ammoTimer.stop();
+      projectileTimer.stop();
+         
+      // Pause for 1 seconds
+      try
+      {
+         TimeUnit.SECONDS.sleep(1);
+      }
+      catch (InterruptedException ex) {}
+                    
+      owner.endCombat(result);
+   }
    
    public void animate()
    {      
@@ -194,19 +224,13 @@ public class CombatPanel extends JPanel
       
       if (e.getHealth() == 0)
       {
-         t.stop();
-         ammoTimer.stop();
-         projectileTimer.stop();
-         
-         // Pause for 2 seconds
-         try
-         {
-            
-            Thread.sleep(2000);
-         }
-         catch (InterruptedException ex) {}
-                    
-         owner.endCombat(true);
+         // Battle was successful
+         end(true);
+      }
+      else if (owner.world.ch.getHealth() == 0)
+      {
+         // Battle was unsuccessful
+         end(false);
       }
       
       int toRemove = -1;
@@ -227,7 +251,7 @@ public class CombatPanel extends JPanel
             }
          }
          // Logs the index of projectiles that are outside of box boundaries
-         if (projectile.getX() > 770 || projectile.getX() < 60)
+         if (projectile.getX() > 800 || projectile.getX() < 40)
          {
             toRemove = index;
          }
@@ -259,7 +283,7 @@ public class CombatPanel extends JPanel
             }
          }
          // Logs the index of ammos that are outside of box boundaries
-         if (ammo.getX() > 770 || ammo.getX() < 60)
+         if (ammo.getX() > 800 || ammo.getX() < 40)
          {
             toRemove = index;
          }
@@ -299,11 +323,11 @@ public class CombatPanel extends JPanel
          dX = (int) ((Math.random() * (p.getMaxSpeed() - p.getMinSpeed())) + p.getMinSpeed());
          if (count % 2 == 0)
          {
-            x = 65;
+            x = 40;
          }
          else
          {
-            x = 770;
+            x = 800;
             dX = -dX;
          } 
          count++;
@@ -389,25 +413,25 @@ public class CombatPanel extends JPanel
       
       public void keyReleased(KeyEvent e) //Also overridden; ONE method that will be called any time a key is released
       {
-         if(e.getKeyCode() == KeyEvent.VK_LEFT) // If the user lets go of the left arrow
+         if(e.getKeyCode() == KeyEvent.VK_LEFT && left) // If the user lets go of the left arrow
          {
             c.setDX(c.getDX() + 15);  //Again: add 2, don't set to 0 precisely.  Explanation in the assignment.
             left = false;  //User is no longer holding the left key, so set this back to false.
          }
          
-         if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+         if (e.getKeyCode() == KeyEvent.VK_RIGHT && right)
          {
             c.setDX(c.getDX() - 15);
             right = false;
          }
          
-         if (e.getKeyCode() == KeyEvent.VK_UP)
+         if (e.getKeyCode() == KeyEvent.VK_UP && up)
          {
             c.setDY(c.getDY() + 15);
             up = false;
          }
       
-         if (e.getKeyCode() == KeyEvent.VK_DOWN)
+         if (e.getKeyCode() == KeyEvent.VK_DOWN && down)
          {
             c.setDY(c.getDY() - 15);
             down = false;
