@@ -5,6 +5,9 @@ import java.awt.image.*;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.util.concurrent.TimeUnit;
+import javax.sound.sampled.*;
+import java.io.*;
+
 
 public class CombatPanel extends JPanel
 {
@@ -35,6 +38,9 @@ public class CombatPanel extends JPanel
    private boolean right;
    private boolean up;
    private boolean down;
+   
+   private Clip clip;
+   
    
    private BufferedImage hitbox;
    private Graphics hitboxGr; 
@@ -226,12 +232,29 @@ public class CombatPanel extends JPanel
       {
          // Battle was successful
          end(true);
+         owner.StopMusic2();
+         owner.StartMusic1();
+         
       }
       else if (owner.world.ch.getHealth() == 0)
       {
          // Battle was unsuccessful
          end(false);
-      }
+         owner.StopMusic2();
+         try
+         {
+         File file = new File(getClass().getResource("music/death.wav").toURI());
+         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+         clip = AudioSystem.getClip();
+         clip.open(audioInputStream);
+         clip.loop(0);
+         }
+         catch (Exception e)
+         {
+         System.err.println(e.getMessage());  
+         } 
+         
+       }
       
       int toRemove = -1;
       int index = 0;
@@ -241,6 +264,19 @@ public class CombatPanel extends JPanel
          // If a projectile has collided with player, subtract projectile damage from player health
          if (projectileCollisions(projectile))
          {
+            try
+            {
+            File file = new File(getClass().getResource("music/hit.wav").toURI());
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(0);
+            }
+            catch (Exception e)
+            {
+            System.err.println(e.getMessage());     
+            }
+         
             if (projectile.getDamage() < owner.world.ch.getHealth())
             {
                owner.world.ch.setHealth(owner.world.ch.getHealth() - projectile.getDamage());
@@ -270,9 +306,22 @@ public class CombatPanel extends JPanel
       for (Projectile ammo : ammos)
       {
          ammo.step();
+         
          // If a projectile has collided with player, subtract projectile damage from player health
          if (projectileCollisions(ammo))
          {
+            try
+            {
+            File file = new File(getClass().getResource("music/enemy_hit.wav").toURI());
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(0);
+            }
+            catch (Exception e)
+            {
+            System.err.println(e.getMessage());   
+            }  
             if (ammo.getDamage() < e.getHealth())
             {
                e.setHealth(e.getHealth() - ammo.getDamage());
@@ -374,6 +423,15 @@ public class CombatPanel extends JPanel
    {
       public void keyPressed(KeyEvent e) 
       {
+         if (e.getKeyCode() == KeyEvent.VK_K)
+         {
+            owner.StopMusic2();
+         }
+         if (e.getKeyCode() == KeyEvent.VK_K)
+         {
+            owner.StartMusic2();
+         }
+      
          if(e.getKeyCode() == KeyEvent.VK_LEFT && !left)
          {
             

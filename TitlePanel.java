@@ -66,6 +66,10 @@ public class TitlePanel extends JPanel
       
       addMouseListener(new Mouse());
       addMouseMotionListener(new Mouse());
+      
+      addKeyListener(new Key());  
+      setFocusable(true);
+
    }
    
    public void paintComponent(Graphics g)  
@@ -97,6 +101,25 @@ public class TitlePanel extends JPanel
          animate();
       }
    }
+   
+   private class Key extends KeyAdapter 
+   {
+      public void keyPressed(KeyEvent e) 
+      {
+         if(e.getKeyCode() == KeyEvent.VK_K)
+         {
+            owner.StopMusic();
+         }
+        
+         
+         if (e.getKeyCode() == KeyEvent.VK_L)
+         {
+            owner.StartMusic();
+         }
+         
+       }
+     }
+       
    
    private class Mouse extends MouseAdapter
    {

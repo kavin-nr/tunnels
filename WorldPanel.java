@@ -100,7 +100,7 @@ public class WorldPanel extends JPanel
    
    public void paintComponent(Graphics g)  
    {
-      g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);  
+      g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
    }
    
    public int getWidth()
@@ -176,6 +176,15 @@ public class WorldPanel extends JPanel
    {
       public void keyPressed(KeyEvent e) 
       {
+         if (e.getKeyCode() == KeyEvent.VK_K)
+         {
+            owner.StopMusic1();
+         }
+         if (e.getKeyCode() == KeyEvent.VK_L)
+         {
+            owner.StartMusic1();
+         }
+      
          if(e.getKeyCode() == KeyEvent.VK_LEFT && !left)
          {
             ch.setDX(ch.getDX() - 5);
