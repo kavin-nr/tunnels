@@ -12,5 +12,7 @@ public class Tunnels
       frame.setResizable(false);
       frame.pack();                                                     
       frame.setVisible(true);
+      
+      frame.setIconImage((new ImageIcon("img/sprites/Knight1R.png")).getImage());
    }
 }
