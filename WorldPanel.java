@@ -5,6 +5,7 @@ import java.awt.image.*;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class WorldPanel extends JPanel
 {
@@ -29,12 +30,8 @@ public class WorldPanel extends JPanel
    
    public Character ch;
    
+   private ArrayList<Map> mapList;
    private Map currentMap;
-   private Map map0;
-   private Map map1;
-   private Map map2;
-   private Map map3;
-   private Map map4;
    
    private TunnelsPanel owner;
    
@@ -47,20 +44,6 @@ public class WorldPanel extends JPanel
 
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics(); 
-      map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
-      map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 315, 400, 565, 100, this);
-      map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 180, 515, 730, 275, this);
-      map3 = new Map("maps/display/Display3.png", "maps/hitboxes/Hitbox3.png", 60, 370, 700, 215, this);
-      map4 = new Map("maps/display/Display4.png", "maps/hitboxes/Hitbox4.png", 55, 285, 605, 570, this);
-      
-      map0.setNext(map1);
-      map1.setPrev(map0);
-      map1.setNext(map2);
-      map2.setPrev(map1);
-      map2.setNext(map3);
-      map3.setPrev(map2);
-      map3.setNext(map4);
-      map4.setPrev(map3);
       
       Projectile strongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 50, 5000, 4, 6);
       Projectile lessStrongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 35, 5000, 4, 6);
@@ -72,15 +55,30 @@ public class WorldPanel extends JPanel
       Enemy Ghost2 = new Enemy(550, 185, 75, 75, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", ghoost, strongAmmo);
       Enemy Skeleton = new Enemy(230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
       Enemy Zombie = new Enemy(570, 175, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, strongAmmo);
+     
       
-
+      Map map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
+      Map map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 315, 400, 565, 100, this);
+      Map map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 180, 515, 730, 275, this);
+      Map map3 = new Map("maps/display/Display3.png", "maps/hitboxes/Hitbox3.png", 60, 370, 700, 215, this);
+      Map map4 = new Map("maps/display/Display4.png", "maps/hitboxes/Hitbox4.png", 55, 285, 605, 565, this);
+      Map map5 = new Map("maps/display/Display5.png", "maps/hitboxes/Hitbox5.png", 240, 100, 735, 350, this);
+      
       map1.addEnemy(Ghost1);
       map1.addEnemy(Ghost2);
       
       map3.addEnemy(Skeleton);
       map3.addEnemy(Zombie);
       
-      currentMap = map0;
+      mapList = new ArrayList<Map>();
+      mapList.add(map0);
+      mapList.add(map1);
+      mapList.add(map2);
+      mapList.add(map3);
+      mapList.add(map4);
+      mapList.add(map5);
+      
+      currentMap = mapList.get(0);
       
       animationObjects = new ArrayList<Animatable>();  
       
@@ -134,17 +132,19 @@ public class WorldPanel extends JPanel
    
    public void goNext()
    {
-      ch.setX(currentMap.getNext().getPrevX());
-      ch.setY(currentMap.getNext().getPrevY());
-      currentMap = currentMap.getNext();      
+      Map nextMap = mapList.get(mapList.indexOf(currentMap) + 1);
+      ch.setX(nextMap.getPrevX());
+      ch.setY(nextMap.getPrevY());
+      currentMap = nextMap;   
       System.out.println("next");
    }
    
    public void goPrev()
    {
-      ch.setX(currentMap.getPrev().getNextX());
-      ch.setY(currentMap.getPrev().getNextY());
-      currentMap = currentMap.getPrev();
+      Map prevMap = mapList.get(mapList.indexOf(currentMap) - 1);
+      ch.setX(prevMap.getNextX());
+      ch.setY(prevMap.getNextY());
+      currentMap = prevMap;   
       System.out.println("prev");
    }
    

@@ -12,10 +12,7 @@ public class Map
    private BufferedImage image, hitbox;
    
    private Graphics imageGr, hitboxGr;
-   
-   
-   private Map prev, next;
-   
+      
    private int prevX, prevY, nextX, nextY;
    
    private WorldPanel owner;
@@ -46,17 +43,7 @@ public class Map
       nextY = nextYV;
       
    }
-   
-   public Map getPrev()
-   {
-      return prev;
-   }
-   
-   public Map getNext()
-   {
-      return next;
-   }
-   
+     
    public int getPrevX()
    {
       return prevX;
@@ -81,18 +68,7 @@ public class Map
    {
       return enemies.get(loc);
    }
-   
-   
-   public void setPrev(Map prevv)
-   {
-      prev = prevv;
-   }
-   
-   public void setNext(Map nextv)
-   {
-      next = nextv;
-   }
-   
+     
    public void addEnemy(Enemy e)
    {
       enemies.add(e);
@@ -165,7 +141,7 @@ public class Map
             green = true;
          }
          
-         if (colorDistance(map[owner.ch.getY() + h - 5][i], Color.RED) < 20)
+         if (colorDistance(map[owner.ch.getY() - 5][i], Color.RED) < 20)
          {
             red = true;
          }
