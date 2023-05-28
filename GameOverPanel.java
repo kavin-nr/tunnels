@@ -82,15 +82,18 @@ public class GameOverPanel extends JPanel
       public void mouseClicked(MouseEvent me)
       {
          Point clicked = me.getPoint();
-         for (HoverImage hover : hovers)
+         
+         Rectangle boundsReload = new Rectangle(reload.getX(), reload.getY(), reload.getWidth(), reload.getHeight());
+         Rectangle boundsQuit = new Rectangle(quit.getX(), quit.getY(), quit.getWidth(), quit.getHeight());
+         if (boundsReload.contains(clicked))
          {
-            Rectangle bounds = new Rectangle(hover.getX(), hover.getY(), hover.getWidth(), hover.getHeight());
-            if (bounds.contains(clicked))
-            {
-               // if it is reload then do so and so
-               // if it is quit then do so and so
-            }
+            owner.loadWorld();
          }
+         if (boundsQuit.contains(clicked))
+         {
+            System.exit(0);
+         }
+         
       }
       
       public void mouseMoved(MouseEvent me)
@@ -101,12 +104,10 @@ public class GameOverPanel extends JPanel
             Rectangle bounds = new Rectangle(hover.getX(), hover.getY(), hover.getWidth(), hover.getHeight());
             if (bounds.contains(clicked))
             {
-               System.out.println("hover on");
                hover.switchHover();
             }
             else
             {
-               System.out.println("hover off");
                hover.noHover();
             }
          }

@@ -2,10 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import java.util.ArrayList;
-import java.lang.Math;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.lang.Math;
+import java.io.*;
 
 public class WorldPanel extends JPanel
 {
@@ -34,6 +35,7 @@ public class WorldPanel extends JPanel
    private Map currentMap;
    
    private TunnelsPanel owner;
+   private File savefile = new File("save.txt");
    
    //constructors
    public WorldPanel(TunnelsPanel o)
@@ -41,7 +43,7 @@ public class WorldPanel extends JPanel
       owner = o;
       
       setPreferredSize(new Dimension(width, height));
-
+   
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics(); 
       
@@ -49,12 +51,12 @@ public class WorldPanel extends JPanel
       Projectile lessStrongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 35, 5000, 4, 6);
       Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", 15, 500, 7, 10);
       Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", 10, 500, 10, 12);
-      Projectile ghoost = new Projectile(25, 25, "img/proj/Ghoost.png", 10, 600, 4, 3);
+      Projectile bat = new Projectile(40, 20, "img/proj/Bat.png", 10, 750, 4, 3);
             
-      Enemy Ghost1 = new Enemy(250, 225, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", ghoost, strongAmmo);
-      Enemy Ghost2 = new Enemy(550, 185, 75, 75, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", ghoost, strongAmmo);
-      Enemy Skeleton = new Enemy(230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
-      Enemy Zombie = new Enemy(570, 175, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, strongAmmo);
+      Enemy Ghost1 = new Enemy(250, 225, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", bat, strongAmmo);
+      Enemy Ghost2 = new Enemy(550, 225, 75, 75, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", bat, strongAmmo);
+      Enemy Skeleton1 = new Enemy(230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
+      Enemy Skeleton2 = new Enemy(570, 175, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
      
       
       Map map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
@@ -67,8 +69,8 @@ public class WorldPanel extends JPanel
       map1.addEnemy(Ghost1);
       map1.addEnemy(Ghost2);
       
-      map3.addEnemy(Skeleton);
-      map3.addEnemy(Zombie);
+      map3.addEnemy(Skeleton1);
+      map3.addEnemy(Skeleton2);
       
       mapList = new ArrayList<Map>();
       mapList.add(map0);
@@ -130,6 +132,69 @@ public class WorldPanel extends JPanel
       repaint();
    }
    
+   public void save()
+   {
+      try
+      {
+         savefile.createNewFile();
+         PrintWriter outfile = new PrintWriter( new FileWriter(savefile));
+         outfile.println(mapList.indexOf(currentMap));
+         outfile.println("" + ch.getX());
+         outfile.println("" + ch.getY());
+         for (Map map : mapList)
+         {
+            ArrayList<Enemy> enemies = map.getEnemies();
+            outfile.print("\n");
+            for (Enemy enemy : enemies)
+            {
+               outfile.print(enemy.getX() + " ");
+            }
+         }
+         outfile.close();
+         
+      }
+      catch (IOException ex) {}
+      System.out.println("saved!");
+   }
+   
+   public void load()
+   {
+      try
+      {
+         Scanner infile = new Scanner(savefile);
+         currentMap = mapList.get(Integer.parseInt(infile.nextLine().strip()));
+         ch.setX(Integer.parseInt(infile.nextLine().strip()));
+         ch.setY(Integer.parseInt(infile.nextLine().strip()));
+         infile.nextLine();
+         int mapIndex = 0;
+         while (infile.hasNextLine())
+         {
+            String[] thisLine = infile.nextLine().strip().split(" ");
+            System.out.println(Arrays.toString(thisLine) + " " + mapIndex);
+            int enemyIndex = 0;
+            for (String intString : thisLine)
+            {
+               System.out.println(intString);
+               if (intString.equals("1000"))
+               {
+                  System.out.println("1000 found...");
+                  ((mapList.get(mapIndex)).getEnemy(enemyIndex)).setX(1000);
+               }
+               enemyIndex++;
+            }
+            mapIndex++;
+         }
+      }
+      catch (FileNotFoundException ex)
+      {
+         try
+         {
+            savefile.createNewFile();
+         }
+         catch (IOException e) {}
+      }
+   }
+   
    public void goNext()
    {
       Map nextMap = mapList.get(mapList.indexOf(currentMap) + 1);
@@ -146,6 +211,14 @@ public class WorldPanel extends JPanel
       ch.setY(prevMap.getNextY());
       currentMap = prevMap;   
       System.out.println("prev");
+   }
+   
+   public void savepoint()
+   {
+      // Interacting with a savepoint heals player to full health and saves game
+      ch.setHealth(100);
+      save();
+      // Add a message here to tell the player that the game was saved?
    }
    
    public void goCombat(Enemy e)
@@ -213,7 +286,7 @@ public class WorldPanel extends JPanel
          
          if (e.getKeyCode() == KeyEvent.VK_SPACE)
          {
-            
+            load();
             System.out.println(ch.getX() + " " + ch.getY());
          }
       }

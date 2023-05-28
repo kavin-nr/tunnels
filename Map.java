@@ -68,7 +68,12 @@ public class Map
    {
       return enemies.get(loc);
    }
-     
+   
+   public ArrayList<Enemy> getEnemies()
+   {
+      return enemies;
+   }
+    
    public void addEnemy(Enemy e)
    {
       enemies.add(e);
@@ -107,10 +112,14 @@ public class Map
       int h = owner.ch.getHeight();
       Color[][] map = getArray(hitbox);
       
+      // Green is to go to the next map
+      // Red is to go to the previous map
+      // Blue is to reset health and save to file
       boolean green = false;
       boolean red = false;
+      boolean blue = false;
       
-      //left change map
+      //left color collisions
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 1], Color.GREEN) < 20)
       {
          green = true;
@@ -121,8 +130,13 @@ public class Map
          red = true;
       }
       
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 1], Color.BLUE) < 20)
+      {
+         blue = true;
+         owner.ch.setX(owner.ch.getX() + 5);
+      }
       
-      //right change map
+      //right color collisions
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 1], Color.GREEN) < 20)
       {
          green = true;
@@ -132,8 +146,14 @@ public class Map
       {
          red = true;
       }
+      
+      if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 1], Color.BLUE) < 20)
+      {
+         blue = true;
+         owner.ch.setX(owner.ch.getX() - 5);
+      }
    
-      //top change map
+      //top color collisions
       for (int i = owner.ch.getX(); i < owner.ch.getX() + w; i ++)
       {
          if (colorDistance(map[owner.ch.getY() - 5][i], Color.GREEN) < 20)
@@ -146,9 +166,16 @@ public class Map
             red = true;
          }
          
+         if (colorDistance(map[owner.ch.getY() + h - 5][i], Color.BLUE) < 20)
+         {
+            blue = true;
+            owner.ch.setY(owner.ch.getY() + 5);
+            break;
+         }
+         
       }
       
-      //bottom change map
+      //bottom color collisions
       for (int i = owner.ch.getX(); i < owner.ch.getX() + w; i ++)
       {
          if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.GREEN) < 20)
@@ -161,6 +188,18 @@ public class Map
             red = true;
          }
          
+         if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.BLUE) < 20)
+         {
+            blue = true;
+            owner.ch.setY(owner.ch.getY() - 5);
+            break;
+         }
+         
+      }
+      
+      if (blue)
+      {
+         owner.savepoint();
       }
       
       if (green)
@@ -173,19 +212,21 @@ public class Map
          owner.goPrev();
       }
       
-      //left collisions
+      
+      
+      //left wall collisions
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() - 5], Color.BLACK) < 20)
       {
          owner.ch.setX(owner.ch.getX() + 5);
       }
       
-      //right collisions    
+      //right wall collisions    
       if (colorDistance(map[owner.ch.getY() + h][owner.ch.getX() + w + 5], Color.BLACK) < 20)
       {
          owner.ch.setX(owner.ch.getX() - 5);
       }
       
-      //top collisions 
+      //top wall collisions 
       for (int i = owner.ch.getX() - 5; i < owner.ch.getX() + w + 5; i ++)
       {
       
@@ -197,7 +238,7 @@ public class Map
       
       }
    
-      //bottom collisions
+      //bottom wall collisions
       for (int i = owner.ch.getX() - 5; i < owner.ch.getX() + w + 5; i ++)
       {
          if (colorDistance(map[owner.ch.getY() + h + 5][i], Color.BLACK) < 20)
@@ -206,11 +247,14 @@ public class Map
             break;
          }      
       }      
-    } 
+   } 
    
    public int enemyCollisions(Enemy e, int index)
    {
+      // Visibility is within how many pixels away from an enemy a player has to be to engage in combat
       int vis = e.getVisibility();
+      
+      // The function checks for overlapping bounds between an enemy's visibility zone and the player himself
       boolean xOverlap = false;
       boolean yOverlap = false;
       if ((e.getX() - vis < owner.ch.getX() && owner.ch.getX() < e.getX() + e.getWidth() + vis) || (e.getX() - vis < owner.ch.getX() + owner.ch.getWidth() && owner.ch.getX() + owner.ch.getWidth() < e.getX() + e.getWidth() + vis))
@@ -223,6 +267,7 @@ public class Map
       }
       if (xOverlap && yOverlap)
       {
+         e.setX(1000);
          owner.goCombat(e);
          System.out.println("straight down");
          return index;
@@ -244,6 +289,7 @@ public class Map
          enemy.drawMe(g);
          index++;                  
       }
+      /*
       for (int i = 0; i < toRemove.size(); i++)
       {
          if (toRemove.get(i) != -1)
@@ -251,5 +297,6 @@ public class Map
             enemies.remove(enemies.get(toRemove.get(i)));
          }
       }
+      */
    }
 }

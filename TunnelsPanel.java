@@ -68,7 +68,20 @@ public class TunnelsPanel extends JPanel
       });
    }
    
-   public void goWorld() {
+   public void newWorld()
+   {
+      world = new WorldPanel(this);
+      goWorld();
+   }
+   
+   public void loadWorld()
+   {
+      world.load();
+      goWorld();
+   }
+   
+   public void goWorld() 
+   {
     // Create the black overlay panel with 0% alpha
       blackOverlay = new JPanel();
       blackOverlay.setBounds(0, 0, world.getWidth(), world.getHeight());
@@ -89,6 +102,7 @@ public class TunnelsPanel extends JPanel
       
      
       remove(title);
+      remove(gameOver);
       ready = world;
     // Use a Timer to gradually increase the alpha value of the black overlay panel
       timer = new Timer(50, new FadeListener()); 

@@ -69,7 +69,7 @@ public class TitlePanel extends JPanel
       
       addKeyListener(new Key());  
       setFocusable(true);
-
+   
    }
    
    public void paintComponent(Graphics g)  
@@ -117,8 +117,8 @@ public class TitlePanel extends JPanel
             owner.StartMusic();
          }
          
-       }
-     }
+      }
+   }
        
    
    private class Mouse extends MouseAdapter
@@ -126,14 +126,20 @@ public class TitlePanel extends JPanel
       public void mouseClicked(MouseEvent me)
       {
          Point clicked = me.getPoint();
-         for (HoverImage hover : hovers)
+         
+         Rectangle boundsNew = new Rectangle(newgame.getX(), newgame.getY(), newgame.getWidth(), newgame.getHeight());
+         Rectangle boundsLoad = new Rectangle(load.getX(), load.getY(), load.getWidth(), load.getHeight());
+         
+         if (boundsNew.contains(clicked))
          {
-            Rectangle bounds = new Rectangle(hover.getX(), hover.getY(), hover.getWidth(), hover.getHeight());
-            if (bounds.contains(clicked))
-            {
-               owner.goWorld();
-            }
+            owner.newWorld();
          }
+         
+         if (boundsLoad.contains(clicked))
+         {
+            owner.loadWorld();
+         }
+         
       }
       
       public void mouseMoved(MouseEvent me)
