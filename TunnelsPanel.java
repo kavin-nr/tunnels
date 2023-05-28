@@ -13,6 +13,7 @@ public class TunnelsPanel extends JPanel
    private JFrame owner;
    private DialoguePanel dialogue;
    public WorldPanel world;
+   private GameOverPanel gameOver;
    private JPanel blackOverlay;
    private Timer timer;
    
@@ -26,19 +27,20 @@ public class TunnelsPanel extends JPanel
       owner = o;
       setLayout(new BorderLayout());
       title = new TitlePanel(this);
+      gameOver = new GameOverPanel(this);
       add(title);
       
       try
       {
-      File file = new File(getClass().getResource("music/chill.wav").toURI());
-      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-      clip = AudioSystem.getClip();
-      clip.open(audioInputStream);
-      clip.loop(Clip.LOOP_CONTINUOUSLY);
+         File file = new File(getClass().getResource("music/chill.wav").toURI());
+         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+         clip = AudioSystem.getClip();
+         clip.open(audioInputStream);
+         clip.loop(Clip.LOOP_CONTINUOUSLY);
       }
       catch (Exception e)
       {
-      System.err.println(e.getMessage());     
+         System.err.println(e.getMessage());     
       }
       
       
@@ -55,15 +57,15 @@ public class TunnelsPanel extends JPanel
       StopMusic();
       try
       {
-      File file = new File(getClass().getResource("music/music.wav").toURI());
-      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-      clip1 = AudioSystem.getClip();
-      clip1.open(audioInputStream);
-      clip1.loop(Clip.LOOP_CONTINUOUSLY);
+         File file = new File(getClass().getResource("music/music.wav").toURI());
+         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+         clip1 = AudioSystem.getClip();
+         clip1.open(audioInputStream);
+         clip1.loop(Clip.LOOP_CONTINUOUSLY);
       }
       catch (Exception e)
       {
-      System.err.println(e.getMessage());     
+         System.err.println(e.getMessage());     
       }
       
      
@@ -72,7 +74,7 @@ public class TunnelsPanel extends JPanel
     // Use a Timer to gradually increase the alpha value of the black overlay panel
       timer = new Timer(50, new FadeListener()); 
       timer.start();
-
+   
       
    }
    public void StartMusic()
@@ -113,15 +115,15 @@ public class TunnelsPanel extends JPanel
       StopMusic1();
       try
       {
-      File file = new File(getClass().getResource("music/battle.wav").toURI());
-      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-      clip2 = AudioSystem.getClip();
-      clip2.open(audioInputStream);
-      clip2.loop(Clip.LOOP_CONTINUOUSLY);
+         File file = new File(getClass().getResource("music/battle.wav").toURI());
+         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+         clip2 = AudioSystem.getClip();
+         clip2.open(audioInputStream);
+         clip2.loop(Clip.LOOP_CONTINUOUSLY);
       }
       catch (Exception ex)
       {
-      System.err.println(ex.getMessage());     
+         System.err.println(ex.getMessage());     
       }
       
       ready = new CombatPanel(e, this);
@@ -133,35 +135,39 @@ public class TunnelsPanel extends JPanel
    
    public void endCombat(boolean result)
    {
+      
+      // Create the black overlay panel with 0% alpha
+      blackOverlay = new JPanel();
+      blackOverlay.setBounds(0, 0, title.getWidth(), title.getHeight());
+      add(blackOverlay);
+      // Removes the already existing ready panel which should be the existing CombatPanel and adds the existing WorldPanel
+      remove(ready);
       if (result)
       {
-         // Create the black overlay panel with 0% alpha
-         blackOverlay = new JPanel();
-         blackOverlay.setBounds(0, 0, title.getWidth(), title.getHeight());
-         add(blackOverlay);
-         // Removes the already existing ready panel which should be the existing CombatPanel and adds the existing WorldPanel
-         remove(ready);
          ready = world;
          // Use a Timer to gradually increase the alpha value of the black overlay panel
          timer = new Timer(50, new FadeListener()); 
          timer.start();
          try
          {
-         File file = new File(getClass().getResource("music/defeated.wav").toURI());
-         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-         clip = AudioSystem.getClip();
-         clip.open(audioInputStream);
-         clip.loop(0);
+            File file = new File(getClass().getResource("music/defeated.wav").toURI());
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+            clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.loop(0);
          }
          catch (Exception e)
          {
-         System.err.println(e.getMessage());     
+            System.err.println(e.getMessage());     
          }
          
       }
       else
       {
-         // display game over
+         ready = gameOver;
+         // Use a Timer to gradually increase the alpha value of the black overlay panel
+         timer = new Timer(50, new FadeListener()); 
+         timer.start();
       }
    }
    
@@ -180,8 +186,8 @@ public class TunnelsPanel extends JPanel
             StartMusic1();
          }
          
-               }
-    }
+      }
+   }
    
    private class FadeListener implements ActionListener
    {

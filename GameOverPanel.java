@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class GameOverPanel extends JPanel implements GamePanel
+public class GameOverPanel extends JPanel
 {
    private BufferedImage img;  
    private Graphics gr;
