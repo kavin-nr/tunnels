@@ -6,7 +6,6 @@ import javax.sound.sampled.*;
 import java.io.*;
 
 
-
 public class TunnelsPanel extends JPanel
 {
    private TitlePanel title;
@@ -17,11 +16,13 @@ public class TunnelsPanel extends JPanel
    private JPanel blackOverlay;
    private Timer timer;
    
+   private boolean mute;
    private Clip clip;
    private Clip clip1;
    private Clip clip2;
    
    private JPanel ready;
+   
    public TunnelsPanel(JFrame o)
    {
       owner = o;
@@ -43,10 +44,28 @@ public class TunnelsPanel extends JPanel
          System.err.println(e.getMessage());     
       }
       
+      mute = false;
       
       dialogue = new DialoguePanel();
       
       world = new WorldPanel(this);
+      
+      
+      
+      // Key binding for toggling mute
+      // Had to do a lot of research on this, the reason that we're not using a KeyListener here is because it has limitations (it only gets input when its in a focused component)
+      // We wanted to get arrow key input from the focused component WHILE getting mute input globally
+ 
+      getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke('m'), "toggleMute");
+      getActionMap().put("toggleMute", new AbstractAction() 
+      {
+         public void actionPerformed(ActionEvent e)
+         {
+            // Mute becomes true if it was false, and becomes false if it was true
+            mute = !mute;
+            System.out.println("MUTED " + mute);
+         }
+      });
    }
    
    public void goWorld() {
@@ -102,8 +121,10 @@ public class TunnelsPanel extends JPanel
       clip2.stop();   
    }
    
-   
-   
+   public boolean getMute()
+   {
+      return mute;
+   }   
    
    public void goCombat(Enemy e) 
    {
@@ -171,23 +192,7 @@ public class TunnelsPanel extends JPanel
       }
    }
    
-   private class Key extends KeyAdapter 
-   {
-      public void keyPressed(KeyEvent e) 
-      {
-         if(e.getKeyCode() == KeyEvent.VK_K)
-         {
-            StopMusic1();
-         }
-        
-         
-         if (e.getKeyCode() == KeyEvent.VK_L)
-         {
-            StartMusic1();
-         }
-         
-      }
-   }
+   
    
    private class FadeListener implements ActionListener
    {
