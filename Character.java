@@ -1,8 +1,8 @@
-import java.awt.*;
-import java.awt.image.*;
-import java.io.File;
-import javax.swing.*;
-import javax.imageio.*;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 public class Character implements Animatable
 {

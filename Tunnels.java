@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 
 public class Tunnels
 {
@@ -13,6 +12,6 @@ public class Tunnels
       frame.pack();                                                     
       frame.setVisible(true);
       
-      frame.setIconImage((new ImageIcon("img/sprites/Knight1R.png")).getImage());
+      frame.setIconImage((new ImageIcon("img/sprites/DragonKing1.png")).getImage());
    }
 }

@@ -5,7 +5,6 @@ import java.awt.image.*;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.lang.Math;
 import java.io.*;
 
 public class WorldPanel extends JPanel
@@ -48,17 +47,20 @@ public class WorldPanel extends JPanel
       myBuffer = myImage.getGraphics(); 
       
       Projectile strongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 50, 5000, 4, 6);
-      Projectile lessStrongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 35, 5000, 4, 6);
+      Projectile reaperAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 35, 8000, 6, 8);
+      
       Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", 15, 500, 7, 10);
       Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", 10, 500, 10, 12);
-      Projectile bat = new Projectile(40, 20, "img/proj/Bat.png", 10, 750, 4, 3);
+      Projectile bat = new Projectile(40, 20, "img/proj/Bat.png", 10, 750, 4, 5);
+      Projectile reap = new Projectile(50, 16, "img/proj/Knife.png", 8, 300, 3, 5);
             
       Enemy Ghost1 = new Enemy(250, 225, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", bat, strongAmmo);
       Enemy Ghost2 = new Enemy(550, 225, 75, 75, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", bat, strongAmmo);
       Enemy Skeleton1 = new Enemy(230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
       Enemy Skeleton2 = new Enemy(570, 175, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
       Enemy Zombie1 = new Enemy(325, 255, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, strongAmmo);
-      Enemy Reaper = new Enemy(400, 250, 150, 150, 30, "img/sprites/Reaper1.png", "img/sprites/Reaper2.png", zomb, strongAmmo);
+      
+      Enemy Reaper = new Enemy(400, 250, 150, 150, 30, "img/sprites/Reaper1.png", "img/sprites/Reaper2.png", reap, reaperAmmo);
       
       Map map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
       Map map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 315, 400, 565, 100, this);
@@ -188,6 +190,7 @@ public class WorldPanel extends JPanel
             }
             mapIndex++;
          }
+         infile.close();
       }
       catch (FileNotFoundException ex)
       {

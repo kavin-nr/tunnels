@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.*;
 
 //Every object we want to animate on screen needs to know
