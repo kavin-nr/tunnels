@@ -57,6 +57,7 @@ public class WorldPanel extends JPanel
       Enemy Ghost2 = new Enemy(550, 225, 75, 75, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", bat, strongAmmo);
       Enemy Skeleton1 = new Enemy(230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
       Enemy Skeleton2 = new Enemy(570, 175, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
+      Enemy Zombie1 = new Enemy(325, 255, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, strongAmmo);
      
       
       Map map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
@@ -71,6 +72,8 @@ public class WorldPanel extends JPanel
       
       map3.addEnemy(Skeleton1);
       map3.addEnemy(Skeleton2);
+      
+      map4.addEnemy(Zombie1);
       
       mapList = new ArrayList<Map>();
       mapList.add(map0);
@@ -177,7 +180,6 @@ public class WorldPanel extends JPanel
                System.out.println(intString);
                if (intString.equals("1000"))
                {
-                  System.out.println("1000 found...");
                   ((mapList.get(mapIndex)).getEnemy(enemyIndex)).setX(1000);
                }
                enemyIndex++;
@@ -286,7 +288,6 @@ public class WorldPanel extends JPanel
          
          if (e.getKeyCode() == KeyEvent.VK_SPACE)
          {
-            load();
             System.out.println(ch.getX() + " " + ch.getY());
          }
       }
