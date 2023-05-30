@@ -27,13 +27,14 @@ public class TitlePanel extends JPanel
    private ArrayList<HoverImage> hovers;
    
    private TunnelsPanel owner;
-   private boolean muteState, previousMuteState;
+   private boolean muteState, previousMuteState, isFocused;
    
    public TitlePanel(TunnelsPanel o)
    {
       owner = o;
       muteState = false;
       previousMuteState = false;
+      isFocused = false;
 
       bg = new ImageIcon("img/title/Background.png");
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
@@ -73,6 +74,11 @@ public class TitlePanel extends JPanel
       addKeyListener(new Key());  
       setFocusable(true);
    
+   }
+   
+   public void setFocus(boolean f)
+   {
+      isFocused = f;
    }
    
    public void paintComponent(Graphics g)  
@@ -117,7 +123,10 @@ public class TitlePanel extends JPanel
    {
       public void actionPerformed(ActionEvent e)  
       {
-         animate();
+         if (isFocused)
+         {
+            animate();
+         }
       }
    }
    

@@ -40,7 +40,8 @@ public class CombatPanel extends JPanel
    
   
    private boolean muteState;
-   private boolean previousMuteState; 
+   private boolean previousMuteState;
+   private boolean isFocused; 
    private Clip hit;
    private Clip enemyHit;
    
@@ -52,6 +53,8 @@ public class CombatPanel extends JPanel
    public CombatPanel(Enemy en, TunnelsPanel o)
    {
       owner = o;
+      
+      isFocused = false;
 
       muteState = false;
       previousMuteState = false;
@@ -104,6 +107,10 @@ public class CombatPanel extends JPanel
       setFocusable(true);
    }
    
+   public void setFocus(boolean f)
+   {
+      isFocused = f;
+   }
    
    public void collisions(Character c)
    {
@@ -353,7 +360,10 @@ public class CombatPanel extends JPanel
    {
       public void actionPerformed(ActionEvent e)  
       {
-         animate();
+         if (isFocused)
+         {
+            animate();
+         }
       }
    }
    
