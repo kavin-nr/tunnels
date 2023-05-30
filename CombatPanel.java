@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.lang.Math;
 import java.util.concurrent.TimeUnit;
 import javax.sound.sampled.*;
-import java.io.*;
 
 
 public class CombatPanel extends JPanel
@@ -39,15 +38,24 @@ public class CombatPanel extends JPanel
    private boolean up;
    private boolean down;
    
-   private Clip clip;
+  
+   private boolean muteState;
+   private boolean previousMuteState; 
+   private Clip hit;
+   private Clip enemyHit;
    
    
    private BufferedImage hitbox;
-   private Graphics hitboxGr; 
+   private Graphics hitboxGr;
+
    
    public CombatPanel(Enemy en, TunnelsPanel o)
    {
       owner = o;
+
+      muteState = false;
+      previousMuteState = false;
+      
       setPreferredSize(new Dimension(width, height));
       
       hitbox = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -218,6 +226,8 @@ public class CombatPanel extends JPanel
    
    public void animate()
    {      
+      muteState = owner.getMute();
+
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics();
       
@@ -232,28 +242,11 @@ public class CombatPanel extends JPanel
       {
          // Battle was successful
          end(true);
-         owner.StopMusic2();
-         owner.StartMusic1();
-         
       }
       else if (owner.world.ch.getHealth() == 0)
       {
          // Battle was unsuccessful
-         end(false);
-         owner.StopMusic2();
-         try
-         {
-         File file = new File(getClass().getResource("music/death.wav").toURI());
-         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-         clip = AudioSystem.getClip();
-         clip.open(audioInputStream);
-         clip.loop(0);
-         }
-         catch (Exception e)
-         {
-         System.err.println(e.getMessage());  
-         } 
-         
+         end(false);         
        }
       
       int toRemove = -1;
@@ -264,17 +257,10 @@ public class CombatPanel extends JPanel
          // If a projectile has collided with player, subtract projectile damage from player health
          if (projectileCollisions(projectile))
          {
-            try
+            if (!muteState)
             {
-            File file = new File(getClass().getResource("music/hit.wav").toURI());
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-            clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.loop(0);
-            }
-            catch (Exception e)
-            {
-            System.err.println(e.getMessage());     
+               hit = owner.openMusic("music/hit.wav");
+               hit.start();
             }
          
             if (projectile.getDamage() < owner.world.ch.getHealth())
@@ -310,18 +296,13 @@ public class CombatPanel extends JPanel
          // If a projectile has collided with player, subtract projectile damage from player health
          if (projectileCollisions(ammo))
          {
-            try
+            if (!muteState)
             {
-            File file = new File(getClass().getResource("music/enemy_hit.wav").toURI());
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-            clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.loop(0);
+               enemyHit = owner.openMusic("music/enemy_hit.wav");
+               enemyHit.start();
             }
-            catch (Exception e)
-            {
-            System.err.println(e.getMessage());   
-            }  
+            
+
             if (ammo.getDamage() < e.getHealth())
             {
                e.setHealth(e.getHealth() - ammo.getDamage());
@@ -347,7 +328,22 @@ public class CombatPanel extends JPanel
       }
       
       collisions(c);
-            
+      
+      muteState = owner.getMute();
+      if (previousMuteState != muteState)
+      {
+         // The player has pressed "M"
+         if (muteState)
+         {
+            owner.StopMusic2();
+         }
+         else
+         {
+            owner.StartMusic2();
+         }
+      }
+      previousMuteState = muteState;
+      
       repaint();
    }
    
@@ -423,15 +419,6 @@ public class CombatPanel extends JPanel
    {
       public void keyPressed(KeyEvent e) 
       {
-         if (e.getKeyCode() == KeyEvent.VK_K)
-         {
-            owner.StopMusic2();
-         }
-         if (e.getKeyCode() == KeyEvent.VK_K)
-         {
-            owner.StartMusic2();
-         }
-      
          if(e.getKeyCode() == KeyEvent.VK_LEFT && !left)
          {
             

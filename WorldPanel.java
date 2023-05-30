@@ -34,13 +34,16 @@ public class WorldPanel extends JPanel
    private Map currentMap;
    
    private TunnelsPanel owner;
+   private boolean previousMuteState;
+
    private File savefile = new File("save.txt");
    
    //constructors
    public WorldPanel(TunnelsPanel o)
    {
       owner = o;
-      
+      previousMuteState = false;
+
       setPreferredSize(new Dimension(width, height));
    
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
@@ -136,6 +139,21 @@ public class WorldPanel extends JPanel
          animationObject.drawMe(myBuffer);  
       }    
       currentMap.collisions();  
+
+      boolean muteState = owner.getMute();
+      if (previousMuteState != muteState)
+      {
+         // The player has pressed "M"
+         if (muteState)
+         {
+            owner.StopMusic1();
+         }
+         else
+         {
+            owner.StartMusic1();
+         }
+      }
+      previousMuteState = muteState;
       repaint();
    }
    
@@ -256,15 +274,6 @@ public class WorldPanel extends JPanel
    {
       public void keyPressed(KeyEvent e) 
       {
-         if (e.getKeyCode() == KeyEvent.VK_K)
-         {
-            owner.StopMusic1();
-         }
-         if (e.getKeyCode() == KeyEvent.VK_L)
-         {
-            owner.StartMusic1();
-         }
-      
          if(e.getKeyCode() == KeyEvent.VK_LEFT && !left)
          {
             ch.setDX(ch.getDX() - 5);

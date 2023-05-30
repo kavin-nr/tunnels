@@ -27,11 +27,14 @@ public class TitlePanel extends JPanel
    private ArrayList<HoverImage> hovers;
    
    private TunnelsPanel owner;
+   private boolean muteState, previousMuteState;
    
    public TitlePanel(TunnelsPanel o)
    {
       owner = o;
-      
+      muteState = false;
+      previousMuteState = false;
+
       bg = new ImageIcon("img/title/Background.png");
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
       gr = img.getGraphics();
@@ -91,6 +94,22 @@ public class TitlePanel extends JPanel
       {
          hover.drawMe(gr);
       }      
+
+      muteState = owner.getMute();
+      if (previousMuteState != muteState)
+      {
+         // The player has pressed "M"
+         if (muteState)
+         {
+            owner.StopMusic();
+         }
+         else
+         {
+            owner.StartMusic();
+         }
+      }
+      previousMuteState = muteState;
+
       repaint();
    }
    
