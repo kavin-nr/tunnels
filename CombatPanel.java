@@ -38,9 +38,11 @@ public class CombatPanel extends JPanel
    private boolean up;
    private boolean down;
    
+   private int enemyVibe = -1;
   
    private boolean muteState;
-   private boolean previousMuteState; 
+   private boolean previousMuteState;
+   private boolean isFocused; 
    private Clip hit;
    private Clip enemyHit;
    
@@ -52,7 +54,9 @@ public class CombatPanel extends JPanel
    public CombatPanel(Enemy en, TunnelsPanel o)
    {
       owner = o;
-
+      
+      isFocused = false;
+   
       muteState = false;
       previousMuteState = false;
       
@@ -104,6 +108,10 @@ public class CombatPanel extends JPanel
       setFocusable(true);
    }
    
+   public void setFocus(boolean f)
+   {
+      isFocused = f;
+   }
    
    public void collisions(Character c)
    {
@@ -227,7 +235,7 @@ public class CombatPanel extends JPanel
    public void animate()
    {      
       muteState = owner.getMute();
-
+   
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics();
       
@@ -241,13 +249,15 @@ public class CombatPanel extends JPanel
       if (e.getHealth() == 0)
       {
          // Battle was successful
+         e.setX(1000);
          end(true);
       }
       else if (owner.world.ch.getHealth() == 0)
       {
          // Battle was unsuccessful
+         c.setX(1000);
          end(false);         
-       }
+      }
       
       int toRemove = -1;
       int index = 0;
@@ -302,7 +312,7 @@ public class CombatPanel extends JPanel
                enemyHit.start();
             }
             
-
+         
             if (ammo.getDamage() < e.getHealth())
             {
                e.setHealth(e.getHealth() - ammo.getDamage());
@@ -311,6 +321,8 @@ public class CombatPanel extends JPanel
             {
                e.setHealth(0);
             }
+            
+            enemyVibe = 0;
          }
          // Logs the index of ammos that are outside of box boundaries
          if (ammo.getX() > 800 || ammo.getX() < 40)
@@ -344,6 +356,19 @@ public class CombatPanel extends JPanel
       }
       previousMuteState = muteState;
       
+      if (0 <= enemyVibe && enemyVibe <= 25)
+      {
+         if (enemyVibe % 2 == 0)
+         {
+            e.setX(e.getX() + 15);
+         }
+         else
+         {
+            e.setX(e.getX() - 15);
+         }
+         enemyVibe++;
+      }
+         
       repaint();
    }
    
@@ -353,7 +378,10 @@ public class CombatPanel extends JPanel
    {
       public void actionPerformed(ActionEvent e)  
       {
-         animate();
+         if (isFocused)
+         {
+            animate();
+         }
       }
    }
    

@@ -13,6 +13,7 @@ public class TunnelsPanel extends JPanel
    private DialoguePanel dialogue;
    public WorldPanel world;
    private GameOverPanel gameOver;
+   private CombatPanel combat;
    private JPanel blackOverlay;
    private Timer timer;
    
@@ -30,17 +31,18 @@ public class TunnelsPanel extends JPanel
       setLayout(new BorderLayout());
       title = new TitlePanel(this);
       gameOver = new GameOverPanel(this);
+      title.setFocus(true);
       add(title);
       
       titleClip = openMusic("music/chill.wav");
       StartMusic();
-
+   
       ruinsClip = openMusic("music/ruins.wav");
-
+   
       battleClip = openMusic("music/battle.wav");
-
+   
       victory = openMusic("music/defeated.wav");
-
+   
       mute = false;
       
       dialogue = new DialoguePanel();
@@ -52,17 +54,18 @@ public class TunnelsPanel extends JPanel
       // Key binding for toggling mute
       // Had to do a lot of research on this, the reason that we're not using a KeyListener here is because it has limitations (it only gets input when its in a focused component)
       // We wanted to get arrow key input from the focused component WHILE getting mute input globally
- 
+   
       getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke('m'), "toggleMute");
-      getActionMap().put("toggleMute", new AbstractAction() 
-      {
-         public void actionPerformed(ActionEvent e)
+      getActionMap().put("toggleMute", 
+         new AbstractAction() 
          {
+            public void actionPerformed(ActionEvent e)
+            {
             // Mute becomes true if it was false, and becomes false if it was true
-            mute = !mute;
-            System.out.println("MUTED " + mute);
-         }
-      });
+               mute = !mute;
+               System.out.println("MUTED " + mute);
+            }
+         });
    }
    
    public void newWorld()
@@ -83,7 +86,9 @@ public class TunnelsPanel extends JPanel
       blackOverlay = new JPanel();
       blackOverlay.setBounds(0, 0, world.getWidth(), world.getHeight());
       add(blackOverlay);
+      title.setFocus(false);
       StopMusic();
+      world.setFocus(true);
       if (!mute)
       {
          StartMusic1();
@@ -151,15 +156,22 @@ public class TunnelsPanel extends JPanel
    
    public void goCombat(Enemy e) 
    {
+      System.out.println("combat start");
    // Create the black overlay panel with 0% alpha
       blackOverlay = new JPanel();
       blackOverlay.setBounds(0, 0, title.getWidth(), title.getHeight());
       add(blackOverlay);
-      remove(world);
-
+      world.setFocus(false);
       StopMusic1();
-
-      ready = new CombatPanel(e, this);
+      if (!mute)
+      {
+         StartMusic2();
+      }
+      remove(world);
+   
+      combat = new CombatPanel(e, this);
+      combat.setFocus(true);
+      ready = combat;
     // Use a Timer to gradually increase the alpha value of the black overlay panel
       timer = new Timer(50, new FadeListener()); 
       timer.start();
@@ -174,25 +186,29 @@ public class TunnelsPanel extends JPanel
       blackOverlay.setBounds(0, 0, title.getWidth(), title.getHeight());
       add(blackOverlay);
       // Removes the already existing ready panel which should be the existing CombatPanel and adds the existing WorldPanel
-      remove(ready);
+      combat.setFocus(false);
+      StopMusic2();
+      remove(combat);
       if (result)
       {
          ready = world;
+         world.setFocus(true);
          if (!mute)
          {
             victory.start();
          }
-         // Use a Timer to gradually increase the alpha value of the black overlay panel
-         timer = new Timer(50, new FadeListener()); 
-         timer.start();         
+         if (!mute)
+         {
+            StartMusic1();
+         }     
       }
       else
       {
          ready = gameOver;
-         // Use a Timer to gradually increase the alpha value of the black overlay panel
-         timer = new Timer(50, new FadeListener()); 
-         timer.start();
       }
+      // Use a Timer to gradually increase the alpha value of the black overlay panel
+      timer = new Timer(50, new FadeListener()); 
+      timer.start();
    }
    
    

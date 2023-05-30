@@ -35,7 +35,8 @@ public class WorldPanel extends JPanel
    
    private TunnelsPanel owner;
    private boolean previousMuteState;
-
+   private boolean isFocused;
+   
    private File savefile = new File("save.txt");
    
    //constructors
@@ -45,6 +46,7 @@ public class WorldPanel extends JPanel
       previousMuteState = false;
 
       setPreferredSize(new Dimension(width, height));
+      isFocused = false;
    
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics(); 
@@ -123,7 +125,15 @@ public class WorldPanel extends JPanel
       return height;
    }
    
+   public boolean getFocus()
+   {
+      return isFocused;
+   }
    
+   public void setFocus(boolean f)
+   {
+      isFocused = f;
+   }
    
    //instance methods
    
@@ -260,11 +270,14 @@ public class WorldPanel extends JPanel
    
    //private classes
    
-   private class AnimationListener implements ActionListener
+   public class AnimationListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)  
       {
-         animate();
+         if (isFocused)
+         {
+            animate();
+         }
       }
    }
  
