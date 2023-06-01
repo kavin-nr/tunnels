@@ -12,6 +12,6 @@ public class Tunnels
       frame.pack();                                                     
       frame.setVisible(true);
       
-      frame.setIconImage((new ImageIcon("img/sprites/DragonKing1.png")).getImage());
+      frame.setIconImage((new ImageIcon("img/sprites/Save.png")).getImage());
    }
 }
