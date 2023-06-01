@@ -24,10 +24,14 @@ public class GameOverPanel extends JPanel
    private ArrayList<HoverImage> hovers;
    
    private TunnelsPanel owner;
+   private boolean muteState, previousMuteState, isFocused;
    
    public GameOverPanel(TunnelsPanel o)
    {
       owner = o;
+      muteState = false;
+      previousMuteState = false;
+      isFocused = false;
       
       bg = new ImageIcon("img/gameover/GameOver.png");
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
@@ -65,7 +69,23 @@ public class GameOverPanel extends JPanel
       for (HoverImage hover : hovers)
       {
          hover.drawMe(gr);
-      }      
+      } 
+
+      muteState = owner.getMute();
+      if (previousMuteState != muteState)
+      {
+         // The player has pressed "M"
+         if (muteState)
+         {
+            owner.stopDeath();
+         }
+         else
+         {
+            owner.startDeath();
+         }
+      }
+      previousMuteState = muteState;
+
       repaint();
    }
    

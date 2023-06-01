@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class TitlePanel extends JPanel
+public class GuidePanel extends JPanel
 {
    private BufferedImage img;  
    private Graphics gr;
@@ -20,49 +20,34 @@ public class TitlePanel extends JPanel
    private Timer t;
    private ArrayList<Animatable> animationObjects;
    
-   private HoverImage newgame;
-   private HoverImage load;
-   private HoverImage guide;
-   private HoverImage quit;
+   private HoverImage back;
    private ArrayList<HoverImage> hovers;
    
    private TunnelsPanel owner;
    private boolean muteState, previousMuteState, isFocused;
    
-   public TitlePanel(TunnelsPanel o)
+   public GuidePanel(TunnelsPanel o)
    {
       owner = o;
       muteState = false;
       previousMuteState = false;
       isFocused = false;
 
-      bg = new ImageIcon("img/title/Background.png");
+      bg = new ImageIcon("img/title/TheGuide.png");
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
       gr = img.getGraphics();
       gr.drawImage(bg.getImage(), 0, 0, width, height, null);
       
       hovers = new ArrayList<HoverImage>();
       
-      newgame = new HoverImage(150, 400, 200, 45, "img/title/NewGame.png", "img/title/NewGameHover.png");
-      newgame.drawMe(gr);
-      hovers.add(newgame);      
+      back = new HoverImage(20,20, 100, 32, "img/title/Back.png", "img/title/BackHover.png");
+      back.drawMe(gr);
+      hovers.add(back);      
       
-      load = new HoverImage(550, 400, 200, 40, "img/title/Load.png", "img/title/LoadHover.png");
-      load.drawMe(gr);
-      hovers.add(load);
-      
-      guide = new HoverImage(150, 600, 200, 40, "img/title/Guide.png", "img/title/GuideHover.png");
-      guide.drawMe(gr);
-      hovers.add(guide);      
-      
-      quit = new HoverImage(550, 600, 200, 40, "img/title/Quit.png", "img/title/QuitHover.png");
-      quit.drawMe(gr);
-      hovers.add(quit);
       
       setPreferredSize(new Dimension(width, height));
       
       animationObjects = new ArrayList<Animatable>();
-      title = new Title(this);
       animationObjects.add(title);
       
       t = new Timer(5, new AnimationListener());
@@ -71,6 +56,7 @@ public class TitlePanel extends JPanel
       addMouseListener(new Mouse());
       addMouseMotionListener(new Mouse());
       
+      addKeyListener(new Key());  
       setFocusable(true);
    
    }
@@ -90,11 +76,7 @@ public class TitlePanel extends JPanel
       
       gr.drawImage(bg.getImage(), 0, 0, width, height, null);
       
-      for(Animatable animationObject : animationObjects)
-      {
-         animationObject.step();  
-         animationObject.drawMe(gr);  
-      }
+
       for (HoverImage hover : hovers)
       {
          hover.drawMe(gr);
@@ -129,6 +111,24 @@ public class TitlePanel extends JPanel
       }
    }
    
+   private class Key extends KeyAdapter 
+   {
+      public void keyPressed(KeyEvent e) 
+      {
+         if(e.getKeyCode() == KeyEvent.VK_K)
+         {
+            owner.StopMusic();
+         }
+        
+         
+         if (e.getKeyCode() == KeyEvent.VK_L)
+         {
+            owner.StartMusic();
+         }
+         
+      }
+   }
+       
    
    private class Mouse extends MouseAdapter
    {
@@ -136,31 +136,13 @@ public class TitlePanel extends JPanel
       {
          Point clicked = me.getPoint();
          
-         Rectangle boundsNew = new Rectangle(newgame.getX(), newgame.getY(), newgame.getWidth(), newgame.getHeight());
-         Rectangle boundsLoad = new Rectangle(load.getX(), load.getY(), load.getWidth(), load.getHeight());
-         Rectangle boundsGuide = new Rectangle(guide.getX(), guide.getY(), guide.getWidth(), guide.getHeight());
-         Rectangle boundsQuit = new Rectangle(quit.getX(), quit.getY(), quit.getWidth(), quit.getHeight());
+         Rectangle boundsBack = new Rectangle(back.getX(), back.getY(), back.getWidth(), back.getHeight());
          
-         if (boundsNew.contains(clicked))
+         if (boundsBack.contains(clicked))
          {
-            owner.newWorld();
+            owner.goTitle();
          }
-
-         else if (boundsLoad.contains(clicked))
-         {
-            owner.loadWorld();
-         }
-
-         else if (boundsGuide.contains(clicked))
-         {
-            owner.goGuide();
-         }
-      
-         else if (boundsQuit.contains(clicked))
-         {
-            System.exit(0);
-         }
-         
+                  
       }
       
       public void mouseMoved(MouseEvent me)

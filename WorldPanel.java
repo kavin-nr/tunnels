@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;

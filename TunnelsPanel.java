@@ -15,6 +15,7 @@ public class TunnelsPanel extends JPanel
    private GameOverPanel gameOver;
    private CombatPanel combat;
    private Enemy currentEnemy;
+   private GuidePanel guide;
    private JPanel blackOverlay;
    private Timer timer;
    
@@ -23,6 +24,7 @@ public class TunnelsPanel extends JPanel
    private Clip ruinsClip;
    private Clip battleClip;
    private Clip victory;
+   private Clip death;
    
    private JPanel ready;
    
@@ -31,6 +33,7 @@ public class TunnelsPanel extends JPanel
       owner = o;
       setLayout(new BorderLayout());
       title = new TitlePanel(this);
+      guide = new GuidePanel(this);
       gameOver = new GameOverPanel(this);
       title.setFocus(true);
       add(title);
@@ -43,6 +46,8 @@ public class TunnelsPanel extends JPanel
       battleClip = openMusic("music/battle.wav");
    
       victory = openMusic("music/defeated.wav");
+   
+      death = openMusic("music/death.wav");
    
       mute = false;
       
@@ -78,6 +83,8 @@ public class TunnelsPanel extends JPanel
    
    public void loadWorld()
    {
+      stopDeath();
+      StopMusic();
       world.load();
       goWorld();
    }
@@ -150,12 +157,55 @@ public class TunnelsPanel extends JPanel
    {
       battleClip.stop();   
    }
+
+   public void startDeath()
+   {
+      death.start();
+      death.loop(Clip.LOOP_CONTINUOUSLY);
+   }
    
+   public void stopDeath()
+   {
+      death.stop();
+   }
+
    public boolean getMute()
    {
       return mute;
    }   
    
+   public void goTitle()
+   {
+      blackOverlay = new JPanel();
+      blackOverlay.setBounds(0, 0, world.getWidth(), world.getHeight());
+      add(blackOverlay);
+      guide.setFocus(false);
+      title.setFocus(true);
+     
+      remove(guide);
+      remove(gameOver);
+      ready = title;
+    // Use a Timer to gradually increase the alpha value of the black overlay panel
+      timer = new Timer(50, new FadeListener()); 
+      timer.start();
+   
+   }
+   public void goGuide()
+   {
+      blackOverlay = new JPanel();
+      blackOverlay.setBounds(0, 0, world.getWidth(), world.getHeight());
+      add(blackOverlay);
+      guide.setFocus(true);
+      title.setFocus(false);
+     
+      remove(title);
+      remove(gameOver);
+      ready = guide;
+    // Use a Timer to gradually increase the alpha value of the black overlay panel
+      timer = new Timer(50, new FadeListener()); 
+      timer.start();
+   
+   }
    public void goCombat(Enemy e) 
    {
       System.out.println("combat start");
@@ -210,6 +260,10 @@ public class TunnelsPanel extends JPanel
       else
       {
          ready = gameOver;
+         if (!mute)
+         {
+            startDeath();
+         }
       }
       // Use a Timer to gradually increase the alpha value of the black overlay panel
       timer = new Timer(50, new FadeListener()); 
