@@ -39,7 +39,8 @@ public class CombatPanel extends JPanel
    private boolean down;
    
    private int enemyVibe = -1;
-  
+   private int vibe = -1;
+   
    private boolean muteState;
    private boolean previousMuteState;
    private boolean isFocused; 
@@ -246,19 +247,6 @@ public class CombatPanel extends JPanel
          animationObject.drawMe(myBuffer);  
       }
       
-      if (e.getHealth() == 0)
-      {
-         // Battle was successful
-         e.setX(1000);
-         end(true);
-      }
-      else if (owner.world.ch.getHealth() == 0)
-      {
-         // Battle was unsuccessful
-         c.setX(1000);
-         end(false);         
-      }
-      
       int toRemove = -1;
       int index = 0;
       for (Projectile projectile : projectiles)
@@ -281,6 +269,8 @@ public class CombatPanel extends JPanel
             { 
                owner.world.ch.setHealth(0);
             }
+            
+            vibe = 0;
          }
          // Logs the index of projectiles that are outside of box boundaries
          if (projectile.getX() > 800 || projectile.getX() < 40)
@@ -356,20 +346,55 @@ public class CombatPanel extends JPanel
       }
       previousMuteState = muteState;
       
-      if (0 <= enemyVibe && enemyVibe <= 25)
+      if (vibe <= 10)
       {
-         if (enemyVibe % 2 == 0)
+         if (vibe % 2 == 0)
          {
-            e.setX(e.getX() + 15);
+            c.setX(c.getX() + 3);
          }
          else
          {
-            e.setX(e.getX() - 15);
+            c.setX(c.getX() - 3);
+         }
+         vibe++;
+      }
+      else
+      {
+         if (owner.world.ch.getHealth() == 0)
+         {
+            // Player died
+            end(false);
+         }
+      }
+      
+      if (enemyVibe <= 25)
+      {
+         if (enemyVibe % 2 == 0)
+         {
+            e.setX(e.getX() + 10);
+         }
+         else
+         {
+            e.setX(e.getX() - 10);
          }
          enemyVibe++;
       }
-         
+      else
+      {
+         e.setX((width / 2 ) - (e.getWidth() / 2));
+         e.setY(12);
+         if (e.getHealth() == 0)
+         {
+         // Battle was successful
+            e.setX(1000);
+            end(true);
+         }
+      }
+               
       repaint();
+      
+      
+      
    }
    
    //private classes
