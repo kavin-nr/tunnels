@@ -206,7 +206,6 @@ public class WorldPanel extends JPanel
          while (infile.hasNextLine())
          {
             String[] thisLine = infile.nextLine().strip().split(" ");
-            System.out.println(Arrays.toString(thisLine) + " " + mapIndex);
             int enemyIndex = 0;
             for (String intString : thisLine)
             {
@@ -223,11 +222,7 @@ public class WorldPanel extends JPanel
       }
       catch (FileNotFoundException ex)
       {
-         try
-         {
-            savefile.createNewFile();
-         }
-         catch (IOException e) {}
+         save();
       }
    }
    
