@@ -57,6 +57,11 @@ public class GameOverPanel extends JPanel
       addMouseMotionListener(new Mouse());
    }
    
+   public void setFocus(boolean f)
+   {
+      isFocused = f;
+   }
+   
    public void paintComponent(Graphics g)  
    {
       g.drawImage(img, 0, 0, getWidth(), getHeight(), null);  
@@ -93,7 +98,10 @@ public class GameOverPanel extends JPanel
    {
       public void actionPerformed(ActionEvent e)  
       {
-         animate();
+         if (isFocused)
+         {
+            animate();
+         }
       }
    }
    

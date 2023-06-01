@@ -431,7 +431,7 @@ public class CombatPanel extends JPanel
          count++;
          
          y = (int) (285 + (Math.random() * 350));
-         Projectile temp = new Projectile(p.getWidth(), p.getHeight(), p.getProjectilePath(), p.getDamage(), p.getSpawnSpeed(), p.getMinSpeed(), p.getMaxSpeed());
+         Projectile temp = new Projectile(p.getWidth(), p.getHeight(), p.getProjectilePath(), p.getRightProjectilePath(), p.getDamage(), p.getSpawnSpeed(), p.getMinSpeed(), p.getMaxSpeed());
          temp.setX(x);
          temp.setY(y);
          temp.setDX(dX);
@@ -460,7 +460,7 @@ public class CombatPanel extends JPanel
          count++;
          
          y = (int) (285 + (Math.random() * 350));
-         Projectile temp = new Projectile(a.getWidth(), a.getHeight(), a.getProjectilePath(), a.getDamage(), a.getSpawnSpeed(), a.getMinSpeed(), a.getMaxSpeed());
+         Projectile temp = new Projectile(a.getWidth(), a.getHeight(), a.getProjectilePath(), a.getRightProjectilePath(), a.getDamage(), a.getSpawnSpeed(), a.getMinSpeed(), a.getMaxSpeed());
          temp.setX(x);
          temp.setY(y);
          temp.setDX(dX);

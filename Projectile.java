@@ -6,12 +6,13 @@ public class Projectile implements Animatable
 {
    private int x, y, width, height, damage, dX, spawnSpeed, minSpeed, maxSpeed;
    private ImageIcon projectileSrc;
+   private ImageIcon rightProjectileSrc;
    private BufferedImage img;
    private Graphics gr;
    
-   private String projectilePath;
+   private String projectilePath, rightProjectilePath;
    
-   public Projectile(int widthValue, int heightValue, String projectilePathValue, int damageValue, int spawnSpeedValue, int minSpeedValue, int maxSpeedValue)
+   public Projectile(int widthValue, int heightValue, String projectilePathValue, String rightProjectilePathValue, int damageValue, int spawnSpeedValue, int minSpeedValue, int maxSpeedValue)
    {
       x = 0;
       y = 0;
@@ -23,12 +24,12 @@ public class Projectile implements Animatable
       maxSpeed = maxSpeedValue;      
       
       projectilePath = projectilePathValue;
+      rightProjectilePath = rightProjectilePathValue;
       projectileSrc = new ImageIcon(projectilePath);
+      rightProjectileSrc = new ImageIcon(rightProjectilePath);
       
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
-      gr = img.getGraphics();
-      gr.drawImage(projectileSrc.getImage(), 0, 0, width, height, null);
-            
+      gr = img.getGraphics();            
    }
      
    //accessors
@@ -81,6 +82,11 @@ public class Projectile implements Animatable
    {
       return projectilePath;
    }
+
+   public String getRightProjectilePath()
+   {
+      return rightProjectilePath;
+   }
    
    //modifiers
    public void setX(int xv)
@@ -126,6 +132,17 @@ public class Projectile implements Animatable
    public void setDX(int dXValue)
    {
       dX = dXValue;
+
+      img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
+      gr = img.getGraphics();
+      if (dX > 0)
+      {
+         gr.drawImage(projectileSrc.getImage(), 0, 0, width, height, null);
+      }
+      else
+      {
+         gr.drawImage(rightProjectileSrc.getImage(), 0, 0, width, height, null);
+      }
    }
    
    public void step()
@@ -137,4 +154,5 @@ public class Projectile implements Animatable
    {
       g.drawImage(img, x, y, width, height, null);
    }
+
 }     

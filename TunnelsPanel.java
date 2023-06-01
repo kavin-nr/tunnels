@@ -84,6 +84,7 @@ public class TunnelsPanel extends JPanel
    public void loadWorld()
    {
       stopDeath();
+      gameOver.setFocus(false);
       StopMusic();
       world.load();
       goWorld();
@@ -217,6 +218,7 @@ public class TunnelsPanel extends JPanel
       StopMusic1();
       if (!mute)
       {
+         battleClip = openMusic("music/battle.wav");
          StartMusic2();
       }
       remove(world);
@@ -260,6 +262,7 @@ public class TunnelsPanel extends JPanel
       else
       {
          ready = gameOver;
+         gameOver.setFocus(true);
          if (!mute)
          {
             startDeath();

@@ -52,16 +52,16 @@ public class WorldPanel extends JPanel
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics(); 
       
-      Projectile strongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 50, 5000, 4, 6);
-      Projectile reaperAmmo = new Projectile(20, 20, "img/proj/Ammo.png", 35, 8000, 6, 8);
+      Projectile strongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", "img/proj/Ammo.png", 50, 5000, 4, 6);
+      Projectile reaperAmmo = new Projectile(20, 20, "img/proj/Ammo.png", "img/proj/Ammo.png", 35, 8000, 6, 8);
       
-      Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", 15, 500, 7, 10);
-      Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", 10, 500, 10, 12);
-      Projectile bat = new Projectile(40, 20, "img/proj/Bat.png", 10, 750, 4, 5);
-      Projectile reap = new Projectile(50, 16, "img/proj/Knife.png", 8, 300, 3, 5);
+      Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", "img/proj/Bone.png", 15, 500, 7, 10);
+      Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", "img/proj/KnifeL.png", 10, 500, 10, 12);
+      Projectile bat = new Projectile(40, 20, "img/proj/Bat.png", "img/proj/BatL.png", 10, 750, 4, 5);
+      Projectile reap = new Projectile(50, 40, "img/sprites/Spirit1.png", "img/sprites/Spirit1L.png", 8, 300, 3, 5);
             
       Enemy Ghost1 = new Enemy(330, 260, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", bat, strongAmmo);
-      Enemy Ghost2 = new Enemy(550, 225, 75, 75, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", bat, strongAmmo);
+      Enemy Ghost2 = new Enemy(550, 225, 75, 75, 40, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", bat, strongAmmo);
       Enemy Skeleton1 = new Enemy(230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
       Enemy Skeleton2 = new Enemy(570, 175, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
       Enemy Zombie1 = new Enemy(325, 255, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, strongAmmo);
