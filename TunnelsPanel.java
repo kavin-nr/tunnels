@@ -14,6 +14,7 @@ public class TunnelsPanel extends JPanel
    public WorldPanel world;
    private GameOverPanel gameOver;
    private CombatPanel combat;
+   private Enemy currentEnemy;
    private JPanel blackOverlay;
    private Timer timer;
    
@@ -168,7 +169,9 @@ public class TunnelsPanel extends JPanel
          StartMusic2();
       }
       remove(world);
-   
+      
+      currentEnemy = e;
+      
       combat = new CombatPanel(e, this);
       combat.setFocus(true);
       ready = combat;
@@ -192,6 +195,7 @@ public class TunnelsPanel extends JPanel
       if (result)
       {
          ready = world;
+         currentEnemy.setX(1000);
          world.setFocus(true);
          if (!mute)
          {
