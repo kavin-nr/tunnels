@@ -200,6 +200,7 @@ public class WorldPanel extends JPanel
          currentMap = mapList.get(Integer.parseInt(infile.nextLine().strip()));
          ch.setX(Integer.parseInt(infile.nextLine().strip()));
          ch.setY(Integer.parseInt(infile.nextLine().strip()));
+         ch.setHealth(100);
          infile.nextLine();
          int mapIndex = 0;
          while (infile.hasNextLine())

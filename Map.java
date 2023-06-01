@@ -266,7 +266,6 @@ public class Map
       }
       if (xOverlap && yOverlap)
       {
-         e.setX(1000);
          owner.goCombat(e);
          System.out.println("straight down");
          return index;
