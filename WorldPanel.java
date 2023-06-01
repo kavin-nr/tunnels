@@ -36,6 +36,7 @@ public class WorldPanel extends JPanel
    private TunnelsPanel owner;
    private boolean previousMuteState;
    private boolean isFocused;
+   private int saved = -1;
    
    private File savefile = new File("save.txt");
    
@@ -44,9 +45,10 @@ public class WorldPanel extends JPanel
    {
       owner = o;
       previousMuteState = false;
-
+   
       setPreferredSize(new Dimension(width, height));
       isFocused = false;
+
    
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
       myBuffer = myImage.getGraphics(); 
@@ -59,7 +61,7 @@ public class WorldPanel extends JPanel
       Projectile bat = new Projectile(40, 20, "img/proj/Bat.png", 10, 750, 4, 5);
       Projectile reap = new Projectile(50, 16, "img/proj/Knife.png", 8, 300, 3, 5);
             
-      Enemy Ghost1 = new Enemy(250, 225, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", bat, strongAmmo);
+      Enemy Ghost1 = new Enemy(330, 260, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", bat, strongAmmo);
       Enemy Ghost2 = new Enemy(550, 225, 75, 75, 30, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", bat, strongAmmo);
       Enemy Skeleton1 = new Enemy(230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
       Enemy Skeleton2 = new Enemy(570, 175, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
@@ -113,6 +115,19 @@ public class WorldPanel extends JPanel
    public void paintComponent(Graphics g)  
    {
       g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
+      g.setColor(Color.WHITE);
+      g.setFont(new Font("Monospaced", Font.BOLD, 30));
+      if (0 <= saved && saved <= 30)
+      { 
+         g.drawString("Game saved.", 10, 40);
+         saved++;
+      }
+      else if (30 < saved && saved <= 60)
+      {
+         g.drawString("Player healed.", 10, 40); 
+         saved++;
+      }
+      
    }
    
    public int getWidth()
@@ -149,7 +164,7 @@ public class WorldPanel extends JPanel
          animationObject.drawMe(myBuffer);  
       }    
       currentMap.collisions();  
-
+   
       boolean muteState = owner.getMute();
       if (previousMuteState != muteState)
       {
@@ -187,9 +202,12 @@ public class WorldPanel extends JPanel
          }
          outfile.close();
          
+         if (mapList.indexOf(currentMap) != 0)
+         {
+            saved = 0;
+         }
       }
       catch (IOException ex) {}
-      System.out.println("saved!");
    }
    
    public void load()
@@ -206,7 +224,6 @@ public class WorldPanel extends JPanel
          while (infile.hasNextLine())
          {
             String[] thisLine = infile.nextLine().strip().split(" ");
-            System.out.println(Arrays.toString(thisLine) + " " + mapIndex);
             int enemyIndex = 0;
             for (String intString : thisLine)
             {
@@ -223,11 +240,7 @@ public class WorldPanel extends JPanel
       }
       catch (FileNotFoundException ex)
       {
-         try
-         {
-            savefile.createNewFile();
-         }
-         catch (IOException e) {}
+         save();
       }
    }
    
@@ -254,7 +267,6 @@ public class WorldPanel extends JPanel
       // Interacting with a savepoint heals player to full health and saves game
       ch.setHealth(100);
       save();
-      // Add a message here to tell the player that the game was saved?
    }
    
    public void goCombat(Enemy e)

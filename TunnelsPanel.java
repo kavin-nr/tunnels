@@ -72,6 +72,7 @@ public class TunnelsPanel extends JPanel
    public void newWorld()
    {
       world = new WorldPanel(this);
+      world.save();
       goWorld();
    }
    
@@ -241,7 +242,6 @@ public class TunnelsPanel extends JPanel
          {
          // Otherwise, set the alpha value of the black overlay panel and repaint the panel
             blackOverlay.setBackground(new Color(0, 0, 0, alpha));
-            System.out.println(alpha);
             repaint();
          }
       }
