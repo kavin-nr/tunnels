@@ -71,7 +71,6 @@ public class TitlePanel extends JPanel
       addMouseListener(new Mouse());
       addMouseMotionListener(new Mouse());
       
-      addKeyListener(new Key());  
       setFocusable(true);
    
    }
@@ -130,24 +129,6 @@ public class TitlePanel extends JPanel
       }
    }
    
-   private class Key extends KeyAdapter 
-   {
-      public void keyPressed(KeyEvent e) 
-      {
-         if(e.getKeyCode() == KeyEvent.VK_K)
-         {
-            owner.StopMusic();
-         }
-        
-         
-         if (e.getKeyCode() == KeyEvent.VK_L)
-         {
-            owner.StartMusic();
-         }
-         
-      }
-   }
-       
    
    private class Mouse extends MouseAdapter
    {
