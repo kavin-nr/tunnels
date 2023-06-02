@@ -30,9 +30,11 @@ public class CombatPanel extends JPanel
    private Timer t;
    private Timer projectileTimer;
    private Timer ammoTimer;
+
    
    private ArrayList<Projectile> projectiles, ammos;
-   
+
+   private KeyListener kl;    
    private boolean left;
    private boolean right;
    private boolean up;
@@ -105,7 +107,8 @@ public class CombatPanel extends JPanel
             }
          });
       transitionWait.start();
-      addKeyListener(new Key());
+      kl = new Key();
+      addKeyListener(kl);
       setFocusable(true);
    }
    
@@ -178,6 +181,26 @@ public class CombatPanel extends JPanel
       return false;
    }
    
+   public void stopScreen()
+   {
+      removeKeyListener(kl);
+      c.setDX(0);
+      c.setDY(0);
+      ammoTimer.stop();
+      projectileTimer.stop();
+      for (Projectile projectile : projectiles)
+      {
+         projectile.setX(1000);
+         
+         projectile.setDX(0);
+      }
+      for (Projectile ammo : ammos)
+      {
+         ammo.setX(1000);
+         ammo.setDX(0);
+      }
+   }
+
    public void paintComponent(Graphics g)  
    {
       g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
@@ -220,9 +243,7 @@ public class CombatPanel extends JPanel
    public void end(boolean result)
    {
       t.stop();
-      ammoTimer.stop();
-      projectileTimer.stop();
-         
+
       // Pause for 1 seconds
       try
       {
@@ -386,11 +407,14 @@ public class CombatPanel extends JPanel
          if (e.getHealth() == 0)
          {
          // Battle was successful
-            e.setX(1000);
             end(true);
          }
       }
-               
+      
+      if (e.getHealth() == 0 || owner.world.ch.getHealth() == 0)
+      {
+         stopScreen();
+      }
       repaint();
       
       
