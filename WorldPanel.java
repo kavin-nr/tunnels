@@ -59,6 +59,7 @@ public class WorldPanel extends JPanel
       Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", "img/proj/KnifeL.png", 10, 500, 10, 12);
       Projectile bat = new Projectile(40, 20, "img/proj/Bat.png", "img/proj/BatL.png", 10, 750, 4, 5);
       Projectile reap = new Projectile(50, 40, "img/sprites/Spirit1.png", "img/sprites/Spirit1L.png", 8, 300, 3, 5);
+      Projectile slimeball = new Projectile(32, 30, "img/proj/Slimeball.png", "img/proj/SlimeballL.png", 10, 500, 5, 7);
             
       Enemy Ghost1 = new Enemy(330, 260, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", bat, strongAmmo);
       Enemy Ghost2 = new Enemy(550, 225, 75, 75, 40, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", bat, strongAmmo);
@@ -68,12 +69,17 @@ public class WorldPanel extends JPanel
       
       Enemy Reaper = new Enemy(400, 250, 150, 150, 30, "img/sprites/Reaper1.png", "img/sprites/Reaper2.png", reap, reaperAmmo);
       
+      Enemy Slime = new Enemy(300, 295, 100, 100, 30, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
+      Enemy Slime2 = new Enemy(730, 290, 100, 100, 30, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
+      
       Map map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
       Map map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 315, 400, 565, 100, this);
       Map map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 180, 515, 730, 275, this);
       Map map3 = new Map("maps/display/Display3.png", "maps/hitboxes/Hitbox3.png", 60, 370, 700, 215, this);
       Map map4 = new Map("maps/display/Display4.png", "maps/hitboxes/Hitbox4.png", 55, 285, 605, 565, this);
       Map map5 = new Map("maps/display/Display5.png", "maps/hitboxes/Hitbox5.png", 240, 100, 735, 350, this);
+      Map map6 = new Map("maps/display/Display6.png", "maps/hitboxes/Hitbox6.png", 55, 295, 655, 295, this);
+      Map map7 = new Map("maps/display/Display7.png", "maps/hitboxes/Hitbox7.png", 60, 295, 440, 295, this);
       
       map1.addEnemy(Ghost1);
       map1.addEnemy(Ghost2);
@@ -85,6 +91,9 @@ public class WorldPanel extends JPanel
       
       map5.addEnemy(Reaper);
       
+      map7.addEnemy(Slime);
+      map7.addEnemy(Slime2);
+      
       mapList = new ArrayList<Map>();
       mapList.add(map0);
       mapList.add(map1);
@@ -92,6 +101,9 @@ public class WorldPanel extends JPanel
       mapList.add(map3);
       mapList.add(map4);
       mapList.add(map5);
+      mapList.add(map6);
+      mapList.add(map7);
+      
       
       currentMap = mapList.get(0);
       
