@@ -69,8 +69,8 @@ public class WorldPanel extends JPanel
       
       Enemy Reaper = new Enemy(400, 250, 150, 150, 30, "img/sprites/Reaper1.png", "img/sprites/Reaper2.png", reap, reaperAmmo);
       
-      Enemy Slime = new Enemy(300, 295, 100, 100, 30, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
-      Enemy Slime2 = new Enemy(730, 290, 100, 100, 30, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
+      Enemy Slime = new Enemy(300, 295, 100, 100, 90, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
+      Enemy Slime2 = new Enemy(700, 290, 100, 100, 50, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
       
       Map map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
       Map map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 315, 400, 565, 100, this);
