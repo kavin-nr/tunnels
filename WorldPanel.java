@@ -241,9 +241,9 @@ public class WorldPanel extends JPanel
             for (String intString : thisLine)
             {
                System.out.println(intString);
-               if (intString.equals("1000"))
+               if (!intString.equals(""))
                {
-                  ((mapList.get(mapIndex)).getEnemy(enemyIndex)).setX(1000);
+               ((mapList.get(mapIndex)).getEnemy(enemyIndex)).setX(Integer.parseInt(intString));
                }
                enemyIndex++;
             }
