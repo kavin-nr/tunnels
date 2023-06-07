@@ -14,11 +14,13 @@ public class Enemy implements Animatable
    
    private String frameOnePath;
    private String frameTwoPath;
+   private String name;
    
    private int changeFrame = (int) (Math.random() * 50);
    
-   public Enemy(int xValue, int yValue, int widthValue, int heightValue, int visibilityValue, String frameOnePathValue, String frameTwoPathValue, Projectile projectileValue, Projectile ammoValue)
+   public Enemy(String nameValue, int xValue, int yValue, int widthValue, int heightValue, int visibilityValue, String frameOnePathValue, String frameTwoPathValue, Projectile projectileValue, Projectile ammoValue)
    {
+      name = nameValue;
       x = xValue;
       y = yValue;
       width = widthValue;
@@ -41,6 +43,12 @@ public class Enemy implements Animatable
    
      
    //accessors
+
+   public String getName()
+   {
+      return name;
+   }
+   
    public int getX()
    {
       return x;

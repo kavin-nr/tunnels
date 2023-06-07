@@ -42,7 +42,8 @@ public class CombatPanel extends JPanel
    
    private int enemyVibe = -1;
    private int vibe = -1;
-   
+   private int startText = 300;
+
    private boolean muteState;
    private boolean previousMuteState;
    private boolean isFocused; 
@@ -79,7 +80,7 @@ public class CombatPanel extends JPanel
       c = new Character(this);
       animationObjects.add(c); 
       
-      e = new Enemy(0, 12, 250, 250, 0, en.getFrameOnePath(), en.getFrameTwoPath(), en.getProjectile(), en.getAmmo());
+      e = new Enemy(en.getName(), 0, 12, 250, 250, 0, en.getFrameOnePath(), en.getFrameTwoPath(), en.getProjectile(), en.getAmmo());
       e.setX((width / 2 ) - (e.getWidth() / 2));
       animationObjects.add(e);
       
@@ -101,7 +102,8 @@ public class CombatPanel extends JPanel
             
                ammoTimer = new Timer(a.getSpawnSpeed(), new AmmoSpawner());
                ammoTimer.start();
-            
+
+               startText = 0;
             
                transitionWait.stop();
             }
@@ -208,6 +210,26 @@ public class CombatPanel extends JPanel
       g.setFont(new Font("Monospaced", Font.BOLD, 30)); 
       g.drawString("Your Health", 10, 40);
       g.drawString("Enemy Health", 600, 40);
+
+      String enemyName = e.getName();
+      if (startText < 50)
+      {
+         g.drawString( enemyName + " attacked you!", 70, 650);
+         startText++;
+      }
+
+      else if (startText < 150 && enemyName.equals("A ghost"))
+      {
+         g.drawString("Dodge its harmful attacks!", 70, 650);
+         startText++;
+      }
+
+      else if (startText < 250 && enemyName.equals("A ghost"))
+      {
+         g.drawString("Hit the red orbs to defeat it!", 70, 650);
+         startText++;
+      }
+
       int health = owner.world.ch.getHealth();
       int enemyHealth = e.getHealth();
       
@@ -238,6 +260,8 @@ public class CombatPanel extends JPanel
          g.setColor(Color.GREEN);
       }
       g.drawString("" + enemyHealth, 600, 80);
+
+      
    }
    
    public void end(boolean result)

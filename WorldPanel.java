@@ -61,16 +61,16 @@ public class WorldPanel extends JPanel
       Projectile reap = new Projectile(50, 40, "img/sprites/Spirit1.png", "img/sprites/Spirit1L.png", 8, 300, 3, 5);
       Projectile slimeball = new Projectile(32, 30, "img/proj/Slimeball.png", "img/proj/SlimeballL.png", 10, 500, 5, 7);
             
-      Enemy Ghost1 = new Enemy(330, 260, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", bat, strongAmmo);
-      Enemy Ghost2 = new Enemy(550, 225, 75, 75, 40, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", bat, strongAmmo);
-      Enemy Skeleton1 = new Enemy(230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
-      Enemy Skeleton2 = new Enemy(570, 175, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
-      Enemy Zombie1 = new Enemy(325, 255, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, strongAmmo);
+      Enemy Ghost1 = new Enemy("A ghost", 330, 260, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", bat, strongAmmo);
+      Enemy Ghost2 = new Enemy("A ghost", 550, 225, 75, 75, 40, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", bat, strongAmmo);
+      Enemy Skeleton1 = new Enemy("A skeleton", 230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
+      Enemy Skeleton2 = new Enemy("A skeleton", 570, 175, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
+      Enemy Zombie1 = new Enemy("A zombie", 325, 255, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, strongAmmo);
       
-      Enemy Reaper = new Enemy(400, 250, 150, 150, 30, "img/sprites/Reaper1.png", "img/sprites/Reaper2.png", reap, reaperAmmo);
+      Enemy Reaper = new Enemy("The Grim Reaper", 400, 250, 150, 150, 30, "img/sprites/Reaper1.png", "img/sprites/Reaper2.png", reap, reaperAmmo);
       
-      Enemy Slime = new Enemy(300, 295, 100, 100, 90, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
-      Enemy Slime2 = new Enemy(700, 290, 100, 100, 50, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
+      Enemy Slime = new Enemy("A slime", 300, 295, 100, 100, 90, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
+      Enemy Slime2 = new Enemy("A slime", 700, 290, 100, 100, 50, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
       
       Map map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
       Map map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 315, 400, 565, 100, this);
@@ -105,7 +105,7 @@ public class WorldPanel extends JPanel
       mapList.add(map7);
       
       
-      currentMap = mapList.get(6);
+      currentMap = mapList.get(0);
       
       animationObjects = new ArrayList<Animatable>();  
       
