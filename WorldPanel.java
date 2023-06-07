@@ -105,7 +105,7 @@ public class WorldPanel extends JPanel
       mapList.add(map7);
       
       
-      currentMap = mapList.get(0);
+      currentMap = mapList.get(6);
       
       animationObjects = new ArrayList<Animatable>();  
       
@@ -199,6 +199,7 @@ public class WorldPanel extends JPanel
       {
          savefile.createNewFile();
          PrintWriter outfile = new PrintWriter( new FileWriter(savefile));
+         outfile.println("" + owner.getPlaytime());
          outfile.println(mapList.indexOf(currentMap));
          outfile.println("" + ch.getX());
          outfile.println("" + ch.getY());
@@ -226,6 +227,7 @@ public class WorldPanel extends JPanel
       try
       {
          Scanner infile = new Scanner(savefile);
+         owner.setPlaytime(Integer.parseInt(infile.nextLine().strip()));
          currentMap = mapList.get(Integer.parseInt(infile.nextLine().strip()));
          ch.setX(Integer.parseInt(infile.nextLine().strip()));
          ch.setY(Integer.parseInt(infile.nextLine().strip()));

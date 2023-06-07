@@ -18,6 +18,9 @@ public class TunnelsPanel extends JPanel
    private GuidePanel guide;
    private JPanel blackOverlay;
    private Timer timer;
+
+   private int playtime;
+   private Timer playtimeTimer;
    
    private boolean mute;
    private Clip titleClip;
@@ -55,7 +58,8 @@ public class TunnelsPanel extends JPanel
       
       world = new WorldPanel(this);
       
-      
+      playtimeTimer = new Timer(1000, new Counter());
+      playtimeTimer.start();
       
       // Key binding for toggling mute
       // Had to do a lot of research on this, the reason that we're not using a KeyListener here is because it has limitations (it only gets input when its in a focused component)
@@ -77,6 +81,7 @@ public class TunnelsPanel extends JPanel
    public void newWorld()
    {
       world = new WorldPanel(this);
+      playtime = 0;
       world.save();
       goWorld();
    }
@@ -90,6 +95,16 @@ public class TunnelsPanel extends JPanel
       goWorld();
    }
    
+   public int getPlaytime()
+   {
+      return playtime;
+   }
+
+   public void setPlaytime(int p)
+   {
+      playtime = p;
+   }
+
    public void goWorld() 
    {
     // Create the black overlay panel with 0% alpha
@@ -273,7 +288,13 @@ public class TunnelsPanel extends JPanel
       timer.start();
    }
    
-   
+   private class Counter implements ActionListener
+   {
+      public void actionPerformed(ActionEvent e)
+      {
+         playtime++;
+      }
+   }
    
    private class FadeListener implements ActionListener
    {
