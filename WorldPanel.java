@@ -53,24 +53,29 @@ public class WorldPanel extends JPanel
       myBuffer = myImage.getGraphics(); 
       
       Projectile strongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", "img/proj/Ammo.png", 50, 5000, 4, 6);
-      Projectile reaperAmmo = new Projectile(20, 20, "img/proj/Ammo.png", "img/proj/Ammo.png", 35, 8000, 6, 8);
+      Projectile medAmmo = new Projectile(20, 20, "img/proj/Ammo.png", "img/proj/Ammo.png", 35, 8000, 6, 8);
       
       Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", "img/proj/Bone.png", 15, 500, 7, 10);
       Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", "img/proj/KnifeL.png", 10, 500, 10, 12);
       Projectile bat = new Projectile(40, 20, "img/proj/Bat.png", "img/proj/BatL.png", 10, 750, 4, 5);
       Projectile reap = new Projectile(50, 40, "img/sprites/Spirit1.png", "img/sprites/Spirit1L.png", 8, 300, 3, 5);
       Projectile slimeball = new Projectile(32, 30, "img/proj/Slimeball.png", "img/proj/SlimeballL.png", 10, 500, 5, 7);
-            
+      Projectile blaster = new Projectile(48, 16, "img/proj/Blaster.png", "img/proj/Blaster.png", 15, 300, 9, 11);
+      
       Enemy Ghost1 = new Enemy("A ghost", 330, 260, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", bat, strongAmmo);
       Enemy Ghost2 = new Enemy("A ghost", 550, 225, 75, 75, 40, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", bat, strongAmmo);
       Enemy Skeleton1 = new Enemy("A skeleton", 230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
       Enemy Skeleton2 = new Enemy("A skeleton", 570, 175, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
       Enemy Zombie1 = new Enemy("A zombie", 325, 255, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, strongAmmo);
       
-      Enemy Reaper = new Enemy("The Grim Reaper", 400, 250, 150, 150, 30, "img/sprites/Reaper1.png", "img/sprites/Reaper2.png", reap, reaperAmmo);
+      Enemy Reaper = new Enemy("The Grim Reaper", 400, 250, 150, 150, 30, "img/sprites/Reaper1.png", "img/sprites/Reaper2.png", reap, medAmmo);
       
       Enemy Slime = new Enemy("A slime", 300, 295, 100, 100, 90, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
       Enemy Slime2 = new Enemy("A slime", 700, 290, 100, 100, 50, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
+      Enemy Slime3 = new Enemy("A slime", 265, 275, 100, 100, 75, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
+      Enemy Destroyer1 = new Enemy("Beep the Destroyer", 560, 100, 175, 200, 50, "img/sprites/Destroyer1.png", "img/sprites/Destroyer2.png", blaster, medAmmo);
+      Enemy Calculator1 = new Enemy("TI-84 Plus CE", 550, 330, 150, 150, 50, "img/sprites/Calculator1.png", "img/sprites/Calculator2.png", blaster, medAmmo);
+      
       
       Map map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
       Map map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 315, 400, 565, 100, this);
@@ -79,7 +84,16 @@ public class WorldPanel extends JPanel
       Map map4 = new Map("maps/display/Display4.png", "maps/hitboxes/Hitbox4.png", 55, 285, 605, 565, this);
       Map map5 = new Map("maps/display/Display5.png", "maps/hitboxes/Hitbox5.png", 240, 100, 735, 350, this);
       Map map6 = new Map("maps/display/Display6.png", "maps/hitboxes/Hitbox6.png", 55, 295, 655, 295, this);
-      Map map7 = new Map("maps/display/Display7.png", "maps/hitboxes/Hitbox7.png", 60, 295, 440, 295, this);
+      Map map7 = new Map("maps/display/Display7.png", "maps/hitboxes/Hitbox7.png", 60, 295, 700, 295, this);
+      Map map8 = new Map("maps/display/Display8.png", "maps/hitboxes/Hitbox8.png", 80, 275, 640, 90, this);
+      Map map9 = new Map("maps/display/Display9.png", "maps/hitboxes/Hitbox9.png", 145, 500, 685, 295, this);
+      Map map10 = new Map("maps/display/Display10.png", "maps/hitboxes/Hitbox10.png", 60, 295, 645, 570, this);
+      Map map11 = new Map("maps/display/Display11.png", "maps/hitboxes/Hitbox11.png", 165, 75, 720, 255, this);
+      Map map12 = new Map("maps/display/Display12.png", "maps/hitboxes/Hitbox12.png", 60, 295, 650, 100, this);
+      Map map13 = new Map("maps/display/Display13.png", "maps/hitboxes/Hitbox13.png", 420, 545, 420, 55, this);
+      Map map14 = new Map("maps/display/Display14.png", "maps/hitboxes/Hitbox14.png", 410, 415, 0, 0, this);
+      Map map15 = new Map("maps/display/Display15.png", "maps/hitboxes/Hitbox15.png", 420, 480, 0, 0, this);
+      
       
       map1.addEnemy(Ghost1);
       map1.addEnemy(Ghost2);
@@ -94,6 +108,11 @@ public class WorldPanel extends JPanel
       map7.addEnemy(Slime);
       map7.addEnemy(Slime2);
       
+      map8.addEnemy(Slime3);
+      map8.addEnemy(Destroyer1);
+      
+      map9.addEnemy(Calculator1);
+      
       mapList = new ArrayList<Map>();
       mapList.add(map0);
       mapList.add(map1);
@@ -103,9 +122,18 @@ public class WorldPanel extends JPanel
       mapList.add(map5);
       mapList.add(map6);
       mapList.add(map7);
+      mapList.add(map8);
+      mapList.add(map9);
+      mapList.add(map10);
+      mapList.add(map11);
+      mapList.add(map12);
+      mapList.add(map13);
+      mapList.add(map14);
+      mapList.add(map15);
       
       
-      currentMap = mapList.get(0);
+      
+      currentMap = mapList.get(8);
       
       animationObjects = new ArrayList<Animatable>();  
       
