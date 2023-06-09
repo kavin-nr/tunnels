@@ -267,7 +267,6 @@ public class Map
       if (xOverlap && yOverlap)
       {
          owner.goCombat(e);
-         System.out.println("straight down");
          return index;
       }
       return -1;

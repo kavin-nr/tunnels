@@ -169,7 +169,7 @@ public class WorldPanel extends JPanel
       
       
       
-      currentMap = mapList.get(0);
+      currentMap = mapList.get(13);
       
       animationObjects = new ArrayList<Animatable>();  
       
@@ -304,7 +304,6 @@ public class WorldPanel extends JPanel
             int enemyIndex = 0;
             for (String intString : thisLine)
             {
-               System.out.println(intString);
                if (!intString.equals(""))
                {
                ((mapList.get(mapIndex)).getEnemy(enemyIndex)).setX(Integer.parseInt(intString));
@@ -327,7 +326,6 @@ public class WorldPanel extends JPanel
       ch.setX(nextMap.getPrevX());
       ch.setY(nextMap.getPrevY());
       currentMap = nextMap;   
-      System.out.println("next");
    }
    
    public void goPrev()
@@ -336,7 +334,6 @@ public class WorldPanel extends JPanel
       ch.setX(prevMap.getNextX());
       ch.setY(prevMap.getNextY());
       currentMap = prevMap;   
-      System.out.println("prev");
    }
    
    public void savepoint()
@@ -401,11 +398,6 @@ public class WorldPanel extends JPanel
             ch.setDY(ch.getDY() + 5);
             
             down = true;
-         }
-         
-         if (e.getKeyCode() == KeyEvent.VK_SPACE)
-         {
-            System.out.println(ch.getX() + " " + ch.getY());
          }
       }
       

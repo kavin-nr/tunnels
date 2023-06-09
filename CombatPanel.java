@@ -81,8 +81,9 @@ public class CombatPanel extends JPanel
       animationObjects.add(c); 
       
       e = new Enemy(en.getName(), 0, 12, 250, 250, 0, en.getFrameOnePath(), en.getFrameTwoPath(), en.getProjectile(), en.getAmmo());
+      e.setWidth((250 * en.getWidth()) / en.getHeight());
       e.setX((width / 2 ) - (e.getWidth() / 2));
-      e.setWidth((250 * en.getWidth()) / en.getWidth());
+      System.out.println((double)(e.getWidth()/e.getHeight()));
       animationObjects.add(e);
       
       p = e.getProjectile();
@@ -549,12 +550,6 @@ public class CombatPanel extends JPanel
             c.setDY(c.getDY() + 15);
             
             down = true;
-         }
-         
-         if (e.getKeyCode() == KeyEvent.VK_SPACE)
-         {
-            
-            System.out.println(c.getX() + " " + c.getY());
          }
       }
       

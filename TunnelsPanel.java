@@ -72,7 +72,6 @@ public class TunnelsPanel extends JPanel
             {
             // Mute becomes true if it was false, and becomes false if it was true
                mute = !mute;
-               System.out.println("MUTED " + mute);
             }
          });
    }
@@ -300,7 +299,6 @@ public class TunnelsPanel extends JPanel
       public void actionPerformed(ActionEvent e)
       {
          playtime++;
-         System.out.println(""+playtime);
       }
    }
    
