@@ -82,6 +82,7 @@ public class CombatPanel extends JPanel
       
       e = new Enemy(en.getName(), 0, 12, 250, 250, 0, en.getFrameOnePath(), en.getFrameTwoPath(), en.getProjectile(), en.getAmmo());
       e.setX((width / 2 ) - (e.getWidth() / 2));
+      e.setWidth((250 * en.getWidth()) / en.getWidth());
       animationObjects.add(e);
       
       p = e.getProjectile();

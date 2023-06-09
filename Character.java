@@ -173,6 +173,8 @@ public class Character implements Animatable
    //instance methods
    public void step()  //Implement Animatable's required step()
    {
+      img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+      bufG = img.getGraphics();
       if (!((x < 10 && dX < 0) || (owner.getWidth() - this.width - 10 < x && dX > 1)))
       {
          x += dX;

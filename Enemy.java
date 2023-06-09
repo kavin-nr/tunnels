@@ -152,6 +152,8 @@ public class Enemy implements Animatable
    
    public void step()
    {
+      img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
+      gr = img.getGraphics();
       if (changeFrame % 50 > 30)
       {
          gr.drawImage(frameOne.getImage(), 0, 0, width, height, null);

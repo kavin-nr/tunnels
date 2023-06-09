@@ -54,29 +54,48 @@ public class WorldPanel extends JPanel
       
       Projectile strongAmmo = new Projectile(20, 20, "img/proj/Ammo.png", "img/proj/Ammo.png", 50, 5000, 4, 6);
       Projectile medAmmo = new Projectile(20, 20, "img/proj/Ammo.png", "img/proj/Ammo.png", 35, 8000, 6, 8);
-      
-      Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", "img/proj/Bone.png", 15, 500, 7, 10);
+      Projectile weakAmmo = new Projectile(25, 25, "img/proj/Ammo.png", "img/proj/Ammo.png", 25, 8000, 4, 8);
+      Projectile kingAmmo = new Projectile(25, 25, "img/proj/Ammo.png", "img/proj/Ammo.png", 15, 3000, 6, 10);
+
+      Projectile bone = new Projectile(50, 16, "img/proj/Bone.png", "img/proj/Bone.png", 15, 400, 8, 12);;
       Projectile zomb = new Projectile(50, 16, "img/proj/Knife.png", "img/proj/KnifeL.png", 10, 500, 10, 12);
       Projectile bat = new Projectile(40, 20, "img/proj/Bat.png", "img/proj/BatL.png", 10, 750, 4, 5);
       Projectile reap = new Projectile(50, 40, "img/sprites/Spirit1.png", "img/sprites/Spirit1L.png", 8, 300, 3, 5);
       Projectile slimeball = new Projectile(32, 30, "img/proj/Slimeball.png", "img/proj/SlimeballL.png", 10, 500, 5, 7);
       Projectile blaster = new Projectile(48, 16, "img/proj/Blaster.png", "img/proj/Blaster.png", 15, 300, 9, 11);
-      
+      Projectile math = new Projectile(26, 27, "img/proj/Sigma.png", "img/proj/Pi.png", 20, 500,  5, 6);
+      Projectile surge = new Projectile(50, 50, "img/proj/Surge.png", "img/proj/Surge.png", 30, 400, 9, 12);
+      Projectile spear = new Projectile(100, 18, "img/proj/Spear.png", "img/proj/SpearL.png", 15, 300, 10, 15);
+      Projectile fireball = new Projectile(140, 40, "img/proj/Fireball.png", "img/proj/FireballL.png", 25, 500, 9, 10);
+
       Enemy Ghost1 = new Enemy("A ghost", 330, 260, 75, 75, 30, "img/sprites/Spirit1L.png", "img/sprites/Spirit2L.png", bat, strongAmmo);
       Enemy Ghost2 = new Enemy("A ghost", 550, 225, 75, 75, 40, "img/sprites/Spirit1.png", "img/sprites/Spirit2.png", bat, strongAmmo);
       Enemy Skeleton1 = new Enemy("A skeleton", 230, 365, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
       Enemy Skeleton2 = new Enemy("A skeleton", 570, 175, 100, 100, 30, "img/sprites/Skeleton1.png", "img/sprites/Skeleton2.png", bone, strongAmmo);
       Enemy Zombie1 = new Enemy("A zombie", 325, 255, 100, 100, 30, "img/sprites/ArmedZombie1.png", "img/sprites/ArmedZombie2.png", zomb, strongAmmo);
       
-      Enemy Reaper = new Enemy("The Grim Reaper", 400, 250, 150, 150, 30, "img/sprites/Reaper1.png", "img/sprites/Reaper2.png", reap, medAmmo);
+      Enemy Reaper = new Enemy("THE DEATH REAPER", 400, 250, 150, 150, 30, "img/sprites/Reaper1.png", "img/sprites/Reaper2.png", reap, medAmmo);
       
-      Enemy Slime = new Enemy("A slime", 300, 295, 100, 100, 90, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
+      Enemy Slime1 = new Enemy("A slime", 300, 295, 100, 100, 90, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
       Enemy Slime2 = new Enemy("A slime", 700, 290, 100, 100, 50, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
       Enemy Slime3 = new Enemy("A slime", 265, 275, 100, 100, 75, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
-      Enemy Destroyer1 = new Enemy("Beep the Destroyer", 560, 100, 175, 200, 50, "img/sprites/Destroyer1.png", "img/sprites/Destroyer2.png", blaster, medAmmo);
-      Enemy Calculator1 = new Enemy("TI-84 Plus CE", 550, 330, 150, 150, 50, "img/sprites/Calculator1.png", "img/sprites/Calculator2.png", blaster, medAmmo);
-      
-      
+      Enemy Destroyer1 = new Enemy("Destroyer Alpha", 560, 100, 175, 200, 50, "img/sprites/Destroyer1.png", "img/sprites/Destroyer2.png", blaster, medAmmo);
+      Enemy Calculator1 = new Enemy("TI-83", 550, 330, 125, 125, 50, "img/sprites/Calculator1.png", "img/sprites/Calculator2.png", math, medAmmo);
+      Enemy Calculator2 = new Enemy("TI-84", 255, 310, 125, 125, 50, "img/sprites/Calculator1.png", "img/sprites/Calculator2.png", math, medAmmo);
+      Enemy Calculator3 = new Enemy("TI-85 Plus CE", 610, 400, 125, 125, 50, "img/sprites/Calculator1.png", "img/sprites/Calculator2.png", math, medAmmo);
+      Enemy Slime4 = new Enemy("A slime", 165, 230, 100, 100, 50, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
+      Enemy Slime5 = new Enemy("A slime", 570, 270, 100, 100, 75, "img/sprites/Slime1.png", "img/sprites/Slime2.png", slimeball, strongAmmo);
+      Enemy Destroyer2 = new Enemy("Destroyer Beta", 175, 215, 175, 200, 20, "img/sprites/Destroyer1.png", "img/sprites/Destroyer2.png", blaster, medAmmo);
+      Enemy Destroyer3 = new Enemy("Destroyer Gamma", 560, 100, 175, 200, 50, "img/sprites/Destroyer1.png", "img/sprites/Destroyer2.png", blaster, medAmmo);
+
+      Enemy Inferno = new Enemy("INFERNO-CLASS DESTROYER", 335, 140, 180, 300, 50, "img/sprites/Inferno1.png", "img/sprites/Inferno2.png", surge, weakAmmo);
+
+      Enemy Guard1 = new Enemy("Royal Guard", 255, 130, 100, 100, 100, "img/sprites/DragonGuard1.png", "img/sprites/DragonGuard2.png", spear, weakAmmo);
+      Enemy Guard2 = new Enemy("Royal Guard", 545, 340, 100, 100, 100, "img/sprites/DragonGuard1.png", "img/sprites/DragonGuard2.png", spear, weakAmmo);
+      Enemy King =  new Enemy("THE DRAGON KING", 390, 280, 100, 100, 30, "img/sprites/DragonKing1.png", "img/sprites/DragonKing2.png", fireball, kingAmmo);
+
+      Enemy Portal = new Enemy("Win", 410, 50, 56, 100, 10, "img/sprites/Portal1.png", "img/sprites/Portal2.png", bone, strongAmmo);
+
       Map map0 = new Map("maps/display/Display0.png", "maps/hitboxes/Hitbox0.png", 0, 0, 450, 250, this);
       Map map1 = new Map("maps/display/Display1.png", "maps/hitboxes/Hitbox1.png", 315, 400, 565, 100, this);
       Map map2 = new Map("maps/display/Display2.png", "maps/hitboxes/Hitbox2.png", 180, 515, 730, 275, this);
@@ -91,8 +110,8 @@ public class WorldPanel extends JPanel
       Map map11 = new Map("maps/display/Display11.png", "maps/hitboxes/Hitbox11.png", 165, 75, 720, 255, this);
       Map map12 = new Map("maps/display/Display12.png", "maps/hitboxes/Hitbox12.png", 60, 295, 650, 100, this);
       Map map13 = new Map("maps/display/Display13.png", "maps/hitboxes/Hitbox13.png", 420, 545, 420, 55, this);
-      Map map14 = new Map("maps/display/Display14.png", "maps/hitboxes/Hitbox14.png", 410, 415, 0, 0, this);
-      Map map15 = new Map("maps/display/Display15.png", "maps/hitboxes/Hitbox15.png", 420, 480, 0, 0, this);
+      Map map14 = new Map("maps/display/Display14.png", "maps/hitboxes/Hitbox14.png", 255, 630, 0, 0, this);
+      Map map15 = new Map("maps/display/Display15.png", "maps/hitboxes/Hitbox15.png", 490, 480, 0, 0, this);
       
       
       map1.addEnemy(Ghost1);
@@ -105,14 +124,31 @@ public class WorldPanel extends JPanel
       
       map5.addEnemy(Reaper);
       
-      map7.addEnemy(Slime);
+      map7.addEnemy(Slime1);
       map7.addEnemy(Slime2);
       
       map8.addEnemy(Slime3);
       map8.addEnemy(Destroyer1);
       
       map9.addEnemy(Calculator1);
-      
+
+      map10.addEnemy(Calculator2);
+      map10.addEnemy(Calculator3);
+
+      map11.addEnemy(Slime4);
+      map11.addEnemy(Slime5);
+
+      map12.addEnemy(Destroyer2);
+      map12.addEnemy(Destroyer3);
+
+      map13.addEnemy(Inferno);
+
+      map14.addEnemy(Guard1);
+      map14.addEnemy(Guard2);
+
+      map15.addEnemy(King);
+      map15.addEnemy(Portal);
+
       mapList = new ArrayList<Map>();
       mapList.add(map0);
       mapList.add(map1);
@@ -133,7 +169,7 @@ public class WorldPanel extends JPanel
       
       
       
-      currentMap = mapList.get(8);
+      currentMap = mapList.get(0);
       
       animationObjects = new ArrayList<Animatable>();  
       

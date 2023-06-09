@@ -10,10 +10,10 @@ public class TunnelsPanel extends JPanel
 {
    private TitlePanel title;
    private JFrame owner;
-   private DialoguePanel dialogue;
    public WorldPanel world;
    private GameOverPanel gameOver;
    private CombatPanel combat;
+   private WinPanel win;
    private Enemy currentEnemy;
    private GuidePanel guide;
    private JPanel blackOverlay;
@@ -38,6 +38,7 @@ public class TunnelsPanel extends JPanel
       title = new TitlePanel(this);
       guide = new GuidePanel(this);
       gameOver = new GameOverPanel(this);
+      win = new WinPanel(this);
       title.setFocus(true);
       add(title);
       
@@ -53,9 +54,7 @@ public class TunnelsPanel extends JPanel
       death = openMusic("music/death.wav");
    
       mute = false;
-      
-      dialogue = new DialoguePanel();
-      
+            
       world = new WorldPanel(this);
       
       playtimeTimer = new Timer(1000, new Counter());
@@ -197,7 +196,7 @@ public class TunnelsPanel extends JPanel
       add(blackOverlay);
       guide.setFocus(false);
       title.setFocus(true);
-     
+      remove(win);     
       remove(guide);
       remove(gameOver);
       ready = title;
@@ -224,25 +223,33 @@ public class TunnelsPanel extends JPanel
    }
    public void goCombat(Enemy e) 
    {
-      System.out.println("combat start");
    // Create the black overlay panel with 0% alpha
       blackOverlay = new JPanel();
       blackOverlay.setBounds(0, 0, title.getWidth(), title.getHeight());
       add(blackOverlay);
       world.setFocus(false);
       StopMusic1();
-      if (!mute)
-      {
-         battleClip = openMusic("music/battle.wav");
-         StartMusic2();
-      }
+      
       remove(world);
+      if ((e.getName()).equals("Win"))
+      {
+         win.setFinishTime(playtime);
+         ready = win;
+         win.setFocus(true);
+      }
+      else
+      {
+         currentEnemy = e;
+         if (!mute)
+         {
+            battleClip = openMusic("music/battle.wav");
+            StartMusic2();
+         }
+         combat = new CombatPanel(e, this);
+         combat.setFocus(true);
+         ready = combat;
+      }
       
-      currentEnemy = e;
-      
-      combat = new CombatPanel(e, this);
-      combat.setFocus(true);
-      ready = combat;
     // Use a Timer to gradually increase the alpha value of the black overlay panel
       timer = new Timer(50, new FadeListener()); 
       timer.start();
