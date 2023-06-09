@@ -169,7 +169,7 @@ public class WorldPanel extends JPanel
       
       
       
-      currentMap = mapList.get(13);
+      currentMap = mapList.get(0);
       
       animationObjects = new ArrayList<Animatable>();  
       
