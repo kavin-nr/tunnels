@@ -3,21 +3,44 @@ import javax.swing.*;
 import java.awt.image.*;
 import java.util.ArrayList;
 
+/**
+*Class that displays the maps for the world
+*/
 public class Map
 {
+   /**
+   * Sets up an image icon 
+   */
    
    private ImageIcon imageSrc, hitboxSrc;
-   
+   /**
+   * Sets up a buffered image
+   */
+    
    private BufferedImage image, hitbox;
+   /**
+   * Sets up graphics
+   */
    
    private Graphics imageGr, hitboxGr;
+   /**
+   * Sets up the x and y values for the previous and next maps
+   */
       
    private int prevX, prevY, nextX, nextY;
-   
+   /**
+   * Sets up world panel as the owner
+   */
+  
    private WorldPanel owner;
-   
+   /**
+   * Sets up an arraylist of enemies
+   */   
    private ArrayList<Enemy> enemies;
    
+   /**
+   * Initializes the map
+   */
   
    public Map(String imageFilename, String hitboxFilename, int prevXV, int prevYV, int nextXV, int nextYV, WorldPanel o)
    {
@@ -42,41 +65,65 @@ public class Map
       nextY = nextYV;
       
    }
-     
+    /**
+   * Gets previous x 
+   */
+    
    public int getPrevX()
    {
       return prevX;
    }
+   /**
+   * Gets next x
+   */
    
    public int getNextX()
    {
       return nextX;
    }
+   /**
+   * Gets previous y
+   */
    
    public int getPrevY()
    {
       return prevY;
    }
+   /**
+   * Gets next y 
+   */
    
    public int getNextY()
    {
       return nextY;
    }
+   /**
+   * Gets enemy location
+   */
    
    public Enemy getEnemy(int loc)
    {
       return enemies.get(loc);
    }
+   /**
+   * Gets arraylist of enemies
+   */
    
    public ArrayList<Enemy> getEnemies()
    {
       return enemies;
    }
+   /**
+   * Adds enemies to the map
+   */
     
    public void addEnemy(Enemy e)
    {
       enemies.add(e);
    }
+   /**
+   * Gets the color of the buffered image in a 2D array
+   */
    
    public static Color[][] getArray(BufferedImage img)
    {
@@ -99,11 +146,17 @@ public class Map
    	//
       return arr;
    }
+   /**
+   * Finds the distance to a certain color
+   */
    
    public static int colorDistance(Color one, Color two)
    {
       return (int) (Math.sqrt((Math.pow(two.getRed() - one.getRed(), 2))+(Math.pow(two.getGreen() - one.getGreen(), 2))+(Math.pow(two.getBlue() - one.getBlue(), 2))));
    }
+   /**
+   * Sets up colisions with colors to take you to different maps, simulate walls, and save the game
+   */
    
    public void collisions()
    {
@@ -247,6 +300,9 @@ public class Map
          }      
       }      
    } 
+   /**
+   * Sets up collisions with enemies based on their "visibility" of the character
+   */
    
    public int enemyCollisions(Enemy e, int index)
    {
@@ -267,10 +323,14 @@ public class Map
       if (xOverlap && yOverlap)
       {
          owner.goCombat(e);
+         System.out.println("straight down");
          return index;
       }
       return -1;
    }
+   /**
+   * Draws the image
+   */
       
    public void drawMe(Graphics g)
    {

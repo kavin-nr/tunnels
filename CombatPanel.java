@@ -7,53 +7,124 @@ import java.lang.Math;
 import java.util.concurrent.TimeUnit;
 import javax.sound.sampled.*;
 
-
+/**
+* This class creates the space in which you fight enemies. 
+*/
 public class CombatPanel extends JPanel
 {
-
+   /**
+   * Sets up buffered image
+   */
    private BufferedImage myImage;  
+   /**
+   * Sets up graphics
+   */        
    private Graphics myBuffer;
-   
+   /**
+   * Constructor that initializes enemy in the combat panel
+   */      
    private Enemy e;
-   // projectiles that hurt player
+   /**
+   * Constructor that initializes projectiles which harm the player
+   */   
    private Projectile p;
-   // projectiles that hurt enemy
+   /**
+   * Constructor that initializes projectiles which harm the enemy
+   */      
    private Projectile a;
+   /**
+   * Constructor that initializes the character in the combat panel
+   */      
    private Character c;
+   /**
+   * Constructor that initializes TunnelsPanel as the owner of CombatPanel
+   */   
    private TunnelsPanel owner;
-   
+   /**
+   * Sets the width of the panel
+   */      
    private final int width = 880;
+   /**
+   * Sets the height of the panel
+   */
    private final int height = 720;
-   
+   /**
+   * Sets up an array of the animation objects
+   */   
    private ArrayList<Animatable> animationObjects;
+   /**
+   * Sets up a timer to wait for the transition
+   */      
    private Timer transitionWait;
+   /**
+   * Sets up the main timer
+   */      
    private Timer t;
+   /**
+   * Sets up a timer for the projectiles
+   */   
    private Timer projectileTimer;
+   /**
+   * Sets up the timer for ammo
+   */  
    private Timer ammoTimer;
 
-   
+   /**
+   * Sets up an array list of projectiles and ammos
+   */   
    private ArrayList<Projectile> projectiles, ammos;
-
-   private KeyListener kl;    
+   /**
+   * Sets up a key listener
+   */
+   private KeyListener kl;
    private boolean left;
    private boolean right;
    private boolean up;
    private boolean down;
-   
+   /**
+   * Makes the enemy "vibe" when hit
+   */      
    private int enemyVibe = -1;
+   /**
+   * Makes the player "vibe" when hit
+   */   
    private int vibe = -1;
+   /**
+   * Sets up a counter for when to start the text
+   */
    private int startText = 300;
-
+   /**
+   * Checks to see whether music should currently be muted or not  
+   */   
    private boolean muteState;
+   /**
+   * Checks the last mute state 
+   */
    private boolean previousMuteState;
+   /**
+   * Checks to see which panel is in focus
+   */
    private boolean isFocused; 
+   /**
+   * Audio clip for sound effect when player is hit
+   */
    private Clip hit;
+   /**
+   * Audio clip for sound effect when enemy is hit
+   */   
    private Clip enemyHit;
    
-   
+   /**
+   * Sets up a buffered image for the map hitbox
+   */
    private BufferedImage hitbox;
+   /**
+   * Sets up graphics for the hitbox
+   */   
    private Graphics hitboxGr;
-
+   /**
+   * Sets up the combat panel with an enemy and tunnels panel as the owner
+   */
    
    public CombatPanel(Enemy en, TunnelsPanel o)
    {
@@ -114,11 +185,16 @@ public class CombatPanel extends JPanel
       addKeyListener(kl);
       setFocusable(true);
    }
-   
+   /**
+   * Sets the focus to a panel
+   */   
    public void setFocus(boolean f)
    {
       isFocused = f;
    }
+    /**
+    * Uses "hitboxes" with certain colors that the character can or cannot move through.
+    */
    
    public void collisions(Character c)
    {
@@ -160,7 +236,10 @@ public class CombatPanel extends JPanel
          }      
       } 
    }
-   
+   /**
+   * Sets up collisions with projectiles
+   */
+    
    public boolean projectileCollisions(Projectile pr)
    {
       boolean xOverlap = false;
@@ -183,7 +262,9 @@ public class CombatPanel extends JPanel
       }
       return false;
    }
-   
+   /**
+   * Stops everything in the battle
+   */   
    public void stopScreen()
    {
       removeKeyListener(kl);
@@ -203,7 +284,9 @@ public class CombatPanel extends JPanel
          ammo.setDX(0);
       }
    }
-
+   /**
+   * Paints and repaints components
+   */
    public void paintComponent(Graphics g)  
    {
       g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
@@ -264,7 +347,9 @@ public class CombatPanel extends JPanel
 
       
    }
-   
+   /**
+   * Ends the combat
+   */   
    public void end(boolean result)
    {
       t.stop();
@@ -278,7 +363,9 @@ public class CombatPanel extends JPanel
                     
       owner.endCombat(result);
    }
-   
+   /**
+   * Handles removing health when player collides with projectiles, sound effects, and winning/losing battle
+   */   
    public void animate()
    {      
       muteState = owner.getMute();
@@ -448,6 +535,9 @@ public class CombatPanel extends JPanel
    
    //private classes
    
+   /**
+   * Animates components
+   */   
    private class AnimationListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)  
@@ -458,7 +548,10 @@ public class CombatPanel extends JPanel
          }
       }
    }
-   
+
+   /**
+   * Handles the random spawning of projectiles
+   */
    private class ProjectileSpawner implements ActionListener
    {
       int count = 0;
@@ -487,6 +580,9 @@ public class CombatPanel extends JPanel
          projectiles.add(temp);
       }
    }
+   /**
+   * Spwans the ammo 
+   */
    
    private class AmmoSpawner implements ActionListener
    {
@@ -516,7 +612,9 @@ public class CombatPanel extends JPanel
          ammos.add(temp);
       }
    }
-   
+   /**
+   * Allows for key press
+   */   
    private class Key extends KeyAdapter 
    {
       public void keyPressed(KeyEvent e) 
@@ -551,6 +649,9 @@ public class CombatPanel extends JPanel
             down = true;
          }
       }
+   /**
+   * Allows for key released events
+   */
       
       public void keyReleased(KeyEvent e) //Also overridden; ONE method that will be called any time a key is released
       {

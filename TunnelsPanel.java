@@ -6,31 +6,95 @@ import javax.sound.sampled.*;
 import java.io.*;
 
 
+/**
+*Class for the main "owner" panel
+*/
 public class TunnelsPanel extends JPanel
 {
+   /**
+   * Initializes a title panel
+   */
    private TitlePanel title;
+   /**
+   * Initializes JFrame as the owner
+   */   
    private JFrame owner;
+   /**
+   * Initializes a world panel
+   */   
    public WorldPanel world;
+   /**
+   * Initializes a game over panel
+   */   
    private GameOverPanel gameOver;
+   /**
+   * Initializes a combat panel
+   */   
    private CombatPanel combat;
-   private WinPanel win;
+   /**
+   * Initializes enemies
+   */   
    private Enemy currentEnemy;
+   /**
+   * Initializes a guide panel
+   */   
    private GuidePanel guide;
+   /**
+   * Initializes a win panel
+   */   
+   private WinPanel win; 
+   /**
+   * Initializes the black overlay for transition
+   */   
    private JPanel blackOverlay;
+   /**
+   * Initializes the main timer
+   */   
    private Timer timer;
-
+   
+   /**
+   * Stores playtime in an integer
+   */   
    private int playtime;
+   /**
+   * Initializes timer for total playtime
+   */      
    private Timer playtimeTimer;
-   
+   /**
+   * Boolean that controls whether to mute or not
+   */   
    private boolean mute;
+   /**
+   * Music clip for title screen
+   */   
    private Clip titleClip;
+   /**
+   * Music clip for main world
+   */   
    private Clip ruinsClip;
+   /**
+   * Music clip for battle
+   */   
    private Clip battleClip;
+   /**
+   * Sound effect for winning battle
+   */   
    private Clip victory;
+   /*
+   * Music clip for dying
+   */   
    private Clip death;
-   
+   /*
+   * Music clip for winning the entire game
+   */      
+   private Clip winner; 
+   /**
+   * Opens the jpanel that is ready
+   */
    private JPanel ready;
-   
+   /**
+   * Initializes tunnels panel
+   */
    public TunnelsPanel(JFrame o)
    {
       owner = o;
@@ -52,6 +116,8 @@ public class TunnelsPanel extends JPanel
       victory = openMusic("music/defeated.wav");
    
       death = openMusic("music/death.wav");
+      
+      winner = openMusic("music/win.wav");
    
       mute = false;
             
@@ -76,13 +142,19 @@ public class TunnelsPanel extends JPanel
          });
    }
    
+   /**
+   * Takes you to start of world
+   */
+   
    public void newWorld()
    {
       world = new WorldPanel(this);
-      playtime = 0;
       world.save();
       goWorld();
    }
+   /**
+   * Takes you to last save
+   */
    
    public void loadWorld()
    {
@@ -92,17 +164,25 @@ public class TunnelsPanel extends JPanel
       world.load();
       goWorld();
    }
-   
+   /**
+   * Gets the amount playtime
+   */
    public int getPlaytime()
    {
       return playtime;
    }
-
+   /**
+   * Sets the amount of playtime
+   */
    public void setPlaytime(int p)
    {
       playtime = p;
    }
-
+   
+   /**
+   * Takes you back to the world
+   */
+  
    public void goWorld() 
    {
     // Create the black overlay panel with 0% alpha
@@ -126,6 +206,9 @@ public class TunnelsPanel extends JPanel
    
       
    }
+   /**
+   * Opens and reads sound files
+   */
    
    public Clip openMusic(String filename)
    {
@@ -143,51 +226,98 @@ public class TunnelsPanel extends JPanel
       }
       return null;
    }
+   /**
+   * Starts first music clip
+   */
 
    public void StartMusic()
    {
       titleClip.start();
       titleClip.loop(Clip.LOOP_CONTINUOUSLY);
    }
+   /**
+   * Stops first music clip
+   */   
    public void StopMusic()
    {
       titleClip.stop();
    }
+   /**
+   * Starts second music clip
+   */
+   
    public void StartMusic1()
    {
       ruinsClip.start();
       ruinsClip.loop(Clip.LOOP_CONTINUOUSLY);
    }
+   /**
+   * Stops second music clip 
+   */
+   
    public void StopMusic1()
    {
       ruinsClip.stop();
    }
+   /**
+   * Starts third music clip
+   */   
    public void StartMusic2()
    {
       battleClip.start();  
       battleClip.loop(Clip.LOOP_CONTINUOUSLY); 
    }
+   /**
+   * Stops third music clip
+   */   
    public void StopMusic2()
    {
       battleClip.stop();   
    }
+   /**
+   * Starts death music clip
+   */
 
    public void startDeath()
    {
       death.start();
       death.loop(Clip.LOOP_CONTINUOUSLY);
    }
+   /**
+   * Stops death music clip
+   */
    
    public void stopDeath()
    {
       death.stop();
    }
+   /**
+   * Starts win music clip
+   */
 
+   public void startWin()
+   {
+      winner.start();
+      winner.loop(Clip.LOOP_CONTINUOUSLY);
+   }
+   /**
+   * Stops win music clip
+   */
+   public void stopWin()
+   {
+      winner.stop();
+   }
+   
+   /**
+   * Gets mute value
+   */
    public boolean getMute()
    {
       return mute;
    }   
-   
+   /**
+   * Takes you to title screen
+   */   
    public void goTitle()
    {
       blackOverlay = new JPanel();
@@ -204,6 +334,9 @@ public class TunnelsPanel extends JPanel
       timer.start();
    
    }
+   /**
+   * Takes you to guide screen 
+   */   
    public void goGuide()
    {
       blackOverlay = new JPanel();
@@ -220,6 +353,9 @@ public class TunnelsPanel extends JPanel
       timer.start();
    
    }
+   /**
+   * takes you to combat screen
+   */
    public void goCombat(Enemy e) 
    {
    // Create the black overlay panel with 0% alpha
@@ -235,6 +371,8 @@ public class TunnelsPanel extends JPanel
          win.setFinishTime(playtime);
          ready = win;
          win.setFocus(true);
+         StopMusic1();
+         startWin();
       }
       else
       {
@@ -254,7 +392,9 @@ public class TunnelsPanel extends JPanel
       timer.start();
    }
    
-   
+   /**
+   * Ends combat
+   */   
    public void endCombat(boolean result)
    {
       
@@ -273,6 +413,7 @@ public class TunnelsPanel extends JPanel
          world.setFocus(true);
          if (!mute)
          {
+            victory = openMusic("music/defeated.wav");
             victory.start();
          }
          if (!mute)
@@ -294,6 +435,10 @@ public class TunnelsPanel extends JPanel
       timer.start();
    }
    
+   /**
+   * Creates a counter that adds to playtime using an action listener
+   */
+   
    private class Counter implements ActionListener
    {
       public void actionPerformed(ActionEvent e)
@@ -301,6 +446,9 @@ public class TunnelsPanel extends JPanel
          playtime++;
       }
    }
+   /**
+   * Creates a fading effect for swapping panels
+   */
    
    private class FadeListener implements ActionListener
    {

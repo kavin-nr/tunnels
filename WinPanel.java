@@ -5,29 +5,66 @@ import java.awt.image.*;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**
+* Class that displays the win screen
+*/
 public class WinPanel extends JPanel
 {
+   /**
+   * Initializes buffered image
+   */
    private BufferedImage img;  
+   /**
+   * Initializes graphics
+   */   
    private Graphics gr;
-   
+   /**
+   * Initializes a title
+   */   
    private Title title;
+   /**
+   * Initializes an image icon for the background
+   */
    private ImageIcon bg;
-
+   /**
+   * Sets panel width
+   */
    private final int width = 880;
+   /**
+   * Sets panel height 
+   */   
    private final int height = 720;
-   
+   /**
+   * Initializes main timer
+   */   
    private Timer t;
+   /**
+   * Sets up an array list of animation objects
+   */   
    private ArrayList<Animatable> animationObjects;
-   
+   /**
+   * Initializes a hover image for the finish button
+   */   
    private HoverImage finish;
+   /**
+   * Sets up an array list of hover images
+   */   
    private ArrayList<HoverImage> hovers;
-   
+   /**
+   * Initializes tunnels panel as the owner
+   */   
    private TunnelsPanel owner;
+   /**
+   * Constructors for sound
+   */   
    private boolean muteState, previousMuteState, isFocused;
-
+   /**
+   * Stores time it took to finish game
+   */   
    private int finishTime;
-   
+   /**
+   * Initializes a win panel
+   */      
    public WinPanel(TunnelsPanel o)
    {
       owner = o;
@@ -58,8 +95,6 @@ public class WinPanel extends JPanel
       addMouseListener(new Mouse());
       addMouseMotionListener(new Mouse());
       
-      addKeyListener(new Key());  
-      setFocusable(true);
    
    }
    
@@ -67,12 +102,16 @@ public class WinPanel extends JPanel
    {
       finishTime = playtime;
    }
-
+   /**
+   * Sets the focus to the panel
+   */   
    public void setFocus(boolean f)
    {
       isFocused = f;
    }
-   
+   /**
+   * Paints the graphics components
+   */      
    public void paintComponent(Graphics g)  
    {
       g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
@@ -85,7 +124,9 @@ public class WinPanel extends JPanel
       
         
    }
-   
+   /**
+   * Animates components
+   */       
    public void animate()
    {      
       
@@ -114,7 +155,9 @@ public class WinPanel extends JPanel
 
       repaint();
    }
-   
+   /**
+   * Initializes an animation listener
+   */      
    private class AnimationListener implements ActionListener
    {
       public void actionPerformed(ActionEvent e)  
@@ -125,26 +168,9 @@ public class WinPanel extends JPanel
          }
       }
    }
-   
-   private class Key extends KeyAdapter 
-   {
-      public void keyPressed(KeyEvent e) 
-      {
-         if(e.getKeyCode() == KeyEvent.VK_K)
-         {
-            owner.StopMusic();
-         }
-        
-         
-         if (e.getKeyCode() == KeyEvent.VK_L)
-         {
-            owner.StartMusic();
-         }
-         
-      }
-   }
-       
-   
+   /**
+   * Allows for mouse clicks
+   */      
    private class Mouse extends MouseAdapter
    {
       public void mouseClicked(MouseEvent me)
@@ -156,10 +182,14 @@ public class WinPanel extends JPanel
          if (boundsFinish.contains(clicked))
          {
             owner.goTitle();
+            owner.stopWin();
+            owner.StartMusic();
          }
                   
       }
-      
+   /**
+   * Allows for mouse detection
+   */      
       public void mouseMoved(MouseEvent me)
       {
          Point clicked = me.getPoint();

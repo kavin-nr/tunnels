@@ -6,25 +6,71 @@ import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+* Class that displays the screen shown when you die. 
+*/
+
 public class GameOverPanel extends JPanel
 {
+   /**
+   * Sets up a buffered image
+   */   
+
    private BufferedImage img;  
+   /**
+   * Sets up graphics
+   */      
    private Graphics gr;
+   /**
+   * Sets up the background image
+   */   
    
    private ImageIcon bg;
+   /**
+   * Sets the width of the panel
+   */
 
    private final int width = 880;
+   /**
+   * Sets the height of the panel
+   */   
+   
    private final int height = 720;
+   /**
+   * Sets up the main timer
+   */   
    
    private Timer t;
+   /**
+   *Sets up the hover image for the reload button
+   */
       
    private HoverImage reload;
+   /**
+   * Sets up the hover image for the quit button
+   */   
+   
    private HoverImage quit;
+   /**
+   * Initializes the array list of hover images
+   */   
    
    private ArrayList<HoverImage> hovers;
    
+   /**
+   * Sets up the tunnels panel as the owner.
+   */   
    private TunnelsPanel owner;
+   
+   /**
+   * Constructors for sound.
+   */
+   
    private boolean muteState, previousMuteState, isFocused;
+   
+   /**
+   * Sets up the game over panel
+   */   
    
    public GameOverPanel(TunnelsPanel o)
    {
@@ -32,12 +78,12 @@ public class GameOverPanel extends JPanel
       muteState = false;
       previousMuteState = false;
       isFocused = false;
-      
+      //Sets the background to the game over screen
       bg = new ImageIcon("img/gameover/GameOver.png");
       img = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB); 
       gr = img.getGraphics();
       gr.drawImage(bg.getImage(), 0, 0, width, height, null);
-      
+      //Sets up the buttons that implement hovering
       hovers = new ArrayList<HoverImage>();
       
       reload = new HoverImage(200, 450, 160, 60, "img/gameover/Reload.png", "img/gameover/ReloadHover.png");
@@ -49,23 +95,32 @@ public class GameOverPanel extends JPanel
       hovers.add(quit);
       
       setPreferredSize(new Dimension(width, height));
-      
+    
       t = new Timer(5, new AnimationListener());
       t.start();
       
       addMouseListener(new Mouse());
       addMouseMotionListener(new Mouse());
    }
+   /**
+   * Sets the focus to the panel
+   */   
    
    public void setFocus(boolean f)
    {
       isFocused = f;
    }
+   /**
+   * Paints the components
+   */   
    
    public void paintComponent(Graphics g)  
    {
       g.drawImage(img, 0, 0, getWidth(), getHeight(), null);  
    }
+   /**
+   * Animates components
+   */   
    
    public void animate()
    {      
@@ -93,6 +148,9 @@ public class GameOverPanel extends JPanel
 
       repaint();
    }
+   /**
+   * Sets up animation
+   */   
    
    private class AnimationListener implements ActionListener
    {
@@ -104,7 +162,12 @@ public class GameOverPanel extends JPanel
          }
       }
    }
+  
+   /**
+   * Sends the player back to the world or quits the game based on which button they press
+   */
    
+     
    private class Mouse extends MouseAdapter
    {
       public void mouseClicked(MouseEvent me)
@@ -123,6 +186,9 @@ public class GameOverPanel extends JPanel
          }
          
       }
+   /**
+   * Mouse detections
+   */
       
       public void mouseMoved(MouseEvent me)
       {

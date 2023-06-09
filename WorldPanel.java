@@ -5,41 +5,81 @@ import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
-
+/**
+* Class for the main world the character travels in
+*/
 public class WorldPanel extends JPanel
 {
    //fields
    
-   
+   /**
+   * Initializes a buffered image
+   */   
    private BufferedImage myImage;  
+   /**
+   * Initializes graphics
+   */   
    private Graphics myBuffer;
    
-   
+   /**
+   * Sets panel width
+   */   
    private final int width = 880;
+   /**
+   * Sets panel height 
+   */   
    private final int height = 720;
    
-   
+   /**
+   * Sets up an array list of animation objects
+   */   
    private ArrayList<Animatable> animationObjects;
+   /**
+   * Initializes the main timer 
+   */   
    private Timer t;
    
    private boolean left;
    private boolean right;
    private boolean up;
    private boolean down;
-   
+   /**
+   * Initializes the playable character
+   */   
    public Character ch;
-   
+  
+   /**
+   * Sets up an array list with the list of maps
+   */   
    private ArrayList<Map> mapList;
+   /**
+   * Finds out which map the player is currently in 
+   */   
    private Map currentMap;
-   
+   /**
+   * Initializes tunnels panel as the owner 
+   */   
    private TunnelsPanel owner;
+   /**
+   * Finds previous state of the boolean mute 
+   */   
    private boolean previousMuteState;
+   /**
+   * Sets the focus of the panel
+   */   
    private boolean isFocused;
+   /**
+   * Initializes the number of saves
+   */   
    private int saved = -1;
-   
+   /**
+   * Initializes the file to store saves
+   */   
    private File savefile = new File("save.txt");
    
-   //constructors
+   /**
+   * Initializes the world panel
+   */   
    public WorldPanel(TunnelsPanel o)
    {
       owner = o;
@@ -186,7 +226,10 @@ public class WorldPanel extends JPanel
    
    
    //overridden methods
-   
+
+   /**
+   * Paints the graphics components
+   */      
    public void paintComponent(Graphics g)  
    {
       g.drawImage(myImage, 0, 0, getWidth(), getHeight(), null);
@@ -205,21 +248,30 @@ public class WorldPanel extends JPanel
       
    }
    
+   /**
+   * Gets width
+   */   
    public int getWidth()
    {
       return width;
    }
-   
+   /**
+   * Gets heigth
+   */   
    public int getHeight()
    {
       return height;
    }
-   
+   /**
+   * Gets the focus of the panel
+   */   
    public boolean getFocus()
    {
       return isFocused;
    }
-   
+   /**
+   * Sets the focus of the panel
+   */   
    public void setFocus(boolean f)
    {
       isFocused = f;
@@ -227,7 +279,9 @@ public class WorldPanel extends JPanel
    
    //instance methods
    
-   
+   /**
+   * Animates components
+   */      
    public void animate()
    {      
       myImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB); 
@@ -256,7 +310,9 @@ public class WorldPanel extends JPanel
       previousMuteState = muteState;
       repaint();
    }
-   
+   /**
+   * Saves the game
+   */      
    public void save()
    {
       try
@@ -285,7 +341,9 @@ public class WorldPanel extends JPanel
       }
       catch (IOException ex) {}
    }
-   
+   /**
+   * Loads the game from the last save
+   */      
    public void load()
    {
       try
@@ -319,7 +377,9 @@ public class WorldPanel extends JPanel
          save();
       }
    }
-   
+   /**
+   * Takes you to the next map
+   */      
    public void goNext()
    {
       Map nextMap = mapList.get(mapList.indexOf(currentMap) + 1);
@@ -327,7 +387,9 @@ public class WorldPanel extends JPanel
       ch.setY(nextMap.getPrevY());
       currentMap = nextMap;   
    }
-   
+   /**
+   * Takes you to the previous map
+   */   
    public void goPrev()
    {
       Map prevMap = mapList.get(mapList.indexOf(currentMap) - 1);
@@ -335,14 +397,18 @@ public class WorldPanel extends JPanel
       ch.setY(prevMap.getNextY());
       currentMap = prevMap;   
    }
-   
+   /**
+   * Creates a savepoint that heals player and saves game when interacted with
+   */      
    public void savepoint()
    {
       // Interacting with a savepoint heals player to full health and saves game
       ch.setHealth(100);
       save();
    }
-   
+   /**
+   * Takes you to combat screen
+   */      
    public void goCombat(Enemy e)
    
    {
@@ -356,6 +422,9 @@ public class WorldPanel extends JPanel
    }
    
    //private classes
+   /**
+   * Sets up an animation listener
+   */   
    
    public class AnimationListener implements ActionListener
    {
@@ -369,6 +438,9 @@ public class WorldPanel extends JPanel
    }
  
    
+   /**
+   * Allows for key press
+   */      
    
    private class Key extends KeyAdapter 
    {
@@ -400,6 +472,9 @@ public class WorldPanel extends JPanel
             down = true;
          }
       }
+   /**
+   * Allows for key released events
+   */      
       
       public void keyReleased(KeyEvent e) //Also overridden; ONE method that will be called any time a key is released
       {

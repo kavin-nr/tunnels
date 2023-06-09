@@ -1,16 +1,35 @@
 import java.awt.*;
 import javax.swing.*;
 
-
+/**
+*Class to display title screen
+*/
 public class Title implements Animatable
 {
+   /**
+   * Initializes y value
+   */
+
    private int y;
+   /**
+   * Initializes y direction
+   */
+   
    private int dY;
+   /**
+   * Initializes an image icon for background
+   */
    private ImageIcon src;
    private int c = 0;
+   /**
+   * Initializes title panel as the owner
+   */   
    private TitlePanel owner;
 
-   
+   /**
+   * Initializes the title
+   */
+  
    public Title(TitlePanel o)
    {
       owner = o;
@@ -31,6 +50,9 @@ public class Title implements Animatable
       }
       c++;
    }
+   /**
+   * Draws the image
+   */
    
    public void drawMe(Graphics g)
    {

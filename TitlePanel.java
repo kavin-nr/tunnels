@@ -5,30 +5,74 @@ import java.awt.image.*;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**
+* Class for the rest of the title screen
+*/
 public class TitlePanel extends JPanel
 {
-   private BufferedImage img;  
+   /**
+   * Initializes a buffered image
+   */
+   private BufferedImage img; 
+   /**
+   * Initializes graphics
+   */    
    private Graphics gr;
-   
+   /**
+   * Initializes the title
+   */
    private Title title;
+   /**
+   * Initializes the background image
+   */   
    private ImageIcon bg;
-
+   /**
+   * Initializes width of the panel
+   */
    private final int width = 880;
+   /**
+   * Initializes height of the panel
+   */   
    private final int height = 720;
-   
+   /**
+   * Initializes the main timer
+   */   
    private Timer t;
+   /**
+   * Initializes the array list of animation objects
+   */   
    private ArrayList<Animatable> animationObjects;
-   
+   /**
+   * Gets hoverimage for new game button
+   */   
    private HoverImage newgame;
+   /**
+   * Gets hover image for load button
+   */   
    private HoverImage load;
+   /**
+   * Gets hover image for guide button
+   */   
    private HoverImage guide;
+   /**
+   * Gets hover image for quit button
+   */   
    private HoverImage quit;
+   /**
+   * Gets array list for hover images
+   */
    private ArrayList<HoverImage> hovers;
-   
+   /**
+   * Initializes tunnels panel as the owner
+   */
    private TunnelsPanel owner;
+   /**
+   * Constructors for sound
+   */
    private boolean muteState, previousMuteState, isFocused;
-   
+   /**
+   * Initializes the title panel
+   */
    public TitlePanel(TunnelsPanel o)
    {
       owner = o;
@@ -74,16 +118,25 @@ public class TitlePanel extends JPanel
       setFocusable(true);
    
    }
+   /**
+   * Sets the focus for the panel
+   */
    
    public void setFocus(boolean f)
    {
       isFocused = f;
    }
+   /**
+   * Paints the graphics components
+   */
    
    public void paintComponent(Graphics g)  
    {
       g.drawImage(img, 0, 0, getWidth(), getHeight(), null);  
    }
+   /**
+   * Sets up animation
+   */
    
    public void animate()
    {      
@@ -117,6 +170,9 @@ public class TitlePanel extends JPanel
 
       repaint();
    }
+   /**
+   * Sets up an animation listener
+   */
    
    private class AnimationListener implements ActionListener
    {
@@ -129,6 +185,9 @@ public class TitlePanel extends JPanel
       }
    }
    
+   /**
+   * Sets up mouse clicks
+   */
    
    private class Mouse extends MouseAdapter
    {
@@ -162,6 +221,9 @@ public class TitlePanel extends JPanel
          }
          
       }
+   /**
+   * Sets up mouse movement
+   */
       
       public void mouseMoved(MouseEvent me)
       {
